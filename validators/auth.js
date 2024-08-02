@@ -11,9 +11,7 @@ const signUpValidator = [
 ]
 
 const signInValidator = [
-    check("email").notEmpty().withMessage("Email Is Required").isEmail().withMessage("Email Must Be Valid Email"),
-
-    check("password").notEmpty().withMessage("Password Is Required")
+    check("email").notEmpty().withMessage("Email Is Required").isEmail().withMessage("Email Must Be Valid Email")
 ]
 
 const emailValidator = [
