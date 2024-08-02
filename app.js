@@ -11,6 +11,10 @@ app.use(cors({
   origin: 'http://127.0.0.1:5500'
 }));
 
+app.use(cors({
+    origin: 'https://happening-khaki.vercel.app/'
+  }));
+
 app.use(express.json());
 app.use(express.urlencoded());
 app.use("/api/v1/auth", authRoutes);
