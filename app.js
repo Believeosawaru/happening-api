@@ -13,7 +13,7 @@ connectToDb();
 
 app.use(cors({
     origin: 'https://happening-khaki.vercel.app'
-  }));
+}));
 
 app.use(express.json());
 app.use(express.urlencoded());
