@@ -12,7 +12,7 @@ connectToDb();
 // }));
 
 app.use(cors({
-    origin: 'https://happening-khaki.vercel.app/'
+    origin: 'https://happening-khaki.vercel.app'
   }));
 
 app.use(express.json());
