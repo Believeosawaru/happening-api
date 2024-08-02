@@ -12,7 +12,7 @@ const signUpController = async (req, res, next) => {
 
         if (isEmailExist){
             res.code = 400;
-            res.status.send(
+            res.status.json(
                 {
                     code: 400,
                     status: false,
