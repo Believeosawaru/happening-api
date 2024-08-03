@@ -5,6 +5,7 @@ import validate from "../validators/validate.js";
 import authToken from "../utils/authToken.js";
 
 const authRoutes = express.Router();
+const userRoutes = express.Router();
 
 authRoutes.post("/sign-up", signUpValidator, validate, signUpController);
 
@@ -12,6 +13,6 @@ authRoutes.post("/sign-in", signInValidator, validate, signInController);
 
 authRoutes.post("/send-verification-email", emailValidator, validate, verifyCode);
 
-authRoutes.get("/home", authToken, homeController)
+userRoutes.get("/home", authToken, homeController);
 
-export default authRoutes;
+export {authRoutes, userRoutes};
