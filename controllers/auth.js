@@ -107,4 +107,14 @@ const verifyCode = async (req, res, next) => {
     }
 }
 
-export {signUpController, signInController, verifyCode};
+const homeController = async (req, res, next) => {
+    try {
+        const userName = req.user.firstName;
+
+        res.send(`Welcome ${userName}`);
+    } catch (error) {
+        next(error);
+    }
+}
+
+export {signUpController, signInController, verifyCode, homeController};
