@@ -61,7 +61,7 @@ const signInController = async (req, res, next) => {
             code: 200,
             status: true,
             message: "User Logged In Successfully",
-            token
+            token: token
         })
     } catch (error) {
         next(error);
