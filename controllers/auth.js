@@ -44,15 +44,21 @@ const signInController = async (req, res, next) => {
         const user = await User.findOne({email});
 
         if (!user) {
-            res.code = 401;
-            throw new Error("Invalid Credentials");
+            res.status(401).json({
+                code: 401,
+                status: false,
+                message: "Invalid Credentials"
+            });
         }
 
         const match = await comparePassword(password, user.password);
 
         if (!match) {
-            res.code = 401;
-            throw new Error("Invalid Credentials");
+            res.status(401).json({
+                code: 401,
+                status: false,
+                message: "Invalid Credentials"
+            });
         }
 
         const token = generateToken(user);
@@ -62,7 +68,7 @@ const signInController = async (req, res, next) => {
             status: true,
             message: "User Logged In Successfully",
             token: token
-        })
+        });
     } catch (error) {
         next(error);
     }
