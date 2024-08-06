@@ -3,8 +3,8 @@ import { jwtSecret } from "../config/keys.js";
 
 const isAuth = async (req, res, next) => {
     try {
-        const authurization = req.headers.authurization ? req.authurization.split(" ") : [];
-        const token = authurization.length > 1 ? authurization[1] : null;
+       const authHeader = req.headers['authorization'];
+       const token = authHeader && authHeader.split(" ")[1];
 
         if (token) {
             const payload = jwt.verify(token, jwtSecret);

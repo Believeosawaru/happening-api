@@ -81,6 +81,8 @@ const signInController = async (req, res, next) => {
         // // });
         // }
 
+        console.log(token)
+
         res.status(200).json({
             code: 200,
             status: true,
