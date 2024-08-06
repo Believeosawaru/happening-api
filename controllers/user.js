@@ -1,13 +1,13 @@
-import sendEmail from "../utils/sendEmail.js";
+// import sendEmail from "../utils/sendEmail.js";
 import { Event, Group } from "../models/index.js";
-import generateCode from "../utils/generateCode.js";
+// import generateCode from "../utils/generateCode.js";
 
 const homeController = async (req, res, next) => {
     try {
         const userName = req.user.firstName;
-        const email = req.user.email;
+        // const email = req.user.email;
 
-        const user = await User.findOne({ email });
+        // const user = await User.findOne({ email });
 
         // if (user.isVerified) {
         //     const code = generateCode(6);
@@ -25,11 +25,15 @@ const homeController = async (req, res, next) => {
         //     res.redirect("/verify-user");
         // }
 
-        res.send(`Welcome ${userName} &#128075;`);
+        res.status(200).json({
+            code: 200,
+            status: true,
+            message: `Welcome ${userName} &#128075;`
+        });
     } catch (error) {
         next(error);
     }
-}
+} 
 
 const groupController = async (req, res, next) => {
     const { name, description, userId } = req.body;
