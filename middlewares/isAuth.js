@@ -6,25 +6,26 @@ const isAuth = async (req, res, next) => {
        const authHeader = req.headers['authorization'];
        const token = authHeader && authHeader.split(" ")[1];
 
-        if (token) {
-            const payload = jwt.verify(token, jwtSecret);
-
-            if (payload) {
-                req.user = {
-                    _id: payload._id,
-                    firstName: payload.firstName,
-                    lastName: payload.lastName,
-                    email: payload.email
-                }
-                next();
-            } else {
-                res.code = 401;
-                throw new Error("Unauthorized Request")
+        if (!token) {
+            return res.status(401).json({
+                code: 401,
+                status: false, 
+                message: "Unauthorized Request"
+            })
+        } 
+        
+        jwt.verify(token, jwtSecret, (err, user) => {
+            if (err) {
+                return res.status(401).json({
+                    code: 403,
+                    status: false, 
+                    message: "Fotbidden Request"
+                })
             }
-        } else {
-            res.code = 400;
-            throw new Error("Session Timed Out, Login Again");
-        }
+
+            req.user = user;
+            next();
+        })
     } catch (error) {
         next(error)
     }
