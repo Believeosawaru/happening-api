@@ -144,7 +144,7 @@ const verifyUser = async (req, res, next) => {
 
         if (user.verificationCode !== code) {
             res.code = 400;
-            throw new Error("Verification Code Dosen't Match");
+            throw new Error("Verification Code Is Incorrect");
         }
 
         user.isVerified = true;
