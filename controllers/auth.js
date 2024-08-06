@@ -64,22 +64,22 @@ const signInController = async (req, res, next) => {
 
         // const token = generateToken(user);vyivwr
 
-        if (user.isVerified !== null) {
-        // Verify Acccount
+        // if (user.isVerified !== null) {
+        // // Verify Acccount
 
-        const code = generateCode(6);
+        // const code = generateCode(6);
 
-        user.verificationCode = code;
-        await user.save();
+        // user.verificationCode = code;
+        // await user.save();
 
-        // await sendEmail({
-        //     from: "no-reply@happening.net",
-        //     emailTo: user.email,
-        //     subject: "Email Verification Code",
-        //     code,
-        //     content: "Verify Your Account"
-        // });
-        }
+        // // await sendEmail({
+        // //     from: "no-reply@happening.net",
+        // //     emailTo: user.email,
+        // //     subject: "Email Verification Code",
+        // //     code,
+        // //     content: "Verify Your Account"
+        // // });
+        // }
 
         res.status(200).json({
             code: 200,
