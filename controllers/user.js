@@ -9,21 +9,21 @@ const homeController = async (req, res, next) => {
 
         const user = await User.findOne({ email });
 
-        if (!user.isVerified) {
-            const code = generateCode(6);
+        // if (user.isVerified) {
+        //     const code = generateCode(6);
 
-            user.verificationCode = code;
-            await user.save();
+        //     user.verificationCode = code;
+        //     await user.save();
 
-            await sendEmail({
-                emailTo: user.email,
-                subject: "Email Verification Code",
-                code,
-                content: "Verify Your Account"
-            });
+        //     await sendEmail({
+        //         emailTo: user.email,
+        //         subject: "Email Verification Code",
+        //         code,
+        //         content: "Verify Your Account"
+        //     });
 
-            res.redirect("/verify-user");
-        }
+        //     res.redirect("/verify-user");
+        // }
 
         res.send(`Welcome ${userName} &#128075;`);
     } catch (error) {
