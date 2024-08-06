@@ -4,7 +4,8 @@ const errorHandler = (error, req, res, next) => {
     res.status(code).json({
         code,
         status: false,
-        message: error.message
+        message: error.message,
+        stack: error.stack
     });
 }
 
