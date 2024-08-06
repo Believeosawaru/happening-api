@@ -62,7 +62,7 @@ const signInController = async (req, res, next) => {
             });
         }
 
-        // const token = generateToken(user);vyivwr
+        const token = generateToken(user);
 
         // if (user.isVerified !== null) {
         // // Verify Acccount
@@ -84,7 +84,8 @@ const signInController = async (req, res, next) => {
         res.status(200).json({
             code: 200,
             status: true,
-            message: "User Logged In Successfully"
+            message: "User Logged In Successfully",
+            token
         });
     } catch (error) {
         next(error);
