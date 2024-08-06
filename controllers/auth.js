@@ -62,23 +62,23 @@ const signInController = async (req, res, next) => {
             });
         }
 
-        if (!user.isVerified) {
-            const token = generateToken(user);
+        // if (!user.isVerified) {
+        //     const token = generateToken(user);
 
-        // Verify Acccount
+        // // Verify Acccount
 
-        const code = generateCode(6);
+        // const code = generateCode(6);
 
-        user.verificationCode = code;
-        await user.save();
+        // user.verificationCode = code;
+        // await user.save();
 
-        await sendEmail({
-            emailTo: user.email,
-            subject: "Email Verification Code",
-            code,
-            content: "Verify Your Account"
-        });
-        }
+        // await sendEmail({
+        //     emailTo: user.email,
+        //     subject: "Email Verification Code",
+        //     code,
+        //     content: "Verify Your Account"
+        // });
+        // }
 
         res.status(200).json({
             code: 200,
