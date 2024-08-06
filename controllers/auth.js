@@ -62,7 +62,7 @@ const signInController = async (req, res, next) => {
             });
         }
 
-        const token = generateToken(user);
+        // const token = generateToken(user);vyivwr
 
         if (user.isVerified !== null) {
         // Verify Acccount
@@ -72,13 +72,13 @@ const signInController = async (req, res, next) => {
         user.verificationCode = code;
         await user.save();
 
-        await sendEmail({
-            from: "no-reply@happening.net",
-            emailTo: user.email,
-            subject: "Email Verification Code",
-            code,
-            content: "Verify Your Account"
-        });
+        // await sendEmail({
+        //     from: "no-reply@happening.net",
+        //     emailTo: user.email,
+        //     subject: "Email Verification Code",
+        //     code,
+        //     content: "Verify Your Account"
+        // });
         }
 
         res.status(200).json({
