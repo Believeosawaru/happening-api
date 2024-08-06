@@ -1,18 +1,23 @@
 import express from "express";
-import { signUpController, signInController,verifyCode, homeController } from "../controllers/index.js";
-import { signUpValidator, signInValidator, emailValidator } from "../validators/auth.js";
+import { signUpController, signInController, recoverPassword, changePassword, verifyUser, forgotPassword } from "../controllers/index.js";
+import { signUpValidator, signInValidator, emailValidator, verifyUserValidator, recoverPasswordValidator, changePasswordValidator } from "../validators/auth.js";
 import validate from "../validators/validate.js";
-import authToken from "../utils/authToken.js";
+import isAuth from "../middlewares/isAuth.js";
 
 const authRoutes = express.Router();
-const userRoutes = express.Router();
 
 authRoutes.post("/sign-up", signUpValidator, validate, signUpController);
 
 authRoutes.post("/sign-in", signInValidator, validate, signInController);
 
-authRoutes.post("/send-verification-email", emailValidator, validate, verifyCode);
+// authRoutes.post("/send-verification-email", emailValidator, validate, verifyCode);
 
-userRoutes.get("/home", authToken, homeController);
+authRoutes.post("/verify-user", verifyUserValidator, validate, isAuth, verifyUser);
 
-export {authRoutes, userRoutes};
+authRoutes.post("/forgot-password-code", emailValidator, validate, forgotPassword);
+
+authRoutes.post("/recover-password", recoverPasswordValidator, validate, isAuth, recoverPassword);
+
+authRoutes.put("/change-password", changePasswordValidator, validate, isAuth, changePassword);
+
+export default authRoutes;

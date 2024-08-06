@@ -1,3 +1,4 @@
-import {signUpController, signInController, verifyCode, homeController} from "./auth.js";
+import {signUpController, signInController, verifyUser, forgotPassword, recoverPassword, changePassword } from "./auth.js";
+import { homeController, groupController, eventController } from "./user.js";
 
-export {signUpController, signInController, verifyCode, homeController};
+export {signUpController, signInController, verifyUser, homeController, forgotPassword, groupController, recoverPassword, changePassword, eventController};
