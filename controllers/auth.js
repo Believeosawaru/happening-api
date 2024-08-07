@@ -212,6 +212,8 @@ const recoverPassword = async (req, res, next) => {
         if (user.forgotPasswordCode !== code) {
             res.code = 400;
             throw new Error("Invalid Code");
+            console.log(user.forgotPasswordCode)
+            console.log(code)
         }
 
         const hashedPassword = await hashPassword(password);
