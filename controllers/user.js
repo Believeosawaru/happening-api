@@ -17,13 +17,13 @@ const homeController = async (req, res, next) => {
                 message: "User Not Verified",
                 redirectUrl: "/verify-account.html"
             });
+        } else {
+            res.status(200).json({
+                code: 200,
+                status: true,
+                message: `${userName, email}`
+            });
         }
-
-        res.status(201).json({
-            code: 201,
-            status: true,
-            message: `${userName, email}`
-        });
     } catch (error) {
         next(error);
     }
