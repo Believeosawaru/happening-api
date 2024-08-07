@@ -1,6 +1,6 @@
 // import sendEmail from "../utils/sendEmail.js";
 import { Event, Group } from "../models/index.js";
-import User from "../models/index.js";
+import { User } from "../models/index.js";
 // import generateCode from "../utils/generateCode.js";
 
 const homeController = async (req, res, next) => {
