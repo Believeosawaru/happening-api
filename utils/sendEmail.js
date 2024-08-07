@@ -7,17 +7,18 @@ const sendEmail = async ({ emailTo, subject, code, content }) => {
         port: 587,
         secure: false,
         auth: {
-          user: "believeosawaru2@gmail.com",
-          pass: "xvvfnxiknsfwqqpn"
+          user: senderEmail,
+          pass: emailPass
         },
       });
   
     const message = {
+      from: "noreply@happening.net",
       to: emailTo,
       subject,
       html: `
               <div>
-                <h3>Your 6-digit Code to ${content}</h3>
+                <h3>Your 6-digit code to ${content}</h3>
                 <p>Code: ${code}</p>
               </div>
           `,
