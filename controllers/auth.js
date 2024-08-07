@@ -71,7 +71,7 @@ const signInController = async (req, res, next) => {
             message: "User Logged In Successfully",
             token
         });
-        
+
     } catch (error) {
         next(error);
     }
@@ -118,7 +118,8 @@ const signInController = async (req, res, next) => {
 
 const verifyUser = async (req, res, next) => {
     try {
-        const { code, email } = req.body;
+        const email = req.user.email;
+        const { code } = req.body;
 
         const user = await user.findOne({ email });
 
