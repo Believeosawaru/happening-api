@@ -133,8 +133,7 @@ const signInController = async (req, res, next) => {
 
 const verifyUser = async (req, res, next) => {
     try {
-        const email = req.user.email;
-        const { code } = req.body;
+        const { code, email } = req.body;
 
         const user = await user.findOne({ email });
 
