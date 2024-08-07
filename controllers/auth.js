@@ -65,29 +65,13 @@ const signInController = async (req, res, next) => {
         const token = generateToken(user);
         const code = generateCode(6);
 
-        if (user.isVerified === false) {
-            await sendEmail({
-                emailTo: user.email,
-                subject: "Recover Your Account",
-                code,
-                content: "Change Your Password"
-            });
-
-             res.status(403).json({
-                code: 403,
-                status: false,
-                message: "User Not Verified",
-                redirectUrl: "verify-account.html",
-                token
-            })
-        }
-
         res.status(200).json({
             code: 200,
             status: true,
             message: "User Logged In Successfully",
             token
         });
+        
     } catch (error) {
         next(error);
     }

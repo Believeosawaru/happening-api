@@ -4,18 +4,6 @@ import { User } from "../models/index.js";
 const homeController = async (req, res, next) => {
     try {
         const userName = req.user.firstName;
-        const email = req.user.email;
-
-        const user = await User.findOne({email})
-
-        if (user.isVerified === false) {
-             res.status(403).json({
-                code: 403,
-                status: false,
-                message: "User Not Verified",
-                redirectUrl: "verify-account.html"
-            });
-        }
 
         res.status(200).json({
             code: 200,
