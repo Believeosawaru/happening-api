@@ -24,8 +24,6 @@ const sendEmail = async ({ emailTo, subject, code, content }) => {
     };
   
     transporter.sendMail(message);
-  
-    console.log("sent successfully");
-  };
+};
 
 export default sendEmail;
