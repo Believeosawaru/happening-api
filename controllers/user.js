@@ -1,7 +1,5 @@
-// import sendEmail from "../utils/sendEmail.js";
 import { Event, Group } from "../models/index.js";
 import { User } from "../models/index.js";
-// import generateCode from "../utils/generateCode.js";
 
 const homeController = async (req, res, next) => {
     try {
@@ -15,15 +13,15 @@ const homeController = async (req, res, next) => {
                 code: 403,
                 status: false,
                 message: "User Not Verified",
-                redirectUrl: "/verify-account.html"
-            });
-        } else {
-            res.status(200).json({
-                code: 200,
-                status: true,
-                message: `${email}`
+                redirectUrl: "verify-account.html"
             });
         }
+
+        res.status(200).json({
+            code: 200,
+            status: true,
+            message: `${userName}`
+        });
     } catch (error) {
         next(error);
     }
