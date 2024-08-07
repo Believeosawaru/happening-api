@@ -151,13 +151,24 @@ const verifyUser = async (req, res, next) => {
 const sendOnLoad = async (req, res, next) => {
     try {
         const email = req.user.email;
-        
+
+        const code = generateCode(6);
+
+        user.verificationCode = code;
+        await user.save();
+
         await sendEmail({
             emailTo: email,
             subject: "Activate Your Account",
             code,
             content: "Verify Your Identity"
         });
+
+        res.status(200).json({
+            code: 200,
+            status: true,
+            message: "Code Sent"
+        })
     } catch (error) {
         next(error);
     }
