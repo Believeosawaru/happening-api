@@ -65,6 +65,13 @@ const signInController = async (req, res, next) => {
         const token = generateToken(user);
 
         if (user.isVerified === false) {
+            await sendEmail({
+                emailTo: user.email,
+                subject: "Recover Your Account",
+                code,
+                content: "Change Your Password"
+            });
+
              res.status(403).json({
                 code: 403,
                 status: false,
@@ -134,14 +141,6 @@ const verifyUser = async (req, res, next) => {
             res.code = 404;
             throw new Error("User Not Found");
         }
-
-        await sendEmail({
-            from: "noreply@happening.net",
-            emailTo: user.email,
-            subject: "Recover Your Account",
-            code,
-            content: "Change Your Password"
-        });
 
         if (user.verificationCode !== code) {
             res.code = 400;
