@@ -63,6 +63,7 @@ const signInController = async (req, res, next) => {
         }
 
         const token = generateToken(user);
+        const code = generateCode(6);
 
         if (user.isVerified === false) {
             await sendEmail({
