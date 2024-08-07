@@ -77,7 +77,8 @@ const signInController = async (req, res, next) => {
                 code: 403,
                 status: false,
                 message: "User Not Verified",
-                redirectUrl: "verify-account.html"
+                redirectUrl: "verify-account.html",
+                token
             })
         }
 
