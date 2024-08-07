@@ -178,7 +178,7 @@ const forgotPassword = async (req, res, next) => {
         
         const code = generateCode(6);
 
-        user.verificationCode = code;
+        user.forgotPasswordCode = code;
         await user.save();
 
         await sendEmail({
