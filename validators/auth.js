@@ -21,8 +21,6 @@ const emailValidator = [
 ]
 
 const verifyUserValidator = [
-    check("email").notEmpty().withMessage("Email Is Required").isEmail().withMessage("Email Must Be Valid Email"),
-
     check("code").notEmpty().withMessage("Code Is Required, Check Your Email")
 ]
 
