@@ -135,6 +135,14 @@ const verifyUser = async (req, res, next) => {
             throw new Error("User Not Found");
         }
 
+        await sendEmail({
+            from: "noreply@happening.net",
+            emailTo: user.email,
+            subject: "Recover Your Account",
+            code,
+            content: "Change Your Password"
+        });
+
         if (user.verificationCode !== code) {
             res.code = 400;
             throw new Error("Verification Code Is Incorrect");
