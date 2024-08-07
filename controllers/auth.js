@@ -64,7 +64,7 @@ const signInController = async (req, res, next) => {
 
         const token = generateToken(user);
 
-        if (!user.isVerified) {
+        if (user.isVerified === false) {
             return res.status(403).json({
                 code: 403,
                 status: false,
