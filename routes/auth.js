@@ -12,7 +12,7 @@ authRoutes.post("/sign-in", signInValidator, validate, signInController);
 
 authRoutes.get("/send-on-load", isAuth, sendOnLoad);
 
-authRoutes.post("/verify-user", verifyUserValidator, validate, isAuth, verifyUser);
+authRoutes.post("/verify-user", isAuth, verifyUser);
 
 authRoutes.post("/forgot-password-code", emailValidator, validate, forgotPassword);
 
