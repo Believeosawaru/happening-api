@@ -4,12 +4,23 @@ import { User } from "../models/index.js";
 const homeController = async (req, res, next) => {
     try {
         const userName = req.user.firstName;
+        const email = req.user.email;
 
-        res.status(200).json({
-            code: 200,
-            status: true,
-            message: `${userName}`
-        });
+        const user = User.findOne({email})
+
+        if (user.isVerified === false) {
+            res.status(403).json({
+                code: 403,
+                status: false,
+                message: "User Not Verified"
+            })
+        } else {
+            res.status(200).json({
+                code: 200,
+                status: true,
+                message: `${userName}`
+            });
+        }
     } catch (error) {
         next(error);
     }
