@@ -128,7 +128,7 @@ const verifyUser = async (req, res, next) => {
             throw new Error("User Not Found");
         }
 
-        if (user.verificationCode !== code) {
+        if (user.verificationCode != code) {
             res.code = 400;
             throw new Error("Verification Code Is Incorrect");
         }
