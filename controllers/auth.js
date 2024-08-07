@@ -200,8 +200,7 @@ const forgotPassword = async (req, res, next) => {
 
 const recoverPassword = async (req, res, next) => {
     try {
-        const { code, password } = req.body;
-        const email = req.user.email;
+        const { email, code, password } = req.body;
 
         const user = await User.findOne({ email });
 
