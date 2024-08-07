@@ -16,7 +16,7 @@ authRoutes.post("/verify-user", verifyUserValidator, validate, isAuth, verifyUse
 
 authRoutes.post("/forgot-password-code", emailValidator, validate, forgotPassword);
 
-authRoutes.post("/recover-password", recoverPasswordValidator, validate, isAuth, recoverPassword);
+authRoutes.post("/recover-password", recoverPasswordValidator, validate, recoverPassword);
 
 authRoutes.put("/change-password", changePasswordValidator, validate, isAuth, changePassword);
 
