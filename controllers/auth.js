@@ -151,7 +151,7 @@ const verifyUser = async (req, res, next) => {
 const sendOnLoad = async (req, res, next) => {
     try {
         const email = req.user.email;
-        const user = await user.findOne({email})
+        const user = await User.findOne({email})
 
         const code = generateCode(6);
 
