@@ -19,8 +19,8 @@ const homeController = async (req, res, next) => {
             });
         }
 
-        res.status(200).json({
-            code: 200,
+        res.status(201).json({
+            code: 201,
             status: true,
             message: `${userName}`
         });
