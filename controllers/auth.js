@@ -190,7 +190,7 @@ const forgotPassword = async (req, res, next) => {
 
         res.status(200).json({
             code: 200,
-            status: false,
+            status: true,
             message: "Code Sent Successfully"
         });
     } catch (error) {

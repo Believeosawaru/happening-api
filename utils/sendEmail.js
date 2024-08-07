@@ -18,7 +18,7 @@ const sendEmail = async ({from, emailTo, subject, code, content}) => {
         subject,
         html: `
         <div>
-          <h3>Use The Code Below To Verify Your Account</h3>
+          <h3>Use The Code Below To ${content}</h3>
           <p><strong>Code: ${code}</strong></p>
         </div>
         `
@@ -26,7 +26,7 @@ const sendEmail = async ({from, emailTo, subject, code, content}) => {
 
     try {
         await transporter.sendMail(message);
-        console.log("Sent Successfully")
+        console.log("Sent Successfully");
     } catch (error) {
         console.log(error.message);
     }

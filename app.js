@@ -1,7 +1,7 @@
 import express from "express";
 import { authRoutes, userRoutes } from "./routes/index.js";
 import connectToDb from "./init/mongodb.js";
-import errorHandler from "./middlewares/errorHandler.js"
+import errorHandler from "./middlewares/errorHandler.js";
 import cors from "cors";
 const app = express();
 
