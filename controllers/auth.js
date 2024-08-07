@@ -182,6 +182,7 @@ const forgotPassword = async (req, res, next) => {
         await user.save();
 
         await sendEmail({
+            from: "noreply@happening.net",
             emailTo: user.email,
             subject: "Recover Your Account",
             code,
