@@ -1,29 +1,23 @@
 // import sendEmail from "../utils/sendEmail.js";
 import { Event, Group } from "../models/index.js";
+import User from "../models/index.js";
 // import generateCode from "../utils/generateCode.js";
 
 const homeController = async (req, res, next) => {
     try {
         const userName = req.user.firstName;
-        // const email = req.user.email;
+        const email = req.user.email;
 
-        // const user = await User.findOne({ email });
+        const user = await User.findOne({email})
 
-        // if (user.isVerified) {
-        //     const code = generateCode(6);
-
-        //     user.verificationCode = code;
-        //     await user.save();
-
-        //     await sendEmail({
-        //         emailTo: user.email,
-        //         subject: "Email Verification Code",
-        //         code,
-        //         content: "Verify Your Account"
-        //     });
-
-        //     res.redirect("/verify-user");
-        // }
+        if (!user.isVerified) {
+            return res.status(403).json({
+                code: 403,
+                status: false,
+                message: "User Not Verified",
+                redirectUrl: "/verify-account.html"
+            });
+        }
 
         res.status(200).json({
             code: 200,

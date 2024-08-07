@@ -64,24 +64,14 @@ const signInController = async (req, res, next) => {
 
         const token = generateToken(user);
 
-        // if (user.isVerified !== null) {
-        // // Verify Acccount
-
-        // const code = generateCode(6);
-
-        // user.verificationCode = code;
-        // await user.save();
-
-        // // await sendEmail({
-        // //     from: "no-reply@happening.net",
-        // //     emailTo: user.email,
-        // //     subject: "Email Verification Code",
-        // //     code,
-        // //     content: "Verify Your Account"
-        // // });
-        // }
-
-        console.log(token)
+        if (!user.isVerified) {
+            return res.status(403).json({
+                code: 403,
+                status: false,
+                message: "User Not Verified",
+                redirectUrl: "/verify-account.html"
+            })
+        }
 
         res.status(200).json({
             code: 200,
@@ -206,7 +196,7 @@ const recoverPassword = async (req, res, next) => {
         const user = await User.findOne({ email });
 
         if (!user) {
-            res.code = 400;
+            res.code = 404;
             throw new Error("User Not Found");
         }
 
