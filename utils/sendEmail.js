@@ -13,7 +13,6 @@ const sendEmail = async ({ emailTo, subject, code, content }) => {
       });
   
     const message = {
-      from: "noreply@happening.net",
       to: emailTo,
       subject,
       html: `
