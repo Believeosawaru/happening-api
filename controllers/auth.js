@@ -181,22 +181,12 @@ const forgotPassword = async (req, res, next) => {
         user.verificationCode = code;
         await user.save();
 
-        try {
-            await sendEmail({
-                emailTo: user.email,
-                subject: "Recover Your Account",
-                code,
-                content: "Change Your Password"
-            });
-            
-            res.status(200).json({
-                code: 200,
-                status: true,
-                message: "Code Sent Successfully"
-            })
-        } catch (error) {
-            next(error);
-        }
+        await sendEmail({
+            emailTo: user.email,
+            subject: "Recover Your Account",
+            code,
+            content: "Change Your Password"
+        });
 
         res.status(200).json({
             code: 200,
