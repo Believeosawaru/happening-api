@@ -148,6 +148,21 @@ const verifyUser = async (req, res, next) => {
     }
 }
 
+const sendOnLoad = async (req, res, next) => {
+    try {
+        const email = req.user.email;
+        
+        await sendEmail({
+            emailTo: email,
+            subject: "Activate Your Account",
+            code,
+            content: "Verify Your Identity"
+        });
+    } catch (error) {
+        next(error);
+    }
+}
+
 const forgotPassword = async (req, res, next) => {
     try {
         const { email } = req.body;
@@ -165,7 +180,6 @@ const forgotPassword = async (req, res, next) => {
         await user.save();
 
         await sendEmail({
-            from: "noreply@happening.net",
             emailTo: user.email,
             subject: "Recover Your Account",
             code,
@@ -254,4 +268,4 @@ const changePassword = async (req, res, next) => {
     }
 }
 
-export { signUpController, signInController, verifyUser, forgotPassword, recoverPassword, changePassword };
+export { signUpController, signInController, verifyUser, forgotPassword, recoverPassword, changePassword, sendOnLoad };
