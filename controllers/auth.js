@@ -121,7 +121,7 @@ const verifyUser = async (req, res, next) => {
         const email = req.user.email;
         const { code } = req.body;
 
-        const user = await user.findOne({ email });
+        const user = await User.findOne({ email });
 
         if (!user) {
             res.code = 404;
