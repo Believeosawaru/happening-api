@@ -6,7 +6,7 @@ const homeController = async (req, res, next) => {
         const userName = req.user.firstName;
         const email = req.user.email;
 
-        const user = User.findOne({email})
+        const user = await User.findOne({email})
 
         if (user.isVerified === false) {
             res.status(403).json({
@@ -18,7 +18,7 @@ const homeController = async (req, res, next) => {
             res.status(200).json({
                 code: 200,
                 status: true,
-                message: `${userName, email}`
+                message: `${userName}`
             });
         }
     } catch (error) {
