@@ -5,7 +5,7 @@ const groupSchema = new Schema({
     name: { type: String, required: true},
     description: { type: String },
     location: {type: String},
-    members: [{ type: Schema.Types.ObjectId, ref: "User" }],
+    members: [{ type: Schema.Types.ObjectId, ref: "user" }],
     groupType: {
         type: String,
         enum: ["private", "public"], required: true

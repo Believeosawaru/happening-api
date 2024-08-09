@@ -7,7 +7,7 @@ const userSchema = new Schema({
     email: { type: String, required: true, unique: true }, 
     password: { type: String, required: true },
     groups: [{
-        type: Schema.Types.ObjectId, ref: "Group"
+        type: Schema.Types.ObjectId, ref: "group"
     }],
     verificationCode: { type: String },
     isVerified: { type: Boolean, default: false },
