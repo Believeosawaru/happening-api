@@ -39,11 +39,44 @@ const groupController = async (req, res, next) => {
             createdBy
         });
 
+        const creator = await User.findById(createdBy);
+        creator.groups.push(group._id);
+
+        await creator.save();
         await group.save();
 
         res.status(201).json({
             code: 201,
-            status: false,
+            status: true,
+            message: "Group Created Successfully"
+        });
+    } catch (error) {
+        next(error)
+    }
+}
+
+const displayGroupController = async (req, res, next) => {
+    const { name, description, location, groupType } = req.body;
+    const createdBy = req.user._id;
+
+    try {
+        const group = new Group({
+            name, 
+            description,
+            location,
+            groupType,
+            createdBy
+        });
+
+        const creator = await User.findById(createdBy);
+        creator.groups.push(group._id);
+
+        await creator.save();
+        await group.save();
+
+        res.status(201).json({
+            code: 201,
+            status: true,
             message: "Group Created Successfully"
         });
     } catch (error) {
@@ -67,4 +100,4 @@ const eventController = async (req, res, next) => {
     }
 }
 
-export { homeController, groupController, eventController }
+export { homeController, groupController, eventController, displayGroupController }
