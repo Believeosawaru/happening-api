@@ -6,7 +6,7 @@ const userRoutes = express.Router();
 
 userRoutes.get("/home", isAuth, homeController);
 
-userRoutes.post("/create-group", groupController);
+userRoutes.post("/create-group", isAuth, groupController);
 
 userRoutes.post("/create-event", eventController);
 

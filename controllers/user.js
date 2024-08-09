@@ -28,13 +28,15 @@ const homeController = async (req, res, next) => {
 
 const groupController = async (req, res, next) => {
     const { name, description, location, groupType } = req.body;
+    const createdBy = req.user._id;
 
     try {
         const group = new Group({
             name, 
             description,
             location,
-            groupType
+            groupType,
+            createdBy
         });
 
         await group.save();
