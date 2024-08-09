@@ -56,28 +56,23 @@ const groupController = async (req, res, next) => {
 }
 
 const displayGroupController = async (req, res, next) => {
-    const { name, description, location, groupType } = req.body;
-    const createdBy = req.user._id;
+    const userId = req.user._id;
 
     try {
-        const group = new Group({
-            name, 
-            description,
-            location,
-            groupType,
-            createdBy
-        });
+        const user = await User.findById(userId).populate("groups");
 
-        const creator = await User.findById(createdBy);
-        creator.groups.push(group._id);
-
-        await creator.save();
-        await group.save();
+        if (!user) {
+            res.status(400).json({
+                code: 400,
+                status: false,
+                message: "User Not Found"
+            })
+        }
 
         res.status(201).json({
             code: 201,
             status: true,
-            message: "Group Created Successfully"
+            message: `${user.groups}`
         });
     } catch (error) {
         next(error)
