@@ -61,8 +61,6 @@ const displayGroupController = async (req, res, next) => {
     try {
         const user = await User.findById(userId).populate("groups");
 
-        const groupIds = [];
-
         if (!user) {
             res.status(400).json({
                 code: 400,
@@ -71,12 +69,10 @@ const displayGroupController = async (req, res, next) => {
             })
         }
 
-        groupIds.push(user.groups)
-
         res.status(200).json({
             code: 200,
             status: true,
-            message: `${groupIds}`
+            message: user.groups
         });
     } catch (error) {
         next(error)
