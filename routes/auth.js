@@ -1,5 +1,5 @@
 import express from "express";
-import { signUpController, signInController, recoverPassword, changePassword, verifyUser, forgotPassword, sendOnLoad } from "../controllers/index.js";
+import { signUpController, signInController, recoverPassword, changePassword, verifyUser, forgotPassword, sendOnLoad, logOut } from "../controllers/index.js";
 import { signUpValidator, signInValidator, emailValidator, verifyUserValidator, recoverPasswordValidator, changePasswordValidator } from "../validators/auth.js";
 import validate from "../validators/validate.js";
 import isAuth from "../middlewares/isAuth.js";
@@ -19,5 +19,7 @@ authRoutes.post("/forgot-password-code", emailValidator, validate, forgotPasswor
 authRoutes.post("/recover-password", recoverPasswordValidator, validate, recoverPassword);
 
 authRoutes.put("/change-password", changePasswordValidator, validate, isAuth, changePassword);
+
+authRoutes.post("/log-out", isAuth, logOut);
 
 export default authRoutes;

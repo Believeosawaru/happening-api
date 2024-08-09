@@ -280,4 +280,16 @@ const changePassword = async (req, res, next) => {
     }
 }
 
-export { signUpController, signInController, verifyUser, forgotPassword, recoverPassword, changePassword, sendOnLoad };
+const logOut = async (req, res, next) => {
+    try {
+        res.status(200).json({
+            code: 200,
+            status: true,
+            message: "Logged Out Successfully"
+        });
+    } catch (error) {
+        next(error);
+    }
+}
+
+export { signUpController, signInController, verifyUser, forgotPassword, recoverPassword, changePassword, sendOnLoad, logOut };
