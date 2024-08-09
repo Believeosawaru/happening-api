@@ -79,6 +79,24 @@ const displayGroupController = async (req, res, next) => {
     }
 }
 
+const groupInfo = async () => {
+    try {
+        const group = await Group.findById(req.params.groupId).populate("members", "firstName", "email");
+
+        if (!group) {
+            res.status(400).json({
+                code: 200,
+                status: false,
+                message: "Group Not Found"
+            })
+        }
+
+        res.status(200).json({ group });
+    } catch (error) {
+        next(error);
+    }
+}
+
 const eventController = async (req, res, next) => {
     try {
         const { name, description, date, groupId, userId } = req.body;
@@ -95,4 +113,4 @@ const eventController = async (req, res, next) => {
     }
 }
 
-export { homeController, groupController, eventController, displayGroupController }
+export { homeController, groupController, eventController, displayGroupController, groupInfo }
