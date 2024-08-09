@@ -27,18 +27,17 @@ const homeController = async (req, res, next) => {
 } 
 
 const groupController = async (req, res, next) => {
-    const { name, description, userId } = req.body;
+    const { name, description, location, groupType } = req.body;
 
     try {
         const group = new Group({
             name, 
             description,
-            members: [userId]
+            location,
+            groupType
         });
 
         await group.save();
-
-        await userId.findByIdAndUpdate(userId, { $push: { groups: group._id} });
 
         res.status(201).json({
             code: 201,

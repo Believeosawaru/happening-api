@@ -77,45 +77,6 @@ const signInController = async (req, res, next) => {
     }
 }
 
-// const verifyCode = async (req, res, next) => {
-//     try {
-//         const email = req.user.email;
-
-//         const user = await User.findOne({email});
-
-//         if (!user) {
-//             res.code = 404;
-//             throw new Error("User Not Found")
-//         }
-
-//         if (user.isVerified) {
-//             res.code = 400;
-//             throw new Error("User Is Already Verified");
-//         }
-
-//         const code = generateCode(6);
-
-//         user.verificationCode = code;
-//         await user.save();
-
-//         // send email
-//         await sendEmail({
-//             emailTo: user.email,
-//             subject: "Email Verification Code",
-//             code,
-//             content: "Verify Your Account"
-//         });
-
-//         res.status(200).json({
-//             code: 200,
-//             status: true,
-//             message: "Verification Code Sent Successfully"
-//         })
-//     } catch (error) {
-//         next(error)
-//     }
-// }
-
 const verifyUser = async (req, res, next) => {
     try {
         const email = req.user.email;
