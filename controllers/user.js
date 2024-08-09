@@ -69,8 +69,8 @@ const displayGroupController = async (req, res, next) => {
             })
         }
 
-        res.status(201).json({
-            code: 201,
+        res.status(200).json({
+            code: 200,
             status: true,
             message: `${user.groups}`
         });
