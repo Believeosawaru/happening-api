@@ -98,7 +98,7 @@ const groupInfo = async (req, res, next) => {
             res.status(200).json({
             code: 200,
              status: true,
-             message: group
+             message: name
         });
     } catch (error) {
         next(error);
