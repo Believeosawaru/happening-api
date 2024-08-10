@@ -83,15 +83,14 @@ const displayGroupController = async (req, res, next) => {
 const groupInfo = async (req, res, next) => {
     try {
         const groupId = req.params.groupId;
-        const objectId = new mongoose.Types.ObjectId(groupId);
         
-        // const group = await Group.findById("66b6f0363a3b2aabb6c32b56").populate("members", "firstName", "email");
+        const group = await Group.findById(groupId).populate("members", "firstName", "email");
 
         if (true) {
             res.status(400).json({
                 code: 200,
                 status: true,
-                message: `GroupId: ${typeof(groupId)} ${typeof(objectId)}`
+                message: `GroupId: ${group}`
             })
         }
 
