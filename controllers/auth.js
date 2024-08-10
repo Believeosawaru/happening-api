@@ -11,15 +11,9 @@ const signUpController = async (req, res, next) => {
 
         const isEmailExist = await User.findOne({email});
 
-        if (isEmailExist){
+        if (isEmailExist) {
             res.code = 400;
-            res.status(400).json(
-                {
-                    code: 400,
-                    status: false,
-                    message: "Email Is Already In Use"
-                }
-            );
+            throw new Error("Email Is Already In Use");
         }
 
         const hashedPassword = await hashPassword(password);
