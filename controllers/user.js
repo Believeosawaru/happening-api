@@ -86,7 +86,7 @@ const groupInfo = async (req, res, next) => {
         
         const group = await Group.findById(groupId).populate("members", "firstName", "email");
 
-        res.status(200).e6fyijson({
+        res.status(200).json({
             code: 200,
              status: true,
              message: group
