@@ -83,21 +83,14 @@ const displayGroupController = async (req, res, next) => {
 const groupInfo = async (req, res, next) => {
     try {
         const groupId = String(req.params.groupId);
+        
+        const group = await Group.findById(groupId).populate("members", "firstName", "email");
 
-        const objectId = new mongoose.Types.ObjectId("66b6fee7fdbdb0f90e6555a2");
-
-        if (mongoose.Types.ObjectId.isValid(objectId)) {
-            // Proceed with operations         
-                const group = await Group.findById(groupId).populate("members");
-
-                res.status(400).json({
-                    code: 200,
-                    status: true,
-                    message: `GroupId: ${group}`
-                })
-        } else {
-            throw new Error (`${objectId}, ${groupId}`);
-        }
+        res.status(200).e6fyijson({
+            code: 200,
+             status: true,
+             message: group
+            });
     } catch (error) {
         next(error);
     }
