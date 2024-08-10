@@ -97,16 +97,15 @@ const groupInfo = async (req, res, next) => {
             const groupId = new ObjectId(id);
 
             const group = await Group.findOne({_id: groupId});
-        } else {
-            // Handle invalid ObjectId
-            console.error(`Invalid ObjectId format: ${ typeof(id)}`);
-        }
 
         res.status(200).json({
             code: 200,
              status: true,
              message: group
-            });
+        });
+        } else {
+            console.log(`Invalid ObjectId format: ${ typeof(id)}`);
+        }
     } catch (error) {
         next(error);
     }
