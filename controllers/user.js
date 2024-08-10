@@ -79,7 +79,7 @@ const displayGroupController = async (req, res, next) => {
     }
 }
 
-const groupInfo = async () => {
+const groupInfo = async (req, res, next) => {
     try {
         const group = await Group.findById(req.params.groupId).populate("members", "firstName", "email");
 
