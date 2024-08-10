@@ -6,7 +6,7 @@ const groupSchema = new Schema({
     _id: mongoose.Schema.Types.ObjectId,
     description: { type: String },
     location: {type: String},
-    members: [{ type: Schema.Types.ObjectId, ref: "user" }],
+    members: [{ type: Schema.Types.ObjectId, ref: "users" }],
     groupType: {
         type: String,
         enum: ["private", "public"], required: true
