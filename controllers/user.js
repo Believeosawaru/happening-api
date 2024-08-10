@@ -83,18 +83,23 @@ const displayGroupController = async (req, res, next) => {
 const groupInfo = async (req, res, next) => {
     try {
         const groupId = req.params.groupId;
-        
-        const group = await Group.findById(groupId).populate("members");
 
-        if (true) {
-            res.status(400).json({
-                code: 200,
-                status: true,
-                message: `GroupId: ${group}`
-            })
+        if (mongoose.Types.ObjectId.isValid(groupId)) {
+            // Proceed with operations
+
+            if (true) {
+                res.status(200).json({
+                    code: 200,
+                    status: true,
+                    message: `GroupId: ${group}`
+                })
+            }
+        } else {
+            throw new Error("Coulfd not work")
         }
 
-        res.status(200).json({ group });
+        
+        const group = await Group.findById(groupId).populate("members");
     } catch (error) {
         next(error);
     }
