@@ -91,9 +91,9 @@ const displayGroupController = async (req, res, next) => {
 
 const groupInfo = async (req, res, next) => {
     try {
-        const name = String(req.params.groupId);
+        const id = String(req.params.groupId);
 
-        const group = await Group.findOne({name});
+        const group = await Group.findOne({_id: id});
 
         res.status(200).json({
             code: 200,
