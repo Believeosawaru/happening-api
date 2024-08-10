@@ -91,21 +91,15 @@ const displayGroupController = async (req, res, next) => {
 
 const groupInfo = async (req, res, next) => {
     try {
-        const id = String(req.params.groupId);
+            const name = String(req.params.groupId);
 
-        if (ObjectId.isValid(id)) {
-            const groupId = new ObjectId(id);
+            const group = await Group.findOne({name});
 
-            const group = await Group.findOne({_id: groupId});
-
-        res.status(200).json({
+            res.status(200).json({
             code: 200,
              status: true,
              message: group
         });
-        } else {
-            console.log(`Invalid ObjectId format: ${ typeof(id)}`);
-        }
     } catch (error) {
         next(error);
     }
