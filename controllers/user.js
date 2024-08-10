@@ -99,7 +99,7 @@ const groupInfo = async (req, res, next) => {
         const ownerId = group.createdBy;
         const owner = new ObjectId(ownerId);
 
-        const {firstName, lastName, _id} = await User.findOne({_id: owner})
+        const { firstName, lastName, _id } = await User.findOne({_id: owner})
 
         res.status(200).json({
             code: 200,
