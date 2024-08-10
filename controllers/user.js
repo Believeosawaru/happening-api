@@ -84,7 +84,7 @@ const groupInfo = async (req, res, next) => {
     try {
         const groupId = String(req.params.groupId);
         
-        const group = await Group.findOne({_id: groupId});
+        const group = await Group.findOne({_id: "66b6fee7fdbdb0f90e6555a2"});
 
         res.status(200).json({
             code: 200,
