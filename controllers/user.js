@@ -85,12 +85,12 @@ const groupInfo = async (req, res, next) => {
         const groupId = req.params.groupId;
         const objectId = new mongoose.Types.ObjectId(groupId);
         
-        const group = await Group.findById("66b6f0363a3b2aabb6c32b56").populate("members", "firstName", "email");
+        // const group = await Group.findById("66b6f0363a3b2aabb6c32b56").populate("members", "firstName", "email");
 
-        if (!group) {
+        if (true) {
             res.status(400).json({
-                code: 400,
-                status: false,
+                code: 200,
+                status: true,
                 message: "Group Not Found"
             })
         }
