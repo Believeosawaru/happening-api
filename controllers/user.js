@@ -1,3 +1,4 @@
+import mongoose from "mongoose";
 import { Event, Group } from "../models/index.js";
 import { User } from "../models/index.js";
 
@@ -81,7 +82,10 @@ const displayGroupController = async (req, res, next) => {
 
 const groupInfo = async (req, res, next) => {
     try {
-        const group = await Group.findById(req.params.groupId).populate("members", "firstName", "email");
+        const groupId = req.params.groupId;
+        const objectId = mongoose.Types.ObjectId(groupId);
+        
+        const group = await Group.findById(objectId).populate("members", "firstName", "email");
 
         if (!group) {
             res.status(400).json({
