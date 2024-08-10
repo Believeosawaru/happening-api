@@ -89,7 +89,7 @@ const groupInfo = async (req, res, next) => {
 
         if (!group) {
             res.status(400).json({
-                code: 200,
+                code: 400,
                 status: false,
                 message: "Group Not Found"
             })
