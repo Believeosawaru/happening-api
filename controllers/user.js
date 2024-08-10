@@ -84,7 +84,7 @@ const groupInfo = async (req, res, next) => {
     try {
         const groupId = String(req.params.groupId);
 
-        const objectId = new mongoose.Types.ObjectId(groupId);
+        const objectId = new mongoose.Types.ObjectId("66b6fee7fdbdb0f90e6555a2");
 
         if (mongoose.Types.ObjectId.isValid(objectId)) {
             // Proceed with operations         
