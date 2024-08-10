@@ -84,13 +84,18 @@ const groupInfo = async (req, res, next) => {
     try {
         const groupId = String(req.params.groupId);
         
-        const group = await Group.findById(groupId).populate("members", "firstName", "email");
 
-        res.status(200).json({
-            code: 200,
-             status: true,
-             message: group
-            });
+
+        Group.findById(groupId, (err, group) => {
+            if (err) {
+                console.error('Error finding group:', err);
+            } else if (!group) {
+                console.log('Group not found');
+            } else {
+                console.log('Group found:', group);
+            }
+        });
+
     } catch (error) {
         next(error);
     }
