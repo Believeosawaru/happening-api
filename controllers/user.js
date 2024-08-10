@@ -84,7 +84,9 @@ const groupInfo = async (req, res, next) => {
     try {
         const groupId = req.params.groupId;
 
-        if (mongoose.Types.ObjectId.isValid(groupId)) {
+        const objectId = mongoose.Types.ObjectId(groupId);
+
+        if (mongoose.Types.ObjectId.isValid(objectId)) {
             // Proceed with operations         
                 const group = await Group.findById(groupId).populate("members");
 
