@@ -92,6 +92,8 @@ const groupInfo = async (req, res, next) => {
     try {
         const id = String(req.params.groupId);
 
+        const currentUserId = req.user._id;
+
         const groupId = new ObjectId(id);
 
         const group = await Group.findOne({_id: groupId});
@@ -105,6 +107,7 @@ const groupInfo = async (req, res, next) => {
             code: 200,
              status: true,
              data: group,
+             currentUserId,
              createdBy: {
                 firstName,
                 lastName,
