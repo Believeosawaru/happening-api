@@ -94,7 +94,7 @@ const groupInfo = async (req, res, next) => {
                     message: `GroupId: ${group}`
                 })
         } else {
-            console.error('Invalid ObjectId format');
+            throw new Error ('Invalid ObjectId format');
         }
     } catch (error) {
         next(error);
