@@ -3,7 +3,6 @@ const Schema = mongoose.Schema;
 
 const groupSchema = new Schema({
     name: { type: String, required: true},
-    _id: mongoose.Schema.Types.ObjectId,
     description: { type: String },
     location: {type: String},
     members: [{ type: Schema.Types.ObjectId, ref: "users" }],
