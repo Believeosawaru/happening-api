@@ -96,10 +96,19 @@ const groupInfo = async (req, res, next) => {
 
         const group = await Group.findOne({_id: groupId});
 
+        const ownerId = group.createdBy;
+        const owner = new ObjectId(ownerId);
+
+        const {firstName, lastName} = await User.findOne({_id: owner})
+
         res.status(200).json({
             code: 200,
              status: true,
-             message: group
+             data: group,
+             createdBy: {
+                firstName,
+                lastName
+             }
         });
     } catch (error) {
         next(error);
