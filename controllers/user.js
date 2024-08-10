@@ -91,7 +91,7 @@ const groupInfo = async (req, res, next) => {
             res.status(400).json({
                 code: 200,
                 status: true,
-                message: `${groupId} ${objectId}`
+                message: `GroupId: ${typeof(groupId)} ${typeof(objectId)}`
             })
         }
 
