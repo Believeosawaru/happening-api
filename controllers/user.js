@@ -91,7 +91,7 @@ const groupInfo = async (req, res, next) => {
             res.status(400).json({
                 code: 200,
                 status: true,
-                message: "Group Not Found"
+                message: `${groupId} ${objectId}`
             })
         }
 
