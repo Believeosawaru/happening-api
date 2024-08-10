@@ -1,4 +1,3 @@
-import mongoose from "mongoose";
 import { ObjectId } from "mongodb";
 import { Event, Group } from "../models/index.js";
 import { User } from "../models/index.js";
@@ -93,7 +92,9 @@ const groupInfo = async (req, res, next) => {
     try {
         const id = String(req.params.groupId);
 
-        const group = await Group.findOne({_id: id});
+        const groupId = new ObjectId(id);
+
+        const group = await Group.findOne({_id: groupId});
 
         res.status(200).json({
             code: 200,
