@@ -83,8 +83,8 @@ const displayGroupController = async (req, res, next) => {
 
 const groupInfo = async (req, res, next) => {
     try {
-        const id = req.params.groupId;
-        const groupId = new ObjectId(String(id)); // Convert string to ObjectId
+        const id = String(req.params.groupId);
+        const groupId = new ObjectId(id); // Convert string to ObjectId
 
         
         const group = await Group.findOne({_id: groupId});
