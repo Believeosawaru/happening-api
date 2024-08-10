@@ -10,6 +10,14 @@ const homeController = async (req, res, next) => {
 
         const user = await User.findOne({email})
 
+        if (!user) {
+            res.status(404).json({
+                code: 404,
+                status: false,
+                message: "Not Found"
+            })
+        }
+
         if (user.isVerified === false) {
             res.status(403).json({
                 code: 403,
