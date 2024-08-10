@@ -14,7 +14,7 @@ const isGroupCreator = async (req, res, next) => {
             throw new Error("Group Not Found")
         }
 
-        if (group.createdBy.toString() !== req.user._id.toString()) {
+        if (group.createdBy !== req.user._id) {
             res.code = 404;
             throw new Error("You Don't Have Permission To Perform This Action")
         }
