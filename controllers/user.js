@@ -84,10 +84,15 @@ const displayGroupController = async (req, res, next) => {
 const groupInfo = async (req, res, next) => {
     try {
         const id = String(req.params.groupId);
-        const groupId = new ObjectId(id); // Convert string to ObjectId
 
-        
-        const group = await Group.findOne({_id: groupId});
+        if (ObjectId.isValid(id)) {
+            const groupId = new ObjectId(id);
+
+            const group = await Group.findOne({_id: groupId});
+        } else {
+            // Handle invalid ObjectId
+            console.error(`Invalid ObjectId format: ${ typeof(id)}`);
+        }
 
         res.status(200).json({
             code: 200,
