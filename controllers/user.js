@@ -82,7 +82,7 @@ const displayGroupController = async (req, res, next) => {
 
 const groupInfo = async (req, res, next) => {
     try {
-        const groupId = req.params.groupId;
+        const groupId = String(req.params.groupId);
 
         const objectId = new mongoose.Types.ObjectId(groupId);
 
