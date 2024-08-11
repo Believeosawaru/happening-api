@@ -10,7 +10,7 @@ userRoutes.get("/home", isAuth, homeController);
 userRoutes.post("/create-group", isAuth, groupController);
 userRoutes.get("/groups", isAuth, displayGroupController);
 
-userRoutes.get("/group/:groupId", isAuth, isGroupCreator, groupInfo);
+userRoutes.get("/group/:groupId", isAuth, groupInfo);
 
 userRoutes.post("/create-event", eventController);
 
