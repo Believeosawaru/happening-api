@@ -1,5 +1,5 @@
 import express from "express"
-import { homeController, groupController, eventController, displayGroupController, groupInfo, editGroupInfo, showGroupInfo } from "../controllers/index.js";
+import { homeController, groupController, eventController, displayGroupController, groupInfo, editGroupInfo, showGroupInfo, deleteGroup } from "../controllers/index.js";
 import isAuth from "../middlewares/isAuth.js";
 import isGroupCreator from "../middlewares/isGroupCreator.js";
 
@@ -9,10 +9,10 @@ userRoutes.get("/home", isAuth, homeController);
 
 userRoutes.post("/create-group", isAuth, groupController);
 userRoutes.get("/groups", isAuth, displayGroupController);
-
 userRoutes.get("/group/:groupId", isAuth, groupInfo);
 userRoutes.put("/edit-group-info/:groupId", isAuth, editGroupInfo);
 userRoutes.get("/group-details/:groupId", isAuth, showGroupInfo);
+userRoutes.delete("/delete-group/:groupId", isAuth, deleteGroup)
 
 userRoutes.post("/create-event", eventController);
 
