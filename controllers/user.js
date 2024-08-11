@@ -41,7 +41,7 @@ const groupController = async (req, res, next) => {
 
     try {
         const group = new Group({
-            name, 
+            name,
             description,
             location,
             groupType,
@@ -50,6 +50,8 @@ const groupController = async (req, res, next) => {
 
         const creator = await User.findById(createdBy);
         creator.groups.push(group._id);
+
+        group.members.push(createdBy)
 
         await creator.save();
         await group.save();
@@ -170,13 +172,13 @@ const deleteGroup = async (req, res, next) => {
 
         const groupId = new ObjectId(id);
 
-        const group = await Group.findByIdAndDelete(groupId);
+        await Group.findByIdAndDelete(groupId);
+        await User.updateMany({ groups: groupId }, { $pull: { groups: groupId } })
 
         res.status(200).json({
             code: 200,
             status: true,
-            message: "Group Deleted Successfully",
-            data: group
+            message: "Group Deleted Successfully"
         })
     } catch (error) {
         next(error);
