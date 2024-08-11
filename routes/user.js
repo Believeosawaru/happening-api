@@ -12,7 +12,7 @@ userRoutes.get("/groups", isAuth, displayGroupController);
 
 userRoutes.get("/group/:groupId", isAuth, groupInfo);
 userRoutes.put("/edit-group-info/:groupId", isAuth, editGroupInfo);
-userRoutes.get("/group-details?:groupId", isAuth, showGroupInfo);
+userRoutes.get("/group-details/:groupId", isAuth, showGroupInfo);
 
 userRoutes.post("/create-event", eventController);
 
