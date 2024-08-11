@@ -121,7 +121,26 @@ const groupInfo = async (req, res, next) => {
 
 const editGroupInfo = async (req, res, next) => {
     try {
+        const { name, description, location, groupType } = req.body;
 
+        const id = String(req.params.groupId);
+
+        const groupId = new ObjectId(id);
+
+        const group = await Group.findOne({_id: groupId});
+
+        group.name = name;
+        group.description = description;
+        group.location = location;
+        group.groupType = groupType;
+
+        await group.save();
+
+        res.status(200).json({
+            code: 200,
+            status: true,
+            message: "Group Edited Successfully"
+        });
     } catch (error) {
         next(error);
     }
