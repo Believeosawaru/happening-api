@@ -170,7 +170,7 @@ const deleteGroup = async (req, res, next) => {
 
         const groupId = new ObjectId(id);
 
-        const group = await Group.findOne({_id: groupId});
+        const group = await Group.findByIdAndDelete(groupId);
 
         res.status(200).json({
             code: 200,
