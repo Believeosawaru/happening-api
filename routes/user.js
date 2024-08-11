@@ -7,12 +7,12 @@ const userRoutes = express.Router();
 
 userRoutes.get("/home", isAuth, homeController);
 
-userRoutes.post("/create-group", isAuth, groupController);
+userRoutes.post("/create-group", isAuth, isGroupCreator, groupController);
 userRoutes.get("/groups", isAuth, displayGroupController);
 userRoutes.get("/group/:groupId", isAuth, groupInfo);
-userRoutes.put("/edit-group-info/:groupId", isAuth, editGroupInfo);
-userRoutes.get("/group-details/:groupId", isAuth, showGroupInfo);
-userRoutes.delete("/delete-group/:groupId", isAuth, deleteGroup)
+userRoutes.put("/edit-group-info/:groupId", isAuth, isGroupCreator, editGroupInfo);
+userRoutes.get("/group-details/:groupId", isAuth, isGroupCreator, showGroupInfo);
+userRoutes.delete("/delete-group/:groupId", isAuth, isGroupCreator, deleteGroup);
 
 userRoutes.post("/create-event", eventController);
 
