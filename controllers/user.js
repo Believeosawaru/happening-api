@@ -51,7 +51,7 @@ const groupController = async (req, res, next) => {
         const creator = await User.findById(createdBy);
         creator.groups.push(group._id);
 
-        group.members.push(createdBy)
+        group.members.push(createdBy);
 
         await creator.save();
         await group.save();
