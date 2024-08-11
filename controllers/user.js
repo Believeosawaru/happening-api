@@ -119,6 +119,32 @@ const groupInfo = async (req, res, next) => {
     }
 }
 
+const editGroupInfo = async (req, res, next) => {
+    try {
+
+    } catch (error) {
+        next(error);
+    }
+}
+
+const showGroupInfo = async (req, res, next) => {
+    try {
+        const id = String(req.params.groupId);
+
+        const groupId = new ObjectId(id);
+
+        const group = await Group.findOne({_id: groupId});
+
+        res.status(200).json({
+             code: 200,
+             status: true,
+             data: group,
+        });
+    } catch (error) {
+        next(error);
+    }
+}
+
 const eventController = async (req, res, next) => {
     try {
         const { name, description, date, groupId, userId } = req.body;
@@ -135,4 +161,4 @@ const eventController = async (req, res, next) => {
     }
 }
 
-export { homeController, groupController, eventController, displayGroupController, groupInfo }
+export { homeController, groupController, eventController, displayGroupController, groupInfo, editGroupInfo, showGroupInfo }
