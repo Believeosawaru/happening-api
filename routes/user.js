@@ -19,7 +19,7 @@ userRoutes.get("/group-details/:groupId", isAuth, isGroupCreator, showGroupInfo)
 
 userRoutes.delete("/delete-group/:groupId", isAuth, isGroupCreator, deleteGroup);
 
-userRoutes.get("/search-users", isAuth, searchUsers);
+userRoutes.get("/search-users", isAuth, isGroupCreator,  searchUsers);
 
 userRoutes.post("/group/:groupId/add-member", isAuth, isGroupCreator, addUser);
 
