@@ -275,7 +275,37 @@ const addUser = async (req, res, next) => {
 
 const joinViaLink = async (req, res, next) => {
     try {
-        
+        const {token} = req.params;
+
+        const inviteToken = await InviteToken.findOne({ token });
+
+        const id = String(inviteToken.groupId);
+        const groupId = new ObjectId(id);
+
+        if (!token) {
+            res.code = 400;
+            throw new Error("Invalid Or Expired Token")
+            res.render("failed");
+        }
+
+        const group = await Group.findById(groupId);
+
+        if (!group) {
+            res.code = 404;
+            throw new Error("Group Not Found")
+            res.render("failed");
+        }
+
+        if (group.members.includes(req.user._id)) {
+            res.code = 400;
+            throw new Error("You Are Already A Group Member");
+            res.render("failed");
+        }
+
+        group.members.push(req.user._id);
+
+        await group.save();
+        res.render("success");
     } catch (error) {
         next(error);
     }
@@ -297,4 +327,4 @@ const eventController = async (req, res, next) => {
     }
 }
 
-export { homeController, groupController, eventController, displayGroupController, groupInfo, editGroupInfo, showGroupInfo, deleteGroup, searchUsers, addUser }
+export { homeController, groupController, eventController, displayGroupController, groupInfo, editGroupInfo, showGroupInfo, deleteGroup, searchUsers, addUser, joinViaLink }

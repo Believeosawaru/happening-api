@@ -3,9 +3,13 @@ import { authRoutes, userRoutes } from "./routes/index.js";
 import connectToDb from "./init/mongodb.js";
 import errorHandler from "./middlewares/errorHandler.js";
 import cors from "cors";
+import path from "path";
 const app = express();
 
 connectToDb();
+
+app.set("view-engine", "ejs");
+app.set("views", path.join(__dirname, "views"));
 
 // app.use(cors({
 //   origin: 'http://127.0.0.1:5500'
