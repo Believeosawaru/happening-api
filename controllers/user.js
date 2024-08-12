@@ -2,6 +2,7 @@ import { ObjectId } from "mongodb";
 import { Event, Group } from "../models/index.js";
 import { User } from "../models/index.js";
 import InviteToken from "../models/inviteToken.js";
+import generateInviteToken from "../utils/generateInviteLink.js"
 
 const homeController = async (req, res, next) => {
     try {
@@ -106,12 +107,14 @@ const groupInfo = async (req, res, next) => {
         const owner = new ObjectId(ownerId);
 
         const { firstName, lastName, _id } = await User.findOne({_id: owner});
+
+        const token = generateInviteToken();
         
         const inviteToken = new InviteToken({ token, groupId });
 
         await inviteToken.save();
 
-        const inviteLink = `${req.protocol}://${req.get("host")}/join-group/${inviteToken}`
+        const inviteLink = `${req.protocol}://${req.get("host")}/join-group/${token}`
 
         res.status(200).json({
              code: 200,
