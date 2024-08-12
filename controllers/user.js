@@ -203,7 +203,7 @@ const searchUsers = async (req, res, next) => {
         res.status(200).json({
             code: 200,
             status: true,
-            message: users
+            users
         })
     } catch (error) {
         next(error);
