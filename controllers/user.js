@@ -211,6 +211,11 @@ const searchUsers = async (req, res, next) => {
             ]
         }).select("firstName lastName email")
 
+        if (!users) {
+            res.code = 404;
+            throw new Error("No User With That Name");
+        }
+
         res.status(200).json({
             code: 200,
             status: true,
