@@ -191,7 +191,7 @@ const searchUsers = async (req, res, next) => {
 
         if (!query) {
             res.code = 400;
-            throw new Error("No Search Query Provided");
+            throw new Error("No Name Provided");
         }
 
         const users = await User.find({
