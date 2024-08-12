@@ -21,7 +21,7 @@ userRoutes.delete("/delete-group/:groupId", isAuth, isGroupCreator, deleteGroup)
 
 userRoutes.get("/search-users", isAuth, isGroupCreator, searchUsers);
 
-userRoutes.post("/group/:groupId/add-member", isAuth, isGroupCreator, addUser);
+userRoutes.post("/group/:groupId/add-member", isAuth, addUser);
 
 userRoutes.post("/create-event", eventController);
 
