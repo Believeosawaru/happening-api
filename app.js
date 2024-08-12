@@ -4,6 +4,7 @@ import connectToDb from "./init/mongodb.js";
 import errorHandler from "./middlewares/errorHandler.js";
 import cors from "cors";
 import { dirname } from "path";
+import path from "path";
 import { fileURLToPath } from "url";
 const app = express();
 
