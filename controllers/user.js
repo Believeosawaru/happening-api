@@ -187,10 +187,6 @@ const deleteGroup = async (req, res, next) => {
 
 const searchUsers = async (req, res, next) => {
     try {
-        const id = String(req.params.groupId);
-
-        const groupId = new ObjectId(id);
-        
         const { query } = req.query;
 
         if (!query) {
