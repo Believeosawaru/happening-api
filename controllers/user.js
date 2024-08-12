@@ -1,6 +1,7 @@
 import { ObjectId } from "mongodb";
 import { Event, Group } from "../models/index.js";
 import { User } from "../models/index.js";
+import InviteToken from "../models/inviteToken.js";
 
 const homeController = async (req, res, next) => {
     try {
@@ -56,6 +57,7 @@ const groupController = async (req, res, next) => {
         await creator.save();
         await group.save();
 
+
         res.status(201).json({
             code: 201,
             status: true,
@@ -103,13 +105,20 @@ const groupInfo = async (req, res, next) => {
         const ownerId = group.createdBy;
         const owner = new ObjectId(ownerId);
 
-        const { firstName, lastName, _id } = await User.findOne({_id: owner})
+        const { firstName, lastName, _id } = await User.findOne({_id: owner});
+        
+        const inviteToken = new InviteToken({ token, groupId });
+
+        await inviteToken.save();
+
+        const inviteLink = `${req.protocol}://${req.get("host")}/join-group/${token}`
 
         res.status(200).json({
             code: 200,
              status: true,
              data: group,
              currentUserId,
+             groupLink: inviteLink,
              createdBy: {
                 firstName,
                 lastName,
@@ -259,6 +268,14 @@ const addUser = async (req, res, next) => {
             status: true,
             message: "Member Added Successfully"
         })
+    } catch (error) {
+        next(error);
+    }
+}
+
+const joinViaLink = async (req, res, next) => {
+    try {
+        
     } catch (error) {
         next(error);
     }
