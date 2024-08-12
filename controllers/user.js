@@ -195,8 +195,7 @@ const searchUsers = async (req, res, next) => {
         }
 
         const users = await User.find({
-            $or: [{firstName: {$regex: query, $options: "i"}}, {lastName: {$regex: query, $options: "i"}},
-            {email: {$regex: query, $options: "i"}}
+            $or: [{firstName: {$regex: query, $options: "i"}}, {lastName: {$regex: query, $options: "i"}}
             ]
         }).select("firstName lastName email")
 
