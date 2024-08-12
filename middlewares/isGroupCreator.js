@@ -3,7 +3,7 @@ import { ObjectId } from "mongodb";
 
 const isGroupCreator = async (req, res, next) => {
     try {
-        const id = String(req.params.groupId) || String(req.body.groupId);
+        const id = String(req.params.groupId) || String(req.headers['group-id']);
 
         const groupId = new ObjectId(id);
 
