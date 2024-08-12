@@ -210,6 +210,39 @@ const searchUsers = async (req, res, next) => {
     }
 }
 
+const addUser = async (req, res, next) => {
+    try {
+        const { userId } = req.body;
+        const id = String(req.params.groupId);
+        const groupId = new ObjectId(id);
+
+        const group = await Group.findById(groupId);
+
+        if (!group) {
+            res.code = 404;
+            throw new Error("Group Not Found")
+        }
+
+        if (!group.members.includes(userId)) {
+            group.members.push(userId);
+
+            await group.save();
+        } else {
+            res.code = 400;
+            throw new Error("User Is Already A Group Member")
+        }
+
+        await User.findByIdAndUpdate(userId, { $addToSet: { groups: group._id } });
+
+        res.status(200).json({
+            code: 200,
+            status: true,
+            message: "Member Added Successfully"
+        })
+    } catch (error) {
+        next(error);
+    }
+}
 
 const eventController = async (req, res, next) => {
     try {
@@ -227,4 +260,4 @@ const eventController = async (req, res, next) => {
     }
 }
 
-export { homeController, groupController, eventController, displayGroupController, groupInfo, editGroupInfo, showGroupInfo, deleteGroup, searchUsers }
+export { homeController, groupController, eventController, displayGroupController, groupInfo, editGroupInfo, showGroupInfo, deleteGroup, searchUsers, addUser }
