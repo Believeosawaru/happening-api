@@ -185,6 +185,21 @@ const deleteGroup = async (req, res, next) => {
     }
 }
 
+const searchUsers = async (req, res, next) => {
+    try {
+        
+
+        res.status(200).json({
+            code: 200,
+            status: true,
+            message: "Group Deleted Successfully"
+        })
+    } catch (error) {
+        next(error);
+    }
+}
+
+
 const eventController = async (req, res, next) => {
     try {
         const { name, description, date, groupId, userId } = req.body;
@@ -201,4 +216,4 @@ const eventController = async (req, res, next) => {
     }
 }
 
-export { homeController, groupController, eventController, displayGroupController, groupInfo, editGroupInfo, showGroupInfo, deleteGroup }
+export { homeController, groupController, eventController, displayGroupController, groupInfo, editGroupInfo, showGroupInfo, deleteGroup, searchUsers }
