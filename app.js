@@ -3,8 +3,12 @@ import { authRoutes, userRoutes } from "./routes/index.js";
 import connectToDb from "./init/mongodb.js";
 import errorHandler from "./middlewares/errorHandler.js";
 import cors from "cors";
-import path from "path";
+import { dirname } from "path";
+import { fileURLToPath } from "url";
 const app = express();
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
 
 connectToDb();
 
