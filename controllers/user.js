@@ -206,7 +206,8 @@ const searchUsers = async (req, res, next) => {
         }
 
         const users = await User.find({
-            _id: { $ne: group.createdBy },
+            _id: { $nin: [...group.members, group.createdBy] },
+            isVerified: true,
             $or: [{firstName: {$regex: query, $options: "i"}}, {lastName: {$regex: query, $options: "i"}}
             ]
         }).select("firstName lastName email")
