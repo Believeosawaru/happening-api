@@ -114,7 +114,7 @@ const groupInfo = async (req, res, next) => {
 
         await inviteToken.save();
 
-        const inviteLink = `${req.protocol}://${req.get("host")}/join-group/${token}`
+        const inviteLink = `${req.protocol}://${req.get("host")}//api/v1/user/join-group/${token}`
 
         res.status(200).json({
              code: 200,
