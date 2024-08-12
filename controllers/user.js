@@ -189,7 +189,7 @@ const searchUsers = async (req, res, next) => {
     try {
         const { query } = req.query;
 
-        if (!query) {
+        if (query) {
             res.code = 400;
             throw new Error("No Search Query Provided");
         }
@@ -200,11 +200,11 @@ const searchUsers = async (req, res, next) => {
         //     ]
         // }).select("firstName lastName email")
 
-        res.status(200).json({
-            code: 200,
-            status: true,
-            query
-        })
+        // res.status(200).json({
+        //     code: 200,
+        //     status: true,
+        //     query
+        // })
     } catch (error) {
         next(error);
     }
