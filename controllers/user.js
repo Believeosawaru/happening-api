@@ -222,13 +222,16 @@ const addUser = async (req, res, next) => {
             throw new Error("Group Not Found")
         }
 
-        if (!group.members.includes(userId)) {
+        if (!group.members.includes(userId) || group.members.length < 1) {
             group.members.push(userId);
 
             await group.save();
         } else {
-            res.code = 400;
-            throw new Error("User Is Already A Group Member")
+            res.status(400).json({
+                code: 400,
+                status: false,
+                message: "Member Already Exists"
+            })
         }
 
         await User.findByIdAndUpdate(userId, { $addToSet: { groups: group._id } });
