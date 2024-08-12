@@ -187,12 +187,23 @@ const deleteGroup = async (req, res, next) => {
 
 const searchUsers = async (req, res, next) => {
     try {
-        
+        const { query } = req.query;
+
+        if (!query) {
+            res.code = 400;
+            throw new Error("No Search Query Provided");
+        }
+
+        const users = await User.find({
+            $or: [{firstName: {$regex: query, $options: "i"}}, {lastName: {$regex: query, $options: "i"}},
+            {email: {$regex: query, $options: "i"}}
+            ]
+        }).select("firstName lastName email")
 
         res.status(200).json({
             code: 200,
             status: true,
-            message: "Group Deleted Successfully"
+            message: users
         })
     } catch (error) {
         next(error);
