@@ -282,8 +282,7 @@ const joinViaLink = async (req, res, next) => {
 
         const inviteToken = await InviteToken.findOne({ token });
 
-        const id = String(inviteToken.groupId);
-        const groupId = new ObjectId(id);
+        const groupId = String(inviteToken.groupId);
 
         if (inviteToken) {
             res.code = 400;
