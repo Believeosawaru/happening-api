@@ -279,13 +279,13 @@ const generateLink = async (req, res, next) => {
             throw new Error("Group Not Found")
         }
 
-        const token = generateInviteToken();
+        const groupToken = generateInviteToken();
         
-        const inviteToken = new InviteToken({ token, groupId });
+        const inviteToken = new InviteToken({ token: groupToken, groupId });
 
         await inviteToken.save();
 
-        const inviteLink = `https://happening-khaki.vercel.app/html/groups/join-link.html/${token}`
+        const inviteLink = `https://happening-khaki.vercel.app/html/groups/join-link.html/${groupToken}`
 
         res.status(201).json({
             code: 201,
@@ -300,9 +300,9 @@ const generateLink = async (req, res, next) => {
 
 const joinViaLink = async (req, res, next) => {
     try {
-        const {token} = req.params;
+        const {groupToken} = req.params;
 
-        const inviteToken = await InviteToken.findOne({ token });
+        const inviteToken = await InviteToken.findOne({ token: groupToken });
 
         const groupId = inviteToken.groupId;
 
@@ -310,14 +310,12 @@ const joinViaLink = async (req, res, next) => {
 
         if (!group) {
             res.code = 404;
-            throw new Error("Group Not Found"); 
-            res.render("failed");
+            throw new Error("Group Not Found");
         }
 
         if (group.members.includes(req.user._id)) {
             res.code = 400;
             throw new Error("You Are Already A Group Member");
-            res.render("failed");
         }
 
         group.members.push(req.user._id);
