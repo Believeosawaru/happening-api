@@ -284,12 +284,6 @@ const joinViaLink = async (req, res, next) => {
 
         const groupId = inviteToken.groupId;
 
-        if (inviteToken) {
-            res.code = 400;
-            throw new Error("Invalid Or Expired Token");
-            res.render("failed");
-        }
-
         const group = await Group.findById(groupId);
 
         if (!group) {
