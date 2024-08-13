@@ -282,38 +282,32 @@ const joinViaLink = async (req, res, next) => {
 
         const inviteToken = await InviteToken.findOne({ token });
 
-        res.status(200).json({            
-            code: 200,
-            status: true,
-            data: inviteToken
-        })
+        const groupId = inviteToken.groupId;
 
-        // const groupId = inviteToken.groupId;
+        if (inviteToken) {
+            res.code = 400;
+            throw new Error("Invalid Or Expired Token");
+            res.render("failed");
+        }
 
-        // if (inviteToken) {
-        //     res.code = 400;
-        //     throw new Error("Invalid Or Expired Token");
-        //     res.render("failed");
-        // }
+        const group = await Group.findById(groupId);
 
-        // const group = await Group.findById(groupId);
+        if (!group) {
+            res.code = 404;
+            throw new Error("Group Not Found"); 
+            res.render("failed");
+        }
 
-        // if (!group) {
-        //     res.code = 404;
-        //     throw new Error("Group Not Found"); 
-        //     res.render("failed");
-        // }
+        if (group.members.includes(req.user._id)) {
+            res.code = 400;
+            throw new Error("You Are Already A Group Member");
+            res.render("failed");
+        }
 
-        // if (group.members.includes(req.user._id)) {
-        //     res.code = 400;
-        //     throw new Error("You Are Already A Group Member");
-        //     res.render("failed");
-        // }
+        group.members.push(req.user._id);
 
-        // group.members.push(req.user._id);
-
-        // await group.save();
-        // res.render("success");
+        await group.save();
+        res.render("success");
     } catch (error) {
         next(error);
     }
