@@ -108,20 +108,11 @@ const groupInfo = async (req, res, next) => {
 
         const { firstName, lastName, _id } = await User.findOne({_id: owner});
 
-        const token = generateInviteToken();
-        
-        const inviteToken = new InviteToken({ token, groupId });
-
-        await inviteToken.save();
-
-        const inviteLink = `${req.protocol}://${req.get("host")}/api/v1/user/join-group/${token}/invite-link`
-
         res.status(200).json({
              code: 200,
              status: true,
              data: group,
              currentUserId,
-             groupLink: inviteLink,
              createdBy: {
                 firstName,
                 lastName,
@@ -276,6 +267,37 @@ const addUser = async (req, res, next) => {
     }
 }
 
+const generateLink = async (req, res, next) => {
+    try {
+        const id = String(req.params.groupId);
+        const groupId = new ObjectId(id);
+
+        const group = await Group.findById(groupId);
+        
+        if (!group) {
+            res.code = 404;
+            throw new Error("Group Not Found")
+        }
+
+        const token = generateInviteToken();
+        
+        const inviteToken = new InviteToken({ token, groupId });
+
+        await inviteToken.save();
+
+        const inviteLink = `${req.protocol}://${req.get("host")}/api/v1/user/join-group/${token}/invite-link`
+
+        res.status(201).json({
+            code: 201,
+            status: true,
+            message: "Link Successfully Created",
+            data: inviteLink
+        })
+    } catch (error) {
+        next(error);
+    }
+}
+
 const joinViaLink = async (req, res, next) => {
     try {
         const {token} = req.params;
@@ -286,30 +308,22 @@ const joinViaLink = async (req, res, next) => {
 
         const group = await Group.findById(groupId);
 
-        res.status(200).json({
-            code: 200,
-            status: true,
-            message: {
-                user: req.user
-            }
-        })
+        if (!group) {
+            res.code = 404;
+            throw new Error("Group Not Found"); 
+            res.render("failed");
+        }
 
-        // if (!group) {
-        //     res.code = 404;
-        //     throw new Error("Group Not Found"); 
-        //     res.render("failed");
-        // }
+        if (group.members.includes(req.user._id)) {
+            res.code = 400;
+            throw new Error("You Are Already A Group Member");
+            res.render("failed");
+        }
 
-        // if (group.members.includes(req.user._id)) {
-        //     res.code = 400;
-        //     throw new Error("You Are Already A Group Member");
-        //     res.render("failed");
-        // }
+        group.members.push(req.user._id);
 
-        // group.members.push(req.user._id);
-
-        // await group.save();
-        // res.render("success");
+        await group.save();
+        res.render("success");
     } catch (error) {
         next(error);
     }
@@ -331,4 +345,4 @@ const eventController = async (req, res, next) => {
     }
 }
 
-export { homeController, groupController, eventController, displayGroupController, groupInfo, editGroupInfo, showGroupInfo, deleteGroup, searchUsers, addUser, joinViaLink }
+export { homeController, groupController, eventController, displayGroupController, groupInfo, editGroupInfo, showGroupInfo, deleteGroup, searchUsers, addUser, generateLink, joinViaLink }
