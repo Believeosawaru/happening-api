@@ -15,7 +15,7 @@ userRoutes.get("/group/:groupId", isAuth, groupInfo);
 
 userRoutes.post("/group/:groupId/generate-link", isAuth, isGroupCreator, generateLink);
 
-userRoutes.post("/join-group/:token/invite-link", joinViaLink);
+userRoutes.post("/join-group/:groupToken/invite-link", joinViaLink);
 
 userRoutes.put("/edit-group-info/:groupId", isAuth, isGroupCreator, editGroupInfo);
 
