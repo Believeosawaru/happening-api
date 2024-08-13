@@ -279,6 +279,13 @@ const addUser = async (req, res, next) => {
 const joinViaLink = async (req, res, next) => {
     try {
         const {token} = req.params;
+        const userId = req.user._id;
+
+        if (!userId) {
+            res.code = 400;
+            throw new Error("You're Not Logged In")
+            res.render("failed");
+        }
 
         const inviteToken = await InviteToken.findOne({ token });
 
@@ -287,7 +294,7 @@ const joinViaLink = async (req, res, next) => {
 
         if (!token) {
             res.code = 400;
-            throw new Error("Invalid Or Expired Token")
+            throw new Error("Invalid Or Expired Token");
             res.render("failed");
         }
 
@@ -295,17 +302,17 @@ const joinViaLink = async (req, res, next) => {
 
         if (!group) {
             res.code = 404;
-            throw new Error("Group Not Found")
+            throw new Error("Group Not Found"); 
             res.render("failed");
         }
 
-        if (group.members.includes(req.user._id)) {
+        if (group.members.includes(userId)) {
             res.code = 400;
             throw new Error("You Are Already A Group Member");
             res.render("failed");
         }
 
-        group.members.push(req.user._id);
+        group.members.push(userId);
 
         await group.save();
         res.render("success");
