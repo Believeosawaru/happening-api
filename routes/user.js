@@ -13,7 +13,7 @@ userRoutes.get("/groups", isAuth, displayGroupController);
 
 userRoutes.get("/group/:groupId", isAuth, groupInfo);
 
-userRoutes.get("/join-group/:groupId/invite-link", joinViaLink);
+userRoutes.get("/join-group/:token/invite-link", joinViaLink);
 
 userRoutes.put("/edit-group-info/:groupId", isAuth, isGroupCreator, editGroupInfo);
 
