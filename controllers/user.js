@@ -286,22 +286,31 @@ const joinViaLink = async (req, res, next) => {
 
         const group = await Group.findById(groupId);
 
-        if (!group) {
-            res.code = 404;
-            throw new Error("Group Not Found"); 
-            res.render("failed");
-        }
+        res.status(200).json({
+            code: 200,
+            status: true,
+            message: {
+                group,
+                user: req.user
+            }
+        })
 
-        if (group.members.includes(req.user._id)) {
-            res.code = 400;
-            throw new Error("You Are Already A Group Member");
-            res.render("failed");
-        }
+        // if (!group) {
+        //     res.code = 404;
+        //     throw new Error("Group Not Found"); 
+        //     res.render("failed");
+        // }
 
-        group.members.push(req.user._id);
+        // if (group.members.includes(req.user._id)) {
+        //     res.code = 400;
+        //     throw new Error("You Are Already A Group Member");
+        //     res.render("failed");
+        // }
 
-        await group.save();
-        res.render("success");
+        // group.members.push(req.user._id);
+
+        // await group.save();
+        // res.render("success");
     } catch (error) {
         next(error);
     }
