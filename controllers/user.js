@@ -290,7 +290,6 @@ const joinViaLink = async (req, res, next) => {
             code: 200,
             status: true,
             message: {
-                group,
                 user: req.user
             }
         })
