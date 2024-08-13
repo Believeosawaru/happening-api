@@ -323,7 +323,12 @@ const joinViaLink = async (req, res, next) => {
         group.members.push(req.user._id);
 
         await group.save();
-        res.render("success");
+        
+        res.status(200).json({
+            code: 200,
+            status: true,
+            message: "Group Joined Successfully"
+        })
     } catch (error) {
         next(error);
     }
