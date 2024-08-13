@@ -285,7 +285,7 @@ const generateLink = async (req, res, next) => {
 
         await inviteToken.save();
 
-        const inviteLink = `https://happening-khaki.vercel.app/html/group/join-linkdetails.html?groupToken=${groupToken}/`
+        const inviteLink = `https://happening-khaki.vercel.app/html/groupS/join-link.html?groupToken=${groupToken}/`
 
         res.status(201).json({
             code: 201,
