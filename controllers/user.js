@@ -385,7 +385,7 @@ const allGroups = async (req, res, next) => {
             }
          });
 
-        res.statuss(200).json({
+        res.status(200).json({
             code: 200,
             status: true,
             message: publicGroups
