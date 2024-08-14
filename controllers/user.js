@@ -354,7 +354,7 @@ const latestGroup = async (req, res, next) => {
             throw new Error("No User Found");
         }
 
-        if (user && user.groups.length > 0) {
+        if (user.groups.length > 0) {
              const lastGroup = user.groups[user.groups.length - 1];
 
              res.status(200).json({
@@ -387,4 +387,4 @@ const eventController = async (req, res, next) => {
     }
 }
 
-export { homeController, groupController, eventController, displayGroupController, groupInfo, editGroupInfo, showGroupInfo, deleteGroup, searchUsers, addUser, generateLink, joinViaLink }
+export { homeController, groupController, eventController, displayGroupController, groupInfo, editGroupInfo, showGroupInfo, deleteGroup, searchUsers, addUser, generateLink, joinViaLink, latestGroup }
