@@ -376,6 +376,25 @@ const latestGroup = async (req, res, next) => {
     }
 }
 
+const allGroups = async (req, res, next) => {
+    try {
+        const publicGroups = await Group.findOne({ 
+            type: "public", 
+            createdBy: {
+                $ne: req.user._id
+            }
+         });
+
+        res.statuss(200).json({
+            code: 200,
+            status: true,
+            message: publicGroups
+        });
+    } catch (error) {
+        next(error)
+    }
+}
+
 const eventController = async (req, res, next) => {
     try {
         const { name, description, date, groupId, userId } = req.body;
@@ -392,4 +411,4 @@ const eventController = async (req, res, next) => {
     }
 }
 
-export { homeController, groupController, eventController, displayGroupController, groupInfo, editGroupInfo, showGroupInfo, deleteGroup, searchUsers, addUser, generateLink, joinViaLink, latestGroup }
+export { homeController, groupController, eventController, displayGroupController, groupInfo, editGroupInfo, showGroupInfo, deleteGroup, searchUsers, addUser, generateLink, joinViaLink, latestGroup, allGroups }
