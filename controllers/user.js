@@ -342,6 +342,35 @@ const joinViaLink = async (req, res, next) => {
     }
 }
 
+const latestGroup = async (req, res, next) => {
+    try {
+        const id = String(req.user._id);
+        const userId = new ObjectId(id);
+
+        const user = await User.findById(userId);
+
+        if (!user) {
+            res.code = 404;
+            throw new Error("No User Found");
+        }
+
+        if (user && user.groups.length > 0) {
+             const lastGroup = user.groups[user.groups.length - 1];
+
+             res.status(200).json({
+                code: 200,
+                status: true,
+                message: lastGroup
+            });
+        } else {
+            res.code = 404;
+            throw new Error("You're Not In Any Groups");
+        }
+    } catch (error) {
+        next(error)
+    }
+}
+
 const eventController = async (req, res, next) => {
     try {
         const { name, description, date, groupId, userId } = req.body;
