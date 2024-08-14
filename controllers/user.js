@@ -365,7 +365,7 @@ const latestGroup = async (req, res, next) => {
              res.status(200).json({
                 code: 200,
                 status: true,
-                message: group.name
+                message: group
              })
         } else {
             res.code = 404;
