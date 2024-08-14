@@ -304,6 +304,11 @@ const joinViaLink = async (req, res, next) => {
 
         const inviteToken = await InviteToken.findOne({ token: groupToken });
 
+        const id = String(req.user._id);
+        const userId = new ObjectId(id);
+
+        const user = await user.findById(userId)
+
         const groupId = inviteToken.groupId;
 
         const group = await Group.findById(groupId);
@@ -316,6 +321,11 @@ const joinViaLink = async (req, res, next) => {
         if (group.members.includes(req.user._id)) {
             res.code = 400;
             throw new Error("You Are Already A Group Member");
+        }
+
+        if (user.isVerified === false) {
+            res.code = 400;
+            throw new Error("You Are Not Verified");
         }
 
         group.members.push(req.user._id);
