@@ -356,12 +356,17 @@ const latestGroup = async (req, res, next) => {
 
         if (user.groups.length > 0) {
              const lastGroup = user.groups[user.groups.length - 1];
+            
+             const Gid = String(lastGroup);
+             const groupId = new ObjectId(Gid);
+
+             const group = await Group.findById(groupId)
 
              res.status(200).json({
                 code: 200,
                 status: true,
-                message: lastGroup
-            });
+                message: group.name
+             })
         } else {
             res.code = 404;
             throw new Error("You're Not In Any Groups");
