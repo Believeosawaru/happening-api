@@ -378,12 +378,7 @@ const latestGroup = async (req, res, next) => {
 
 const allGroups = async (req, res, next) => {
     try {
-        const publicGroups = await Group.findOne({ 
-            type: "public", 
-            createdBy: {
-                $ne: req.user._id
-            }
-         });
+        const publicGroups = await Group.findOne({ });
 
         res.status(200).json({
             code: 200,
