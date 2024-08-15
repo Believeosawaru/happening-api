@@ -332,6 +332,7 @@ const joinViaLink = async (req, res, next) => {
         user.groups.push(inviteToken.groupId);
 
         await group.save();
+        await user.save();
         
         res.status(200).json({
             code: 200,
