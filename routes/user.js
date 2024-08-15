@@ -1,5 +1,5 @@
 import express from "express"
-import { homeController, groupController, eventController, displayGroupController, groupInfo, editGroupInfo, showGroupInfo, deleteGroup, searchUsers, addUser, generateLink, joinViaLink, latestGroup, allGroups } from "../controllers/index.js";
+import { homeController, groupController, eventController, displayGroupController, groupInfo, editGroupInfo, showGroupInfo, deleteGroup, searchUsers, addUser, generateLink, joinViaLink, latestGroup, allGroups, joinGroup } from "../controllers/index.js";
 import isAuth from "../middlewares/isAuth.js";
 import isGroupCreator from "../middlewares/isGroupCreator.js";
 
@@ -18,6 +18,8 @@ userRoutes.get("/groups", isAuth, displayGroupController);
 userRoutes.get("/group/:groupId", isAuth, groupInfo);
 
 userRoutes.post("/group/:groupId/generate-link", isAuth, isGroupCreator, generateLink);
+
+userRoutes.post("/join-group/:groupId/", isAuth, joinGroup);
 
 userRoutes.post("/join-group/:groupToken/invite-link", isAuth, joinViaLink);
 

@@ -3,6 +3,7 @@ import { Event, Group } from "../models/index.js";
 import { User } from "../models/index.js";
 import InviteToken from "../models/inviteToken.js";
 import generateInviteToken from "../utils/generateInviteLink.js"
+import { selectUnknownFields } from "express-validator/lib/field-selection.js";
 
 const homeController = async (req, res, next) => {
     try {
@@ -346,9 +347,36 @@ const joinGroup = async () => {
     try {
         const id = String(req.params.groupId);
         const groupId = new ObjectId(id);
+        const uId = String(req.user._id);
+        const userId = new ObjectId(uId);
 
+        const group = await Group.findById(groupId);
+        const user = await User.findById(userId);
 
+        if (user.isVerified === false) {
+            res.status(401).json({
+                code: 401,
+                status: false,
+                message: "User Is Not Verified"
+            })
+        }
 
+        if (group.members.includes(uId)) {
+            res.status(400).json({
+                code: 400,
+                status: false,
+                message: "You Are Already A Member Of This Group"
+            });
+        }
+
+        group.members.push(uId);
+        group.save();
+
+        res.status(200).json({
+            code: 200,
+            status: true,
+            message: "User Added Successfully"
+        });
     } catch (error) {
         next(error)
     }
@@ -425,4 +453,4 @@ const eventController = async (req, res, next) => {
     }
 }
 
-export { homeController, groupController, eventController, displayGroupController, groupInfo, editGroupInfo, showGroupInfo, deleteGroup, searchUsers, addUser, generateLink, joinViaLink, latestGroup, allGroups }
+export { homeController, groupController, eventController, displayGroupController, groupInfo, editGroupInfo, showGroupInfo, deleteGroup, searchUsers, addUser, generateLink, joinViaLink, latestGroup, allGroups, joinGroup }
