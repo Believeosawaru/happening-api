@@ -19,7 +19,7 @@ userRoutes.get("/group/:groupId", isAuth, groupInfo);
 
 userRoutes.post("/group/:groupId/generate-link", isAuth, isGroupCreator, generateLink);
 
-userRoutes.post("/join-group/:groupId/", isAuth, joinGroup);
+userRoutes.post("/join-group/:groupId", isAuth, joinGroup);
 
 userRoutes.post("/join-group/:groupToken/invite-link", isAuth, joinViaLink);
 
