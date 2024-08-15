@@ -405,7 +405,7 @@ const leaveGroup = async (req, res, next) => {
             })
         }
 
-        const isMember = group.members.some(member => member.user.toString() === req.user._id.toString());
+        const isMember = group.members.includes(req.user._id);
 
         if (!isMember) {
             res.status(400).json({
@@ -415,8 +415,8 @@ const leaveGroup = async (req, res, next) => {
             });
         }
 
-        group.members = group.members.filter(member => member.user.toString() !== req.user._id.toString());
-
+        group.members = group.members.filter(memberId => !memberId.equals(req.user._id));
+        
         await group.save();
 
         res.status(200).json({
