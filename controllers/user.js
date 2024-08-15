@@ -342,6 +342,18 @@ const joinViaLink = async (req, res, next) => {
     }
 }
 
+const joinGroup = async () => {
+    try {
+        const id = String(req.params.groupId);
+        const groupId = new ObjectId(id);
+
+
+
+    } catch (error) {
+        next(error)
+    }
+}
+
 const latestGroup = async (req, res, next) => {
     try {
         const id = String(req.user._id);
