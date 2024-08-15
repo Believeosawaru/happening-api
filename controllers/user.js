@@ -3,7 +3,6 @@ import { Event, Group } from "../models/index.js";
 import { User } from "../models/index.js";
 import InviteToken from "../models/inviteToken.js";
 import generateInviteToken from "../utils/generateInviteLink.js"
-import { selectUnknownFields } from "express-validator/lib/field-selection.js";
 
 const homeController = async (req, res, next) => {
     try {
@@ -330,6 +329,7 @@ const joinViaLink = async (req, res, next) => {
         }
 
         group.members.push(req.user._id);
+        user.groups.push(inviteToken.groupId)
 
         await group.save();
         
