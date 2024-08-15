@@ -16,23 +16,23 @@ const homeController = async (req, res, next) => {
             res.status(404).json({
                 code: 404,
                 status: false,
-                message: "Not Found"
+                message: "User Not Found"
             })
         }
 
-        if (user.isVerified === false) {
-            res.status(403).json({
-                code: 403,
-                status: false,
-                message: `${userName}`
-            })
-        } else {
+        // if (user.isVerified === false) {
+        //     res.status(403).json({
+        //         code: 403,
+        //         status: false,
+        //         message: `${userName}`
+        //     })
+        // } else {
             res.status(200).json({
                 code: 200,
                 status: true,
                 message: `${userName}`
             });
-        }
+        // }
     } catch (error) {
         next(error);
     }
