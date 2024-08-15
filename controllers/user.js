@@ -397,38 +397,38 @@ const leaveGroup = async (req, res, next) => {
         const uId = String(req.user._id);
         const userId = new ObjectId(uId);
 
-        // const group = await Group.findById(groupId);
+        const group = await Group.findById(groupId);
         const user = await User.findById(userId);
 
-        // if (req.user._id === group.createdBy) {
-        //     res.status(400).json({
-        //         code: 400,
-        //         status: false,
-        //         message: "You're The Admin, You Can Only Delete This Group"
-        //     })
-        // }
+        if (req.user._id === group.createdBy) {
+            res.status(400).json({
+                code: 400,
+                status: false,
+                message: "You're The Admin, You Can Only Delete This Group"
+            })
+        }
 
-        // const isMember = group.members.includes(req.user._id);
+        const isMember = group.members.includes(req.user._id);
 
-        // if (!isMember) {
-        //     res.status(400).json({
-        //         code: 400,
-        //         status: false,
-        //         message: "You Are Not A Member Of This Group"
-        //     });
-        // }
+        if (!isMember) {
+            res.status(400).json({
+                code: 400,
+                status: false,
+                message: "You Are Not A Member Of This Group"
+            });
+        }
 
-        // group.members = group.members.filter(memberId => !memberId.equals(req.user._id));
+        group.members = group.members.filter(memberId => !memberId.equals(req.user._id));
 
-        // user.groups = user.groups.filter(userGroupId => !userGroupId.equals(groupId));
+        user.groups = user.groups.filter(userGroupId => !userGroupId.equals(groupId));
         
-        // await group.save();
-        // await user.save();
+        await group.save();
+        await user.save();
 
         res.status(200).json({
             code: 200,
             status: true,
-            message: user
+            message: "You've Left This Group"
         });
     } catch (error) {
         next(error)
