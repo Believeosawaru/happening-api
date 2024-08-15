@@ -310,7 +310,7 @@ const joinViaLink = async (req, res, next) => {
 
         const user = await User.findById(userId)
 
-        const groupId = inviteToken.groupId;
+        const groupId = new ObjectId(String(inviteToken.groupId));
 
         const group = await Group.findById(groupId);
 
