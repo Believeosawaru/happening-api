@@ -383,8 +383,9 @@ const allGroups = async (req, res, next) => {
 
         const publicGroups = await Group.find({ 
             groupType: "public",
-            createdBy: { $ne: userId }
-         });
+            createdBy: { $ne: userId },
+            members: { $ne: userId }
+        });
 
         res.status(200).json({
             code: 200,
