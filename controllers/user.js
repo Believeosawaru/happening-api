@@ -353,6 +353,14 @@ const joinGroup = async (req, res, next) => {
         const group = await Group.findById(groupId);
         const user = await User.findById(userId);
 
+        if (!group) {
+            res.status(404).json({
+                code: 404,
+                status: false,
+                message: "Group Not Found"
+            })
+        }
+
         if (user.isVerified === false) {
             res.status(401).json({
                 code: 401,
@@ -370,12 +378,51 @@ const joinGroup = async (req, res, next) => {
         }
 
         group.members.push(uId);
-        group.save();
+        await group.save();
 
         res.status(200).json({
             code: 200,
             status: true,
             message: "User Added Successfully"
+        });
+    } catch (error) {
+        next(error)
+    }
+}
+
+const leaveGroup = async (req, res, next) => {
+    try {
+        const id = String(req.params.groupId);
+        const groupId = new ObjectId(id);
+
+        const group = await Group.findById(groupId);
+
+        if (req.user._id === group.createdBy) {
+            res.status(400).json({
+                code: 400,
+                status: false,
+                message: "You're The Admin, You Can Only Delete This Group"
+            })
+        }
+
+        const isMember = group.members.some(member => member.user.toString() === req.user._id.toString());
+
+        if (!isMember) {
+            res.status(400).json({
+                code: 400,
+                status: false,
+                message: "You Are Not A Member Of This Group"
+            });
+        }
+
+        group.members = group.members.filter(member => member.user.toString() !== req.user._id.toString());
+
+        await group.save();
+
+        res.status(200).json({
+            code: 200,
+            status: true,
+            message: "You've Left This Group"
         });
     } catch (error) {
         next(error)
@@ -453,4 +500,4 @@ const eventController = async (req, res, next) => {
     }
 }
 
-export { homeController, groupController, eventController, displayGroupController, groupInfo, editGroupInfo, showGroupInfo, deleteGroup, searchUsers, addUser, generateLink, joinViaLink, latestGroup, allGroups, joinGroup }
+export { homeController, groupController, eventController, displayGroupController, groupInfo, editGroupInfo, showGroupInfo, deleteGroup, searchUsers, addUser, generateLink, joinViaLink, latestGroup, allGroups, joinGroup, leaveGroup }
