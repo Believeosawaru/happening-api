@@ -394,8 +394,11 @@ const leaveGroup = async (req, res, next) => {
     try {
         const id = String(req.params.groupId);
         const groupId = new ObjectId(id);
+        const uId = String(req.user._id);
+        const userId = new ObjectId(uId);
 
         const group = await Group.findById(groupId);
+        const user = await User.findById(userId);
 
         if (req.user._id === group.createdBy) {
             res.status(400).json({
@@ -416,8 +419,11 @@ const leaveGroup = async (req, res, next) => {
         }
 
         group.members = group.members.filter(memberId => !memberId.equals(req.user._id));
+
+        user.groups = user.groups.filter(userGroupId => !userGroupId.equals(groupId));
         
         await group.save();
+        await user.save();
 
         res.status(200).json({
             code: 200,
