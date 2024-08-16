@@ -4,10 +4,11 @@ const Schema = mongoose.Schema;
 const eventSchema = new Schema({
     name: { type: String, required: true },
     description: { type: String },
-    date: { type: String, required: true },
-    group: { type: Schema.Types.ObjectId, ref: "Group"},
-    createdBy: { type: Schema.Types.ObjectId, ref: "User" }
-});
+    time: { type: Date, required: true },
+    location: { type: String, required: true },
+    type: { type: String, enum: ["public", "private"]},
+    createdBy: { type: Schema.Types.ObjectId, ref: "User", required: true }
+}, {timestamps: true});
 
 const Event = mongoose.model("event", eventSchema);
 

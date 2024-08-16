@@ -493,17 +493,24 @@ const allGroups = async (req, res, next) => {
     }
 }
 
+// End Of Groups Routes
+
+// Start Of Events Routes
+
 const eventController = async (req, res, next) => {
     try {
-        const { name, description, date, groupId, userId } = req.body;
+        const { name, description, time, location, type } = req.body;
+        const createdBy = req.user._id;
 
-        const event = new Event({name, description, date, group: groupId, createdBy: userId});
+        const event = new Event({ name, description, time, location, type, createdBy });
 
         await event.save();
 
-        await Group.findByIdAndUpdate(groupId, { $push: { events: event._id }});
-
-        res.status(201).json(event);
+        res.status(200).json({
+            code: 201,
+            status: true,
+            message: "Event Created Successfully"
+        })
     } catch (error) {
         next(error);
     }
