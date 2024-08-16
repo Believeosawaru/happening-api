@@ -378,13 +378,15 @@ const joinGroup = async (req, res, next) => {
             });
         }
 
+        user.groups.push(groupId);
         group.members.push(uId);
         await group.save();
+        await user.save();
 
         res.status(200).json({
             code: 200,
             status: true,
-            message: "User Added Successfully"
+            message: "You've Joined This Group"
         });
     } catch (error) {
         next(error)
