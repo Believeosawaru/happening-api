@@ -421,9 +421,9 @@ const leaveGroup = async (req, res, next) => {
             });
         }
 
-        group.members = group.members.filter(memberId => !memberId.equals(req.user._id));
+        group.members = group.members.filter(memberId => !memberId.equals(userId));
 
-        user.groups = user.groups.filter(userGroupId => !userGroupId.equals(id));
+        user.groups = user.groups.filter(userGroupId => !userGroupId.equals(groupId));
         
         await group.save();
         await user.save();
