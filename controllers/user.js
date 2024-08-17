@@ -578,16 +578,17 @@ const eventInfo = async (req, res, next) => {
 
 const editEventInfo = async (req, res, next) => {
     try {
-        const { name, description, location, type } = req.body;
+        const { name, description, time, location, type } = req.body;
 
         const id = String(req.params.eventId);
 
         const eventId = new ObjectId(id);
 
-        const event = await Group.findOne({_id: groupId});
+        const event = await Event.findOne({_id: eventId});
 
         event.name = name;
         event.description = description;
+        event.time = time;
         event.location = location;
         event.groupType = type;
 
