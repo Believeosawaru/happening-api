@@ -35,6 +35,6 @@ userRoutes.get("/search-users/:groupId", isAuth, isGroupCreator,  searchUsers);
 
 userRoutes.post("/group/:groupId/add-member", isAuth, isGroupCreator, addUser);
 
-userRoutes.post("/create-event", eventController);
+userRoutes.post("/create-event", isAuth, eventController);
 
 export default userRoutes;
