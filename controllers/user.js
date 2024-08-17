@@ -685,7 +685,7 @@ const latestEvent = async (req, res, next) => {
                 code: 200,
                 status: true,
                 message: event
-             })
+             });
         } else {
             res.code = 404;
             throw new Error("No Recent Events");
