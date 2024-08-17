@@ -674,7 +674,7 @@ const latestEvent = async (req, res, next) => {
         }
 
         if (user.events.length > 0) {
-             const lastEvent = user.groups[user.events.length - 1];
+             const lastEvent = user.events[user.events.length - 1];
             
              const Eid = String(lastEvent);
              const eventId = new ObjectId(Eid);
