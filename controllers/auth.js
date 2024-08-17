@@ -16,12 +16,12 @@ const signUpController = async (req, res, next) => {
             throw new Error("Email Is Already In Use");
         }
 
-        const token = generateToken(user);
-
         const hashedPassword = await hashPassword(password);
 
         const user = new User({firstName, lastName, email, password: hashedPassword});
 
+        const token = generateToken(user);
+        
         await user.save();
         
         res.status(201).json({
