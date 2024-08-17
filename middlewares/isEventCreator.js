@@ -1,4 +1,4 @@
-import { Group } from "../models/index.js";
+import { Event } from "../models/index.js";
 import { ObjectId } from "mongodb";
 
 const isEventCreator = async (req, res, next) => {
@@ -7,7 +7,7 @@ const isEventCreator = async (req, res, next) => {
 
         const eventId = new ObjectId(id);
 
-        const event = await Group.findById(eventId);
+        const event = await Event.findById(eventId);
 
         if (!event) {
             res.code = 404;
