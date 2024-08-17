@@ -9,6 +9,9 @@ const userSchema = new Schema({
     groups: [{
         type: Schema.Types.ObjectId, ref: "group"
     }],
+    events: [{
+        type: Schema.Types.ObjectId, ref: "event"
+    }],
     verificationCode: { type: String },
     isVerified: { type: Boolean, default: false },
     forgotPasswordCode: {type: String}
