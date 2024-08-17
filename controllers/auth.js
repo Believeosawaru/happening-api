@@ -21,7 +21,7 @@ const signUpController = async (req, res, next) => {
         const user = new User({firstName, lastName, email, password: hashedPassword});
 
         const token = generateToken(user);
-        
+
         await user.save();
         
         res.status(201).json({
@@ -59,15 +59,16 @@ const signInController = async (req, res, next) => {
             });
         }
 
+        const token = generateToken(user);
+
         if (user.isVerified === false) {
             res.status(200).json({
                 code: 200,
                 status: true,
-                message: "User Is Not Verified"
+                message: "User Is Not Verified",
+                token
             })
         }
-
-        const token = generateToken(user);
 
         res.status(200).json({
             code: 200,
