@@ -500,11 +500,16 @@ const allGroups = async (req, res, next) => {
 const eventController = async (req, res, next) => {
     try {
         const { name, description, time, location, type } = req.body;
-        const createdBy = req.user._id;
+        const createdBy = String(req.user._id);
+        const currentUser = new ObjectId(createdBy);
 
         const event = new Event({ name, description, time, location, type, createdBy });
 
+        const user = await User.findById(currentUser);
+        user.events.push(event._id);
+
         await event.save();
+        await user.save();
 
         res.status(200).json({
             code: 201,
