@@ -16,6 +16,8 @@ const signUpController = async (req, res, next) => {
             throw new Error("Email Is Already In Use");
         }
 
+        const token = generateToken(user);
+
         const hashedPassword = await hashPassword(password);
 
         const user = new User({firstName, lastName, email, password: hashedPassword});
@@ -25,7 +27,8 @@ const signUpController = async (req, res, next) => {
         res.status(201).json({
             code: 201,
             status: true,
-            message: "User Signed Up Successfully"
+            message: "User Signed Up Successfully",
+            token
         });
     } catch (error) {
         next(error);
