@@ -98,12 +98,15 @@ const verifyUser = async (req, res, next) => {
         user.isVerified = true;
         user.verificationCode = null;
 
+        const token = generateToken(user);
+
         await user.save();
 
         res.status(200).json({
             code: 200,
             status: true,
-            message: "User Verified Successfully"
+            message: "User Verified Successfully",
+            token
         });
     } catch (error) {
         next(error);
