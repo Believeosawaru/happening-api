@@ -516,4 +516,28 @@ const eventController = async (req, res, next) => {
     }
 }
 
+const displayEventController = async (req, res, next) => {
+    const userId = req.user._id;
+
+    try {
+        const user = await User.findById(userId).populate("events");
+
+        if (!user) {
+            res.status(400).json({
+                code: 400,
+                status: false,
+                message: "User Not Found"
+            })
+        }
+
+        res.status(200).json({
+            code: 200,
+            status: true,
+            message: user.groups
+        });
+    } catch (error) {
+        next(error)
+    }
+}
+
 export { homeController, groupController, eventController, displayGroupController, groupInfo, editGroupInfo, showGroupInfo, deleteGroup, searchUsers, addUser, generateLink, joinViaLink, latestGroup, allGroups, joinGroup, leaveGroup }
