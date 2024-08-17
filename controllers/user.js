@@ -610,7 +610,7 @@ const showEventInfo = async (req, res, next) => {
 
         const eventId = new ObjectId(id);
 
-        const event = await Group.findOne({_id: eventId});
+        const event = await Event.findOne({_id: eventId});
 
         res.status(200).json({
              code: 200,
