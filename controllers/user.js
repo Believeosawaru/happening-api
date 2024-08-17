@@ -533,11 +533,106 @@ const displayEventController = async (req, res, next) => {
         res.status(200).json({
             code: 200,
             status: true,
-            message: user.groups
+            message: user.events
         });
     } catch (error) {
         next(error)
     }
 }
 
-export { homeController, groupController, eventController, displayGroupController, groupInfo, editGroupInfo, showGroupInfo, deleteGroup, searchUsers, addUser, generateLink, joinViaLink, latestGroup, allGroups, joinGroup, leaveGroup }
+const eventInfo = async (req, res, next) => {
+    try {
+        const id = String(req.params.groupId);
+
+        const currentUserId = req.user._id;
+
+        const eventId = new ObjectId(id);
+
+        const group = await Event.findOne({_id: eventId});
+
+        const ownerId = group.createdBy;
+        const owner = new ObjectId(ownerId);
+
+        const { firstName, lastName, _id } = await User.findOne({_id: owner});
+
+        res.status(200).json({
+             code: 200,
+             status: true,
+             data: group,
+             currentUserId,
+             createdBy: {
+                firstName,
+                lastName,
+                _id
+             }
+        });
+    } catch (error) {
+        next(error);
+    }
+}
+
+const editEventInfo = async (req, res, next) => {
+    try {
+        const { name, description, location, type } = req.body;
+
+        const id = String(req.params.eventId);
+
+        const eventId = new ObjectId(id);
+
+        const event = await Group.findOne({_id: groupId});
+
+        event.name = name;
+        event.description = description;
+        event.location = location;
+        event.groupType = type;
+
+        await event.save();
+
+        res.status(200).json({
+            code: 200,
+            status: true,
+            message: "Event Edited Successfully"
+        });
+    } catch (error) {
+        next(error);
+    }
+}
+
+const showEventInfo = async (req, res, next) => {
+    try {
+        const id = String(req.params.eventId);
+
+        const eventId = new ObjectId(id);
+
+        const event = await Group.findOne({_id: eventId});
+
+        res.status(200).json({
+             code: 200,
+             status: true,
+             data: event,
+        });
+    } catch (error) {
+        next(error);
+    }
+}
+
+const deleteEvent = async (req, res, next) => {
+    try {
+        const id = String(req.params.eventId);
+
+        const eventId = new ObjectId(id);
+
+        await Event.findByIdAndDelete(eventId);
+        await User.updateMany({ groups: eventId }, { $pull: { groups: eventId } })
+
+        res.status(200).json({
+            code: 200,
+            status: true,
+            message: "Event Deleted Successfully"
+        })
+    } catch (error) {
+        next(error);
+    }
+}
+
+export { homeController, groupController, eventController, displayGroupController, groupInfo, editGroupInfo, showGroupInfo, deleteGroup, searchUsers, addUser, generateLink, joinViaLink, latestGroup, allGroups, joinGroup, leaveGroup, displayEventController, eventInfo, editEventInfo, showEventInfo, deleteEvent }
