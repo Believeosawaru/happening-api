@@ -661,4 +661,38 @@ const allEvents = async (req, res, next) => {
     }
 }
 
+const latestEvent = async (req, res, next) => {
+    try {
+        const id = String(req.user._id);
+        const userId = new ObjectId(id);
+
+        const user = await User.findById(userId);
+
+        if (!user) {
+            res.code = 404;
+            throw new Error("No User Found");
+        }
+
+        if (user.events.length > 0) {
+             const lastEvent = user.groups[user.events.length - 1];
+            
+             const Eid = String(lastEvent);
+             const eventId = new ObjectId(Eid);
+
+             const event = await Event.findById(eventId);
+
+             res.status(200).json({
+                code: 200,
+                status: true,
+                message: event
+             })
+        } else {
+            res.code = 404;
+            throw new Error("No Recent Events");
+        }
+    } catch (error) {
+        next(error)
+    }
+}
+
 export { homeController, groupController, eventController, displayGroupController, groupInfo, editGroupInfo, showGroupInfo, deleteGroup, searchUsers, addUser, generateLink, joinViaLink, latestGroup, allGroups, joinGroup, leaveGroup, displayEventController, eventInfo, editEventInfo, showEventInfo, deleteEvent, allEvents }
