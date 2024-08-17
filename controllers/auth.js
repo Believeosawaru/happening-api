@@ -56,8 +56,15 @@ const signInController = async (req, res, next) => {
             });
         }
 
+        if (user.isVerified === false) {
+            res.status(200).json({
+                code: 200,
+                status: true,
+                message: "User Is Not Verified"
+            })
+        }
+
         const token = generateToken(user);
-        const code = generateCode(6);
 
         res.status(200).json({
             code: 200,
