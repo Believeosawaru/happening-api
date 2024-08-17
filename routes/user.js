@@ -46,6 +46,6 @@ userRoutes.put("/edit-event-info/:eventId", isAuth, isEventCreator, editEventInf
 
 userRoutes.get("/event-details/:eventId", isAuth, isEventCreator, showEventInfo);
 
-userRoutes.delete("/delete-event/:groupId", isAuth, isEventCreator, deleteEvent);
+userRoutes.delete("/delete-event/:eventId", isAuth, isEventCreator, deleteEvent);
 
 export default userRoutes;
