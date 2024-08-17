@@ -1,5 +1,5 @@
 import express from "express"
-import { homeController, groupController, eventController, displayGroupController, groupInfo, editGroupInfo, showGroupInfo, deleteGroup, searchUsers, addUser, generateLink, joinViaLink, latestGroup, allGroups, joinGroup, leaveGroup, eventInfo, displayEventController, editEventInfo, showEventInfo, deleteEvent, allEvents } from "../controllers/index.js";
+import { homeController, groupController, eventController, displayGroupController, groupInfo, editGroupInfo, showGroupInfo, deleteGroup, searchUsers, addUser, generateLink, joinViaLink, latestGroup, allGroups, joinGroup, leaveGroup, eventInfo, displayEventController, editEventInfo, showEventInfo, deleteEvent, allEvents, latestEvent } from "../controllers/index.js";
 import isAuth from "../middlewares/isAuth.js";
 import isGroupCreator from "../middlewares/isGroupCreator.js";
 import isEventCreator from "../middlewares/isEventCreator.js";
@@ -49,5 +49,7 @@ userRoutes.get("/event-details/:eventId", isAuth, isEventCreator, showEventInfo)
 userRoutes.delete("/delete-event/:eventId", isAuth, isEventCreator, deleteEvent);
 
 userRoutes.get("/all-events", isAuth, allEvents);
+
+userRoutes.get("/home-events", isAuth, latestEvent);
 
 export default userRoutes;

@@ -695,4 +695,4 @@ const latestEvent = async (req, res, next) => {
     }
 }
 
-export { homeController, groupController, eventController, displayGroupController, groupInfo, editGroupInfo, showGroupInfo, deleteGroup, searchUsers, addUser, generateLink, joinViaLink, latestGroup, allGroups, joinGroup, leaveGroup, displayEventController, eventInfo, editEventInfo, showEventInfo, deleteEvent, allEvents }
+export { homeController, groupController, eventController, displayGroupController, groupInfo, editGroupInfo, showGroupInfo, deleteGroup, searchUsers, addUser, generateLink, joinViaLink, latestGroup, allGroups, joinGroup, leaveGroup, displayEventController, eventInfo, editEventInfo, showEventInfo, deleteEvent, allEvents, latestEvent }
