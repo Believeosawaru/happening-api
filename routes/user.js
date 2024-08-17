@@ -48,4 +48,6 @@ userRoutes.get("/event-details/:eventId", isAuth, isEventCreator, showEventInfo)
 
 userRoutes.delete("/delete-event/:eventId", isAuth, isEventCreator, deleteEvent);
 
+userRoutes.get("/all-events", isAuth, allGroups);
+
 export default userRoutes;

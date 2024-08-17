@@ -641,4 +641,24 @@ const deleteEvent = async (req, res, next) => {
     }
 }
 
-export { homeController, groupController, eventController, displayGroupController, groupInfo, editGroupInfo, showGroupInfo, deleteGroup, searchUsers, addUser, generateLink, joinViaLink, latestGroup, allGroups, joinGroup, leaveGroup, displayEventController, eventInfo, editEventInfo, showEventInfo, deleteEvent }
+const allEvents = async (req, res, next) => {
+    try {
+        const id = String(req.user._id);
+        const userId = new ObjectId(id);
+
+        const publicEvents = await Event.find({ 
+            type: "public",
+            createdBy: { $ne: userId }
+        });
+
+        res.status(200).json({
+            code: 200,
+            status: true,
+            message: publicEvents
+        });
+    } catch (error) {
+        next(error)
+    }
+}
+
+export { homeController, groupController, eventController, displayGroupController, groupInfo, editGroupInfo, showGroupInfo, deleteGroup, searchUsers, addUser, generateLink, joinViaLink, latestGroup, allGroups, joinGroup, leaveGroup, displayEventController, eventInfo, editEventInfo, showEventInfo, deleteEvent, allEvents }
