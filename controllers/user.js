@@ -509,7 +509,13 @@ const eventController = async (req, res, next) => {
         res.status(200).json({
             code: 201,
             status: true,
-            message: req.user
+            message: {
+                name,
+                description,
+                time,
+                location,
+                type
+            }
         })
     } catch (error) {
         next(error);
