@@ -547,7 +547,7 @@ const displayEventController = async (req, res, next) => {
 
 const eventInfo = async (req, res, next) => {
     try {
-        const id = String(req.params.groupId);
+        const id = String(req.params.eventId);
 
         const currentUserId = req.user._id;
 
