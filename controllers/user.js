@@ -500,22 +500,16 @@ const allGroups = async (req, res, next) => {
 const eventController = async (req, res, next) => {
     try {
         const { name, description, time, location, type } = req.body;
-        // const createdBy = req.user._id;
+        const createdBy = req.user._id;
 
-        // const event = new Event({ name, description, time, location, type, createdBy });
+        const event = new Event({ name, description, time, location, type, createdBy });
 
-        // await event.save();
+        await event.save();
 
         res.status(200).json({
             code: 201,
             status: true,
-            message: {
-                name,
-                description,
-                time,
-                location,
-                type
-            }
+            message: "Event Created Successfully"
         })
     } catch (error) {
         next(error);
