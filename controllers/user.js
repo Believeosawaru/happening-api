@@ -590,7 +590,7 @@ const editEventInfo = async (req, res, next) => {
         event.description = description;
         event.time = time;
         event.location = location;
-        event.groupType = type;
+        event.type = type;
 
         await event.save();
 
