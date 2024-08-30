@@ -500,7 +500,7 @@ const allGroups = async (req, res, next) => {
 
 const eventController = async (req, res, next) => {
     try {
-        const { name, description, date, time, timezone, location, type } = req.body;
+        const { name, description, date, time, timeZone, location, type } = req.body;
         const createdBy = String(req.user._id);
         const currentUser = new ObjectId(createdBy);
 
