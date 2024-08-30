@@ -6,6 +6,6 @@ const inviteTokenSchema = new mongoose.Schema({
     expiresAt: { type: Date, default: Date.now, index: { expiresIn: "7d" } }
 });
 
-const InviteToken = mongoose.model("invite-token", inviteTokenSchema)
+const InviteToken = mongoose.model("invite-token", inviteTokenSchema);
 
 export default InviteToken;

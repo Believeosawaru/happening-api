@@ -52,4 +52,6 @@ userRoutes.get("/all-events", isAuth, allEvents);
 
 userRoutes.get("/home-events", isAuth, latestEvent);
 
+userRoutes.post("/event/:eventId/invite", isAuth, isEventCreator, inviteUser);
+
 export default userRoutes;

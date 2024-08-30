@@ -2,7 +2,8 @@ import { ObjectId } from "mongodb";
 import { Event, Group } from "../models/index.js";
 import { User } from "../models/index.js";
 import InviteToken from "../models/inviteToken.js";
-import generateInviteToken from "../utils/generateInviteLink.js"
+import generateInviteToken from "../utils/generateInviteLink.js";
+import sendEventLink from "../utils/sendEventLink.js"
 
 const homeController = async (req, res, next) => {
     try {
@@ -695,4 +696,110 @@ const latestEvent = async (req, res, next) => {
     }
 }
 
-export { homeController, groupController, eventController, displayGroupController, groupInfo, editGroupInfo, showGroupInfo, deleteGroup, searchUsers, addUser, generateLink, joinViaLink, latestGroup, allGroups, joinGroup, leaveGroup, displayEventController, eventInfo, editEventInfo, showEventInfo, deleteEvent, allEvents, latestEvent }
+const searchUserEvent = async (req, res, next) => {
+    try {
+        const { query } = req.query;
+
+        const id = String(req.params.eventId);
+
+        const eventId = new ObjectId(id);
+
+        const event = await Event.findById(eventId);
+
+        if (!event) {
+            res.code = 404;
+            throw new Error("Event Not Found")
+        }
+
+        if (!query) {
+            res.code = 400;
+            throw new Error("No Name Provided");
+        }
+
+        const users = await User.find({
+            _id: { $nin: [...event.members, event.createdBy] },
+            isVerified: true,
+            $or: [{firstName: {$regex: query, $options: "i"}}, {lastName: {$regex: query, $options: "i"}}
+            ]
+        }).select("firstName lastName email")
+
+        if (!users) {
+            res.code = 404;
+            throw new Error("No User With That Name");
+        }
+
+        res.status(200).json({
+            code: 200,
+            status: true,
+            users
+        })
+    } catch (error) {
+        next(error);
+    }
+}
+
+const sendEventIv = async (req, res, next) => {
+    try {
+        const { userId } = req.body;
+        const id = new ObjectId(String(userId));
+        const eventId = new ObjectId(String(req.params.eventId));
+
+        const user = await User.findOne({ _id: id });
+        const event = await Event.findOne({ _id: eventId });
+
+        await sendEventLink({
+            emailTo: email,
+            subject: "You're Invited To An Event"
+        }, {
+            eventName: event.name,
+            eventDate: event.date,
+            eventTime: event.time,
+            eventLocation: event.location,
+            inviteLink
+        });
+
+        res.status(200).json({
+            code: 200,
+            status: true,
+            message: `Invitation Sent To ${user.firstName} ${user.lastName}`
+        })
+    } catch (error) {
+        next(error);
+    }
+}
+
+const eventJoin = async (req, res, next) => {
+    try {
+        const { userId } = req.body;
+        const id = String(req.params.eventId);
+        const eventId = new ObjectId(id);
+
+        const event = await Group.findById(eventId);
+
+        if (!event) {
+            res.code = 404;
+            throw new Error("Event Not Found");
+        }
+
+        if (!event.members.includes(userId) || event.members.length < 1) {
+            event.members.push(userId);
+
+            await event.save();
+        } else {
+            res.code = 400;
+            throw new Error("Member Already Exists");
+        }
+
+        await User.findByIdAndUpdate(userId, { $addToSet: { events: event._id } });
+
+        res.status(200).json({
+            code: 200,
+            status: true,
+            message: "Member Added Successfully"
+        })
+    } catch (error) {
+        next(error);
+    }
+}
+
+export { homeController, groupController, eventController, displayGroupController, groupInfo, editGroupInfo, showGroupInfo, deleteGroup, searchUsers, addUser, generateLink, joinViaLink, latestGroup, allGroups, joinGroup, leaveGroup, displayEventController, eventInfo, editEventInfo, showEventInfo, deleteEvent, allEvents, latestEvent, searchUserEvent, sendEventIv, eventJoin }
