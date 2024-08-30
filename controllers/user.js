@@ -504,7 +504,7 @@ const eventController = async (req, res, next) => {
         const createdBy = String(req.user._id);
         const currentUser = new ObjectId(createdBy);
 
-        const event = new Event({ name, description, date, time, timezone, location, type, createdBy });
+        const event = new Event({ name, description, date, time, timeZone, location, type, createdBy });
 
         const user = await User.findById(currentUser);
         user.events.push(event._id);
