@@ -3,6 +3,7 @@ import { homeController, groupController, eventController, displayGroupControlle
 import isAuth from "../middlewares/isAuth.js";
 import isGroupCreator from "../middlewares/isGroupCreator.js";
 import isEventCreator from "../middlewares/isEventCreator.js";
+import { eventJoin, searchUserEvent, sendEventIv } from "../controllers/user.js";
 
 const userRoutes = express.Router();
 
@@ -52,6 +53,10 @@ userRoutes.get("/all-events", isAuth, allEvents);
 
 userRoutes.get("/home-events", isAuth, latestEvent);
 
-userRoutes.post("/event/:eventId/invite", isAuth, isEventCreator, inviteUser);
+userRoutes.get("/search-users/:groupId", isAuth, isGroupCreator,  searchUserEvent);
+
+userRoutes.post("/event/:eventId/send-invite", isAuth, isEventCreator, sendEventIv);
+
+userRoutes.post("/join-event/:eventId", isAuth, eventJoin);
 
 export default userRoutes;
