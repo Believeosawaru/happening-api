@@ -1,9 +1,8 @@
 import express from "express"
-import { homeController, groupController, eventController, displayGroupController, groupInfo, editGroupInfo, showGroupInfo, deleteGroup, searchUsers, addUser, generateLink, joinViaLink, latestGroup, allGroups, joinGroup, leaveGroup, eventInfo, displayEventController, editEventInfo, showEventInfo, deleteEvent, allEvents, latestEvent } from "../controllers/index.js";
+import { homeController, groupController, eventController, displayGroupController, groupInfo, editGroupInfo, showGroupInfo, deleteGroup, searchUsers, addUser, generateLink, joinViaLink, latestGroup, allGroups, joinGroup, leaveGroup, eventInfo, displayEventController, editEventInfo, showEventInfo, deleteEvent, allEvents, latestEvent, eventJoin, searchUserEvent, sendEventIv } from "../controllers/index.js";
 import isAuth from "../middlewares/isAuth.js";
 import isGroupCreator from "../middlewares/isGroupCreator.js";
 import isEventCreator from "../middlewares/isEventCreator.js";
-import { eventJoin, searchUserEvent, sendEventIv } from "../controllers/user.js";
 
 const userRoutes = express.Router();
 
