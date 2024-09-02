@@ -3,7 +3,7 @@ import { Event, Group } from "../models/index.js";
 import { User } from "../models/index.js";
 import InviteToken from "../models/inviteToken.js";
 import generateInviteToken from "../utils/generateInviteLink.js";
-import sendEventLink from "../utils/sendEventLink.js"
+import sendEventLink from "../utils/sendEventLink.js";
 
 const homeController = async (req, res, next) => {
     try {
@@ -748,6 +748,8 @@ const sendEventIv = async (req, res, next) => {
 
         const user = await User.findOne({ _id: id });
         const event = await Event.findOne({ _id: eventId });
+
+        const inviteLink = `https://invite-link.com`
 
         await sendEventLink({
             emailTo: user.email,
