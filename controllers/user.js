@@ -750,7 +750,7 @@ const sendEventIv = async (req, res, next) => {
         const event = await Event.findOne({ _id: eventId });
 
         await sendEventLink({
-            emailTo: email,
+            emailTo: user.email,
             subject: "You're Invited To An Event"
         }, {
             eventName: event.name,
