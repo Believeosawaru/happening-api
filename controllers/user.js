@@ -719,7 +719,7 @@ const searchUserEvent = async (req, res, next) => {
         }
 
         const users = await User.find({
-            _id: { $nin: [...event.members, event.createdBy] },
+            _id: { $nin: [...event.invitedUsers, event.createdBy] },
             isVerified: true,
             $or: [{firstName: {$regex: query, $options: "i"}}, {lastName: {$regex: query, $options: "i"}}
             ]
