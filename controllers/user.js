@@ -749,7 +749,7 @@ const sendEventIv = async (req, res, next) => {
         const user = await User.findOne({ _id: id });
         const event = await Event.findOne({ _id: eventId });
 
-        const inviteLink = `https://invite-link.com`
+        const inviteLink = `https://https://happening-khaki.vercel.app/html/events/join-event/${eventId}`
 
         await sendEventLink({
             emailTo: user.email,
