@@ -52,7 +52,7 @@ userRoutes.get("/all-events", isAuth, allEvents);
 
 userRoutes.get("/home-events", isAuth, latestEvent);
 
-userRoutes.get("/event/search-users/:eventId", isAuth, isGroupCreator,  searchUserEvent);
+userRoutes.get("/event/search-users/:eventId", isAuth, isGroupCreator, searchUserEvent);
 
 userRoutes.post("/event/:eventId/send-invite", isAuth, isEventCreator, sendEventIv);
 
