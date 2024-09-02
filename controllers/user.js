@@ -774,32 +774,39 @@ const sendEventIv = async (req, res, next) => {
 
 const eventJoin = async (req, res, next) => {
     try {
-        const { userId } = req.body;
-        const id = String(req.params.eventId);
-        const eventId = new ObjectId(id);
+        const eventId = new ObjectId(String(req.params.eventId));
 
-        const event = await Group.findById(eventId);
+        const event = await Event.findOne({ _id: eventId });
+
+        const userId = new ObjectId(String(req.user._id));
+
+        const user = await User.findById(userId)
 
         if (!event) {
             res.code = 404;
             throw new Error("Event Not Found");
         }
 
-        if (!event.members.includes(userId) || event.members.length < 1) {
-            event.members.push(userId);
-
-            await event.save();
-        } else {
+        if (event.invitedUsers.includes(req.user._id)) {
             res.code = 400;
-            throw new Error("Member Already Exists");
+            throw new Error("You Are Already Attending This Event");
         }
 
-        await User.findByIdAndUpdate(userId, { $addToSet: { events: event._id } });
+        if (user.isVerified === false) {
+            res.code = 400;
+            throw new Error("You Are Not Verified");
+        }
 
+        event.invitedUsers.push(req.user._id);
+        user.events.push(eventId);
+
+        await event.save();
+        await user.save();
+        
         res.status(200).json({
             code: 200,
             status: true,
-            message: "Member Added Successfully"
+            message: "Request Successful!"
         })
     } catch (error) {
         next(error);
