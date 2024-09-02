@@ -579,7 +579,7 @@ const eventInfo = async (req, res, next) => {
 
 const editEventInfo = async (req, res, next) => {
     try {
-        const { name, description, time, location, type } = req.body;
+        const { name, description, date, time, timeZone, location, type } = req.body;
 
         const id = String(req.params.eventId);
 
@@ -589,7 +589,9 @@ const editEventInfo = async (req, res, next) => {
 
         event.name = name;
         event.description = description;
+        event.date = date;
         event.time = time;
+        event.timeZone = timeZone;
         event.location = location;
         event.type = type;
 
