@@ -284,9 +284,12 @@ const generateLink = async (req, res, next) => {
         
         const inviteToken = new InviteToken({ token: groupToken, groupId });
 
-        await inviteToken.save();
-
         const inviteLink = `https://happening-khaki.vercel.app/html/groups/join-link.html?groupToken=${groupToken}/`
+
+        group.inviteLink = inviteLink;
+
+        await inviteToken.save();
+        group.save();
 
         res.status(201).json({
             code: 201,
@@ -491,6 +494,56 @@ const allGroups = async (req, res, next) => {
         });
     } catch (error) {
         next(error)
+    }
+}
+
+const searchUsersEmail = async (req, res, next) => {
+    try {
+        const { query } = req.query;
+
+        const id = String(req.params.groupId);
+
+        const groupId = new ObjectId(id);
+
+        const group = await Group.findById(groupId);
+
+        if (!group) {
+            res.code = 404;
+            throw new Error("Group Not Found");
+        }
+
+        if (!query) {
+            res.code = 400;
+            throw new Error("No Email Provided");
+        }
+
+        const user = await User.findOne({
+            _id: { $nin: [...group.members, group.createdBy] },
+            isVerified: true,
+            $or: [{email: {$regex: query, $options: "i"}}
+            ]
+        }).select("email")
+
+        if (!user) {
+            res.code = 404;
+            throw new Error("No User With That Email");
+        }
+
+        res.status(200).json({
+            code: 200,
+            status: true,
+            user
+        })
+    } catch (error) {
+        next(error);
+    }
+}
+
+const sendGroupLink = async (req, res, next) => {
+    try {
+        
+    } catch (error) {
+        
     }
 }
 
