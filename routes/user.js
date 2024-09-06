@@ -3,6 +3,8 @@ import { homeController, groupController, eventController, displayGroupControlle
 import isAuth from "../middlewares/isAuth.js";
 import isGroupCreator from "../middlewares/isGroupCreator.js";
 import isEventCreator from "../middlewares/isEventCreator.js";
+import { emailValidator } from "../validators/auth.js";
+import { searchUsersEmail, sendGroupLink } from "../controllers/user.js";
 
 const userRoutes = express.Router();
 
@@ -35,6 +37,10 @@ userRoutes.delete("/delete-group/:groupId", isAuth, isGroupCreator, deleteGroup)
 userRoutes.get("/search-users/:groupId", isAuth, isGroupCreator,  searchUsers);
 
 userRoutes.post("/group/:groupId/add-member", isAuth, isGroupCreator, addUser);
+
+userRoutes.get("/group/search/email-users/:groupId", emailValidator, isAuth, isEventCreator, searchUsersEmail);
+
+userRoutes.post("/event/:eventId/send-invite", isAuth, isGroupCreator, sendGroupLink);
 
 userRoutes.post("/create-event", isAuth, eventController);
 

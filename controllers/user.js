@@ -4,6 +4,7 @@ import { User } from "../models/index.js";
 import InviteToken from "../models/inviteToken.js";
 import generateInviteToken from "../utils/generateInviteLink.js";
 import sendEventLink from "../utils/sendEventLink.js";
+import sendGroupMail from "../utils/sendGroupLink.js";
 
 const homeController = async (req, res, next) => {
     try {
@@ -541,9 +542,33 @@ const searchUsersEmail = async (req, res, next) => {
 
 const sendGroupLink = async (req, res, next) => {
     try {
-        
+        const { userId } = req.body;
+        const id = new ObjectId(String(userId));
+        const groupId = new ObjectId(String(req.params.groupId));
+
+        const user = await User.findOne({ _id: id });
+        const group = await Group.findOne({ _id: groupId });
+        const createdBy = await User.findOne({ id: group.createdBy })
+
+        const inviteLink = `https://happening-khaki.vercel.app/html/events/join-event.html?groupId=${groupId}`
+
+        await sendGroupMail({
+            emailTo: user.email,
+            subject: "You're Invited To A Group"
+        }, {
+            groupName: group.name,
+            groupLocation: group.location,
+            createdBy,
+            inviteLink
+        });
+
+        res.status(200).json({
+            code: 200,
+            status: true,
+            message: `Invitation Sent To ${user.firstName} ${user.lastName}`
+        })
     } catch (error) {
-        
+        next(error);
     }
 }
 
@@ -866,4 +891,4 @@ const eventJoin = async (req, res, next) => {
     }
 }
 
-export { homeController, groupController, eventController, displayGroupController, groupInfo, editGroupInfo, showGroupInfo, deleteGroup, searchUsers, addUser, generateLink, joinViaLink, latestGroup, allGroups, joinGroup, leaveGroup, displayEventController, eventInfo, editEventInfo, showEventInfo, deleteEvent, allEvents, latestEvent, searchUserEvent, sendEventIv, eventJoin }
+export { homeController, groupController, eventController, displayGroupController, groupInfo, editGroupInfo, showGroupInfo, deleteGroup, searchUsers, addUser, generateLink, joinViaLink, latestGroup, allGroups, joinGroup, leaveGroup, searchUsersEmail, sendGroupLink, displayEventController, eventInfo, editEventInfo, showEventInfo, deleteEvent, allEvents, latestEvent, searchUserEvent, sendEventIv, eventJoin }
