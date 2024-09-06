@@ -64,7 +64,8 @@ const groupController = async (req, res, next) => {
         res.status(201).json({
             code: 201,
             status: true,
-            message: "Group Created Successfully"
+            message: "Group Created Successfully",
+            data: group._id
         });
     } catch (error) {
         next(error)
