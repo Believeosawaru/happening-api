@@ -552,7 +552,16 @@ const sendGroupLink = async (req, res, next) => {
         const group = await Group.findOne({ _id: groupId });
         const createdBy = await User.findOne({ id: group.createdBy })
 
-        const inviteLink = `https://happening-khaki.vercel.app/html/events/join-event.html?groupId=${groupId}`
+        const groupToken = generateInviteToken();
+        
+        const inviteToken = new InviteToken({ token: groupToken, groupId });
+
+        const inviteLink = `https://happening-khaki.vercel.app/html/groups/join-link.html?groupToken=${groupToken}/`
+
+        group.inviteLink = inviteLink;
+
+        await inviteToken.save();
+        group.save();
 
         await sendGroupMail({
             emailTo: user.email,
