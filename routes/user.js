@@ -38,7 +38,7 @@ userRoutes.get("/search-users/:groupId", isAuth, isGroupCreator,  searchUsers);
 
 userRoutes.post("/group/:groupId/add-member", isAuth, isGroupCreator, addUser);
 
-userRoutes.get("/group/search/email-users/:groupId", isAuth, isEventCreator, searchUsersEmail);
+userRoutes.get("/group/search/email-users/:groupId", isAuth, isGroupCreator, searchUsersEmail);
 
 userRoutes.post("/event/:eventId/send-invite", isAuth, isGroupCreator, sendGroupLink);
 
