@@ -505,19 +505,19 @@ const searchUsersEmail = async (req, res, next) => {
 
         const id = String(req.params.groupId);
 
-        const groupId = new ObjectId(id);
+        // const groupId = new ObjectId(id);
 
-        const group = await Group.findById(groupId);
+        // const group = await Group.findById(groupId);
 
-        if (!group) {
-            res.code = 404;
-            throw new Error("Group Not Found");
-        }
+        // if (!group) {
+        //     res.code = 404;
+        //     throw new Error("Group Not Found");
+        // }
 
-        if (!query) {
-            res.code = 400;
-            throw new Error("No Email Provided");
-        }
+        // if (!query) {
+        //     res.code = 400;
+        //     throw new Error("No Email Provided");
+        // }
 
         // const user = await User.findOne({
         //     email: { $nin: [...group.members, group.createdBy] },
@@ -534,7 +534,7 @@ const searchUsersEmail = async (req, res, next) => {
         res.status(200).json({
             code: 200,
             status: true,
-            group
+            id
         })
     } catch (error) {
         next(error);
