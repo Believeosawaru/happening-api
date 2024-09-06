@@ -516,7 +516,7 @@ const searchUsersEmail = async (req, res, next) => {
 
         if (!query) {
             res.code = 400;
-            throw new Error("No Email Provided");
+            throw new Error("No Name Provided");
         }
 
         const user = await User.find({
@@ -529,7 +529,7 @@ const searchUsersEmail = async (req, res, next) => {
 
         if (!user) {
             res.code = 404;
-            throw new Error("No User With That Email");
+            throw new Error("No User With That Name");
         }
 
         res.status(200).json({
