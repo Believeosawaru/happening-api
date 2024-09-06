@@ -520,7 +520,7 @@ const searchUsersEmail = async (req, res, next) => {
         }
 
         const user = await User.findOne({
-            email: { $nin: [...group.members, group.createdBy] },
+            _id: { $nin: [...group.members, group.createdBy] },
             isVerified: true,
             $or: [{email: {$regex: query, $options: "i"}}
             ]
