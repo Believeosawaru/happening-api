@@ -519,22 +519,22 @@ const searchUsersEmail = async (req, res, next) => {
             throw new Error("No Email Provided");
         }
 
-        const user = await User.findOne({
-            email: { $nin: [...group.members, group.createdBy] },
-            isVerified: true,
-            $or: [{email: {$regex: query, $options: "i"}}
-            ]
-        }).select("email")
+        // const user = await User.findOne({
+        //     email: { $nin: [...group.members, group.createdBy] },
+        //     isVerified: true,
+        //     $or: [{email: {$regex: query, $options: "i"}}
+        //     ]
+        // }).select("email")
 
-        if (!user) {
-            res.code = 404;
-            throw new Error("No User With That Email");
-        }
+        // if (!user) {
+        //     res.code = 404;
+        //     throw new Error("No User With That Email");
+        // }
 
         res.status(200).json({
             code: 200,
             status: true,
-            user
+            group
         })
     } catch (error) {
         next(error);
