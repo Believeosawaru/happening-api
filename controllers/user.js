@@ -519,7 +519,7 @@ const searchUsersEmail = async (req, res, next) => {
             throw new Error("No Email Provided");
         }
 
-        const user = await User.findOne({
+        const user = await User.find({
             _id: { $nin: [...group.members, group.createdBy] },
             isVerified: true,
             $or: [
