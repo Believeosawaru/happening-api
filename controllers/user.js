@@ -525,7 +525,7 @@ const searchUsersEmail = async (req, res, next) => {
             $or: [
                 {firstName: {$regex: query, $options: "i"}}, {lastName: {$regex: query, $options: "i"}}
             ]
-        })
+        }).select("firstName lastName")
 
         if (!user) {
             res.code = 404;
