@@ -21,7 +21,7 @@ app.set("views", path.join(__dirname, "views"));
 // }));
 
 app.use(cors({
-    origin: 'https://happening-khaki.vercel.app'
+    origin: 'http://5.161.186.15'
 }));
 
 app.use(express.json());
