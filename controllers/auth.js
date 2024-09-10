@@ -178,33 +178,46 @@ const forgotPassword = async (req, res, next) => {
 
 const recoverPassword = async (req, res, next) => {
     try {
-        const { email, code, password } = req.body;
+        const { email, password } = req.body;
 
         const user = await User.findOne({email});
 
         if (!user) {
-            res.code = 404;
-            throw new Error("User Not Found");
+            res.status(401).json({
+                code: 401,
+                status: false,
+                message: "Invalid Credentials"
+            });
         }
 
-        if (user.forgotPasswordCode !== code) {
-            res.code = 400;
-            throw new Error("Invalid Code");
+        const match = await comparePassword(password, user.password);
+
+        if (!match) {
+            res.status(401).json({
+                code: 401,
+                status: false,
+                message: "Invalid Credentials"
+            });
         }
 
-        const hashedPassword = await hashPassword(password);
+        const token = generateToken(user);
 
-        user.password = hashedPassword;
-        user.forgotPasswordCode = null;
-
-        await user.save();
+        if (user.isVerified === false) {
+            res.status(200).json({
+                code: 200,
+                status: true,
+                message: "User Is Not Verified",
+                token
+            })
+        }
 
         res.status(200).json({
             code: 200,
             status: true,
-            message: "Password Recovered Successfully"
-        })
-    } catch (error) {
+            message: "User Logged In Successfully",
+            token
+        });
+        } catch (error) {
         next(error)
     }
 }
