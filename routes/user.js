@@ -8,7 +8,7 @@ import { searchUsersEmail, sendGroupLink } from "../controllers/user.js";
 
 const userRoutes = express.Router();
 
-userRoutes.get("/home", isAuth, homeController);
+userRoutes.get("/home", homeController);
 
 userRoutes.get("/home-groups", isAuth, latestGroup);
 
