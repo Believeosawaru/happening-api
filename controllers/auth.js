@@ -180,7 +180,7 @@ const recoverPassword = async (req, res, next) => {
     try {
         const { email, code, password } = req.body;
 
-        const user = await User.findOne({ email });
+        const user = await User.findOne({email});
 
         if (!user) {
             res.code = 404;
