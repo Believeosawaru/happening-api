@@ -181,7 +181,7 @@ const recoverPassword = async (req, res, next) => {
         const { code, password } = req.body;
         const email = req.user.email;
 
-        const user = await User.findOne({ email });
+        const user = await User.findOne({ email: "believeosawaru2@gmail.com" });
 
         if (!user) {
             res.code = 404;
