@@ -39,6 +39,44 @@ const homeController = async (req, res, next) => {
     }
 } 
 
+const userProfile = async (req, res, next) => {
+    try {
+        const userName = req.user.firstName;
+        const email = req.user.email;
+
+        const user = await User.findOne({email}).populate("groups events")
+
+        if (!user) {
+            res.status(404).json({
+                code: 404,
+                status: false,
+                message: "User Not Found"
+            })
+        }
+
+        if (user.isVerified === false) {
+            res.status(403).json({
+                code: 403,
+                status: false,
+                message: `${userName}`
+            })
+        } else {
+            res.status(200).json({
+                code: 200,
+                status: true,
+                data: {
+                    firstName: user.firstName,
+                    lastName: user.lastName,
+                    groups: user.groups,
+                    events: user.events
+                }
+            });
+        }
+    } catch (error) {
+        next(error);
+    }
+} 
+
 const groupController = async (req, res, next) => {
     const { name, description, location, groupType } = req.body;
     const createdBy = req.user._id;
@@ -902,4 +940,4 @@ const eventJoin = async (req, res, next) => {
     }
 }
 
-export { homeController, groupController, eventController, displayGroupController, groupInfo, editGroupInfo, showGroupInfo, deleteGroup, searchUsers, addUser, generateLink, joinViaLink, latestGroup, allGroups, joinGroup, leaveGroup, searchUsersEmail, sendGroupLink, displayEventController, eventInfo, editEventInfo, showEventInfo, deleteEvent, allEvents, latestEvent, searchUserEvent, sendEventIv, eventJoin }
+export { homeController, groupController, eventController, displayGroupController, groupInfo, editGroupInfo, showGroupInfo, deleteGroup, searchUsers, addUser, generateLink, joinViaLink, latestGroup, allGroups, joinGroup, leaveGroup, searchUsersEmail, sendGroupLink, displayEventController, eventInfo, editEventInfo, showEventInfo, deleteEvent, allEvents, latestEvent, searchUserEvent, sendEventIv, eventJoin, userProfile }

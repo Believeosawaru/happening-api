@@ -19,7 +19,7 @@ const isAuth = async (req, res, next) => {
             if (err) {
                 return res.status(403).json({
                     code: 403,
-                    status: false, 
+                    status: false,
                     message: err.message
                 })
             }
