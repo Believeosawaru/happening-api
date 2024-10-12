@@ -10,6 +10,8 @@ const userRoutes = express.Router();
 
 userRoutes.get("/home", isAuth, homeController);
 
+userRoutes.get("/user-profile", isAuth, userProfile)
+
 userRoutes.get("/home-groups", isAuth, latestGroup);
 
 userRoutes.get("/all-groups", isAuth, allGroups);
@@ -63,7 +65,5 @@ userRoutes.get("/event/search-users/:eventId", isAuth, isEventCreator, searchUse
 userRoutes.post("/event/:eventId/send-invite", isAuth, isEventCreator, sendEventIv);
 
 userRoutes.post("/join-event/:eventId", isAuth, eventJoin);
-
-userRoutes.get("/user-profile", isAuth, userProfile)
 
 export default userRoutes;
