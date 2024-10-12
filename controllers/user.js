@@ -8,32 +8,32 @@ import sendGroupMail from "../utils/sendGroupLink.js";
 
 const homeController = async (req, res, next) => {
     try {
-        // const userName = req.user.firstName;
-        // const email = req.user.email;
+        const userName = req.user.firstName;
+        const email = req.user.email;
 
-        // const user = await User.findOne({email})
+        const user = await User.findOne({email})
 
-        // if (!user) {
-        //     res.status(404).json({
-        //         code: 404,
-        //         status: false,
-        //         message: "User Not Found"
-        //     })
-        // }
+        if (!user) {
+            res.status(404).json({
+                code: 404,
+                status: false,
+                message: "User Not Found"
+            })
+        }
 
-        // if (user.isVerified === false) {
-        //     res.status(403).json({
-        //         code: 403,
-        //         status: false,
-        //         message: `${userName}`
-        //     })
-        // } else {
-        //     res.status(200).json({
-        //         code: 200,
-        //         status: true,
-        //         message: `${userName}`
-        //     });
-        // }
+        if (user.isVerified === false) {
+            res.status(403).json({
+                code: 403,
+                status: false,
+                message: `${userName}`
+            })
+        } else {
+            res.status(200).json({
+                code: 200,
+                status: true,
+                message: `${userName}`
+            });
+        }
     } catch (error) {
         next(error);
     }
