@@ -64,6 +64,6 @@ userRoutes.post("/event/:eventId/send-invite", isAuth, isEventCreator, sendEvent
 
 userRoutes.post("/join-event/:eventId", isAuth, eventJoin);
 
-userRoutes.post("/user-profile", isAuth, userProfile)
+userRoutes.get("/user-profile", isAuth, userProfile)
 
 export default userRoutes;
