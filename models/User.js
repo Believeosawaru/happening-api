@@ -12,6 +12,9 @@ const userSchema = new Schema({
     events: [{
         type: Schema.Types.ObjectId, ref: "event"
     }],
+    bio: { type: String },
+    followers: { type: Schema.Types.ObjectId, ref: "users" },
+    following: { type: Schema.Types.ObjectId, ref: "users" },
     verificationCode: { type: String },
     isVerified: { type: Boolean, default: false },
     forgotPasswordCode: {type: String}

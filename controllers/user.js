@@ -5,6 +5,7 @@ import InviteToken from "../models/inviteToken.js";
 import generateInviteToken from "../utils/generateInviteLink.js";
 import sendEventLink from "../utils/sendEventLink.js";
 import sendGroupMail from "../utils/sendGroupLink.js";
+import assignCategory from "../utils/assignCategory.js";
 
 const homeController = async (req, res, next) => {
     try {
@@ -630,8 +631,9 @@ const eventController = async (req, res, next) => {
         const { name, description, date, time, timeZone, location, type } = req.body;
         const createdBy = String(req.user._id);
         const currentUser = new ObjectId(createdBy);
+        const category = await assignCategory(name, description);
 
-        const event = new Event({ name, description, date, time, timeZone, location, type, createdBy });
+        const event = new Event({ name, description, date, time, timeZone, location, category, type, createdBy });
 
         const user = await User.findById(currentUser);
         user.events.push(event._id);
