@@ -1,6 +1,6 @@
 import fetch from "node-fetch";
 
-import { openAIKey } from "../config/keys";
+import { openAIKey } from "../config/keys.js";
 
 async function assignCategory(name, description) {
     const prompt = `Based on the following title and description, assign one of the following categories:\n\n` +
