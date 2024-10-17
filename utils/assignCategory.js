@@ -27,7 +27,7 @@ async function assignCategory(name, description) {
     });
 
     if (!response.ok) {
-        throw new Error(`Error: ${response.statusText}`);
+        throw new Error(`Error: ${response}`);
     }
 
     const data = await response.json();
