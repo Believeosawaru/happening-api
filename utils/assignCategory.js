@@ -1,6 +1,6 @@
 import fetch from "node-fetch";
 
-const OPENAI_API_KEY = process.env.OPENAI_API_KEY;
+import { openAIKey } from "../config/keys";
 
 async function assignCategory(name, description) {
     const prompt = `Based on the following title and description, assign one of the following categories:\n\n` +
@@ -14,7 +14,7 @@ async function assignCategory(name, description) {
     const response = await fetch('https://api.openai.com/v1/chat/completions', {
         method: 'POST',
         headers: {
-            'Authorization': `Bearer ${OPENAI_API_KEY}`,
+            'Authorization': `Bearer ${openAIKey}`,
             'Content-Type': 'application/json',
         },
         body: JSON.stringify({
