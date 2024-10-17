@@ -16,7 +16,7 @@ async function assignCategory(name, description) {
     const response = await fetch('https://api.openai.com/v1/chat/completions', {
         method: 'POST',
         headers: {
-            'Authorization': `Bearer ${openAIKey}`,
+            'Authorization': `Bearer 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`,
             'Content-Type': 'application/json',
         },
         body: JSON.stringify({
