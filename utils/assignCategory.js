@@ -29,7 +29,7 @@ async function assignCategory(name, description) {
     const data = await response.json();
 
     if (!response.ok) {
-        throw new Error(`Error: ${data}`);
+        throw new Error(data);
     }
 
     const category = data.choices[0].message.content.trim();
