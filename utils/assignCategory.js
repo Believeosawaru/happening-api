@@ -26,12 +26,11 @@ async function assignCategory(name, description) {
         })
     });
 
-    const data = await response.json();
-
     if (!response.ok) {
-        throw new Error(data);
+        throw new Error(`Error: ${response.statusText}`);
     }
 
+    const data = await response.json();
     const category = data.choices[0].message.content.trim();
     return category;
 }
