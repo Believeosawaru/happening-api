@@ -22,7 +22,7 @@ async function assignCategory(name, description) {
             model: 'gpt-3.5-turbo',
             messages: [{ role: 'user', content: prompt }],
             max_tokens: 20, // Limit the response to one category
-        }),
+        })
     });
 
     if (!response.ok) {
