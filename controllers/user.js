@@ -644,7 +644,7 @@ const eventController = async (req, res, next) => {
         res.status(200).json({
             code: 201,
             status: true,
-            message: "Event Created Successfully"
+            message: `Event Created Successfully: Category: ${category}`
         })
     } catch (error) {
         next(error);
