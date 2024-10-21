@@ -81,41 +81,36 @@ const myProfile = async (req, res, next) => {
 const userProfile = async (req, res, next) => {
     try {
         const id = String(req.params.userId);
-        // const userId = new ObjectId(id);
+        const userId = new ObjectId(id);
 
-        // const user = await User.findById(userId);
+        const user = await User.findById(userId);
 
-        // if (!user) {
-        //     res.status(404).json({
-        //         code: 404,
-        //         status: false,
-        //         message: "User Not Found"
-        //     })
-        // }
+        if (!user) {
+            res.status(404).json({
+                code: 404,
+                status: false,
+                message: "User Not Found"
+            })
+        }
 
-        // if (user.isVerified === false) {
-        //     res.status(403).json({
-        //         code: 403,
-        //         status: false,
-        //         message: "You're Not Verified"
-        //     })
-        // } else {
-        //     res.status(200).json({
-        //         code: 200,
-        //         status: true,
-        //         data: {
-        //             firstName: user.firstName,
-        //             lastName: user.lastName,
-        //             groups: user.groups,
-        //             events: user.events
-        //         }
-        //     });
-        // }
-        res.status(200).json({
-            code: 200,
-            status: true,
-            message: id
-        })
+        if (user.isVerified === false) {
+            res.status(403).json({
+                code: 403,
+                status: false,
+                message: "You're Not Verified"
+            })
+        } else {
+            res.status(200).json({
+                code: 200,
+                status: true,
+                data: {
+                    firstName: user.firstName,
+                    lastName: user.lastName,
+                    groups: user.groups,
+                    events: user.events
+                }
+            });
+        }
     } catch (error) {
         next(error);
     }
