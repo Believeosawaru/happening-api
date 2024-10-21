@@ -40,7 +40,7 @@ const homeController = async (req, res, next) => {
     }
 } 
 
-const userProfile = async (req, res, next) => {
+const myProfile = async (req, res, next) => {
     try {
         const userName = req.user.firstName;
         const email = req.user.email;
@@ -60,6 +60,44 @@ const userProfile = async (req, res, next) => {
                 code: 403,
                 status: false,
                 message: `${userName}`
+            })
+        } else {
+            res.status(200).json({
+                code: 200,
+                status: true,
+                data: {
+                    firstName: user.firstName,
+                    lastName: user.lastName,
+                    groups: user.groups,
+                    events: user.events
+                }
+            });
+        }
+    } catch (error) {
+        next(error);
+    }
+} 
+
+const userProfile = async (req, res, next) => {
+    try {
+        const id = String(req.query.userId);
+        const userId = new ObjectId(id);
+
+        const user = await User.findById(userId);
+
+        if (!user) {
+            res.status(404).json({
+                code: 404,
+                status: false,
+                message: "User Not Found"
+            })
+        }
+
+        if (user.isVerified === false) {
+            res.status(403).json({
+                code: 403,
+                status: false,
+                message: "You're Not Verified"
             })
         } else {
             res.status(200).json({
@@ -942,4 +980,4 @@ const eventJoin = async (req, res, next) => {
     }
 }
 
-export { homeController, groupController, eventController, displayGroupController, groupInfo, editGroupInfo, showGroupInfo, deleteGroup, searchUsers, addUser, generateLink, joinViaLink, latestGroup, allGroups, joinGroup, leaveGroup, searchUsersEmail, sendGroupLink, displayEventController, eventInfo, editEventInfo, showEventInfo, deleteEvent, allEvents, latestEvent, searchUserEvent, sendEventIv, eventJoin, userProfile }
+export { homeController, groupController, eventController, displayGroupController, groupInfo, editGroupInfo, showGroupInfo, deleteGroup, searchUsers, addUser, generateLink, joinViaLink, latestGroup, allGroups, joinGroup, leaveGroup, searchUsersEmail, sendGroupLink, displayEventController, eventInfo, editEventInfo, showEventInfo, deleteEvent, allEvents, latestEvent, searchUserEvent, sendEventIv, eventJoin, myProfile, userProfile }

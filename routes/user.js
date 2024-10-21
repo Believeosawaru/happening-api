@@ -1,16 +1,17 @@
 import express from "express"
-import { homeController, groupController, eventController, displayGroupController, groupInfo, editGroupInfo, showGroupInfo, deleteGroup, searchUsers, addUser, generateLink, joinViaLink, latestGroup, allGroups, joinGroup, leaveGroup, eventInfo, displayEventController, editEventInfo, showEventInfo, deleteEvent, allEvents, latestEvent, eventJoin, searchUserEvent, sendEventIv, userProfile } from "../controllers/index.js";
+import { homeController, groupController, eventController, displayGroupController, groupInfo, editGroupInfo, showGroupInfo, deleteGroup, searchUsers, addUser, generateLink, joinViaLink, latestGroup, allGroups, joinGroup, leaveGroup, eventInfo, displayEventController, editEventInfo, showEventInfo, deleteEvent, allEvents, latestEvent, eventJoin, searchUserEvent, sendEventIv, myProfile, userProfile } from "../controllers/index.js";
 import isAuth from "../middlewares/isAuth.js";
 import isGroupCreator from "../middlewares/isGroupCreator.js";
 import isEventCreator from "../middlewares/isEventCreator.js";
-import { emailValidator } from "../validators/auth.js";
 import { searchUsersEmail, sendGroupLink } from "../controllers/user.js";
 
 const userRoutes = express.Router();
 
 userRoutes.get("/home", isAuth, homeController);
 
-userRoutes.get("/user-profile", isAuth, userProfile)
+userRoutes.get("/user-profile", isAuth, userProfile);
+
+userRoutes.get("/my-profile", isAuth, myProfile);
 
 userRoutes.get("/home-groups", isAuth, latestGroup);
 
