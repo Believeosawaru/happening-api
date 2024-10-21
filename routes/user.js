@@ -9,7 +9,7 @@ const userRoutes = express.Router();
 
 userRoutes.get("/home", isAuth, homeController);
 
-userRoutes.get("/user-profile/:userId", isAuth, userProfile);
+userRoutes.get("/user-profile", isAuth, userProfile);
 
 userRoutes.get("/my-profile", isAuth, myProfile);
 
