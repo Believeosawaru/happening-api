@@ -80,7 +80,7 @@ const myProfile = async (req, res, next) => {
 
 const userProfile = async (req, res, next) => {
     try {
-        const id = String("66c1322e6209155bb16a1314");
+        const id = String(req.query.userId);
         const userId = new ObjectId(id);
 
         const user = await User.findById(userId);
