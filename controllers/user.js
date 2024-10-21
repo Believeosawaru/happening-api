@@ -114,7 +114,48 @@ const userProfile = async (req, res, next) => {
     } catch (error) {
         next(error);
     }
-} 
+}
+
+const followUser = async (req, res, next) => {
+    try {
+        const id = String(req.params.userId);
+        const userId = new ObjectId(id);
+        const myId = req.user._id
+
+        const user = await User.findById(myId);
+        const followee = await User.findById(userId);
+
+        if (!user || !followee) {
+            res.status(404).json({
+                code: 404,
+                status: false,
+                message: "User Not Found"
+            })
+        }
+
+        if (user.isVerified === false) {
+            res.status(403).json({
+                code: 403,
+                status: false,
+                message: "You're Not Verified"
+            })
+        }
+
+        user.following.push(userId)
+        followee.followers.push(myId)
+
+        await user.save();
+        await followee.save();
+        
+        res.status(200).json({
+            code: 200,
+            status: true,
+            message: "Followed User"
+        });
+    } catch (error) {
+        next(error);
+    }
+}
 
 const groupController = async (req, res, next) => {
     const { name, description, location, groupType } = req.body;
@@ -980,4 +1021,4 @@ const eventJoin = async (req, res, next) => {
     }
 }
 
-export { homeController, groupController, eventController, displayGroupController, groupInfo, editGroupInfo, showGroupInfo, deleteGroup, searchUsers, addUser, generateLink, joinViaLink, latestGroup, allGroups, joinGroup, leaveGroup, searchUsersEmail, sendGroupLink, displayEventController, eventInfo, editEventInfo, showEventInfo, deleteEvent, allEvents, latestEvent, searchUserEvent, sendEventIv, eventJoin, myProfile, userProfile }
+export { homeController, groupController, eventController, displayGroupController, groupInfo, editGroupInfo, showGroupInfo, deleteGroup, searchUsers, addUser, generateLink, joinViaLink, latestGroup, allGroups, joinGroup, leaveGroup, searchUsersEmail, sendGroupLink, displayEventController, eventInfo, editEventInfo, showEventInfo, deleteEvent, allEvents, latestEvent, searchUserEvent, sendEventIv, eventJoin, myProfile, userProfile, followUser }

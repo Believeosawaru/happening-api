@@ -11,6 +11,8 @@ userRoutes.get("/home", isAuth, homeController);
 
 userRoutes.get("/user-profile/:userId", isAuth, userProfile);
 
+userRoutes.get("/follow-user/:userId", isAuth, userProfile);
+
 userRoutes.get("/my-profile", isAuth, myProfile);
 
 userRoutes.get("/home-groups", isAuth, latestGroup);
