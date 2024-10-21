@@ -83,7 +83,7 @@ const userProfile = async (req, res, next) => {
         const id = String(req.params.userId);
         const userId = new ObjectId(id);
 
-        const user = await User.findById(userId);
+        const user = await User.findById(userId).populate("groups events");
 
         if (!user) {
             res.status(404).json({
