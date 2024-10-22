@@ -198,6 +198,8 @@ const followUser = async (req, res, next) => {
             throw new Error("You're Already Following This User")
         }
 
+        followee.notifications.push({ message: `${user.firstName} ${user.lastName} Just Followed You`});
+
         await user.save();
         await followee.save();
         
@@ -306,21 +308,27 @@ const editGroupInfo = async (req, res, next) => {
         const id = String(req.params.groupId);
 
         const groupId = new ObjectId(id);
+        const userId = new ObjectId(String(req.user._id));
 
         const group = await Group.findOne({_id: groupId});
 
-        group.name = name;
-        group.description = description;
-        group.location = location;
-        group.groupType = groupType;
+        if (group.createdBy === userId) {
+                group.name = name;
+                group.description = description;
+                group.location = location;
+                group.groupType = groupType;
 
-        await group.save();
+                await group.save();
 
-        res.status(200).json({
-            code: 200,
-            status: true,
-            message: "Group Edited Successfully"
-        });
+                res.status(200).json({
+                    code: 200,
+                    status: true,
+                    message: "Group Edited Successfully"
+                });
+        } else {
+            res.code = 400;
+            throw new Error("You don't have the right to do this");
+        }      
     } catch (error) {
         next(error);
     }
@@ -347,17 +355,28 @@ const showGroupInfo = async (req, res, next) => {
 const deleteGroup = async (req, res, next) => {
     try {
         const id = String(req.params.groupId);
-
+        const userId = new ObjectId(String(req.user._id));
         const groupId = new ObjectId(id);
 
-        await Group.findByIdAndDelete(groupId);
-        await User.updateMany({ groups: groupId }, { $pull: { groups: groupId } })
+        const group = await Group.findByIdAndDelete(groupId);
+        const user = await User.findById(userId);
+        
+        if (group.createdBy === userId) {
+            await User.updateMany({ groups: groupId }, { $pull: { groups: groupId } });
 
-        res.status(200).json({
-            code: 200,
-            status: true,
-            message: "Group Deleted Successfully"
-        })
+            user.notifications.push({ message: `You deleted Group: ${group.name}`});  
+
+            await user.save();
+            
+            res.status(200).json({
+                code: 200,
+                status: true,
+                message: "Group Deleted Successfully"
+            })
+        } else {
+            res.code = 400;
+            throw new Error("You don't have the right to do this");
+        }
     } catch (error) {
         next(error);
     }
@@ -410,6 +429,7 @@ const addUser = async (req, res, next) => {
         const { userId } = req.body;
         const id = String(req.params.groupId);
         const groupId = new ObjectId(id);
+        const adminId = new ObjectId(String(req.user._id));
 
         const group = await Group.findById(groupId);
 
@@ -430,13 +450,20 @@ const addUser = async (req, res, next) => {
             })
         }
 
-        await User.findByIdAndUpdate(userId, { $addToSet: { groups: group._id } });
+        if (group.createdBy  === adminId) {
+           const user = await User.findByIdAndUpdate(userId, { $addToSet: { groups: group._id } });
 
-        res.status(200).json({
-            code: 200,
-            status: true,
-            message: "Member Added Successfully"
-        })
+           user.notifications.push({ message: `You Were Added To The Group ${group.name}`})
+
+            res.status(200).json({
+                code: 200,
+                status: true,
+                message: "Member Added Successfully"
+            });
+        } else {
+            res.code = 400;
+            throw new Error("You don't have access to perform this task")
+        }
     } catch (error) {
         next(error);
     }
@@ -446,6 +473,7 @@ const generateLink = async (req, res, next) => {
     try {
         const id = String(req.params.groupId);
         const groupId = new ObjectId(id);
+        const userId = new ObjectId(String(req.user._id));
 
         const group = await Group.findById(groupId);
         
@@ -454,23 +482,28 @@ const generateLink = async (req, res, next) => {
             throw new Error("Group Not Found")
         }
 
-        const groupToken = generateInviteToken();
-        
-        const inviteToken = new InviteToken({ token: groupToken, groupId });
+        if (group.createdBy === userId) {
+                const groupToken = generateInviteToken();
+            
+                const inviteToken = new InviteToken({ token: groupToken, groupId });
 
-        const inviteLink = `https://happening-khaki.vercel.app/html/groups/join-link.html?groupToken=${groupToken}/`
+                const inviteLink = `https://http://5.161.186.15/./html/groups/join-link.html?groupToken=${groupToken}/`
 
-        group.inviteLink = inviteLink;
+                group.inviteLink = inviteLink;
 
-        await inviteToken.save();
-        group.save();
+                await inviteToken.save();
+                group.save();
 
-        res.status(201).json({
-            code: 201,
-            status: true,
-            message: "Link Successfully Created",
-            data: inviteLink
-        })
+                res.status(201).json({
+                    code: 201,
+                    status: true,
+                    message: "Link Successfully Created",
+                    data: inviteLink
+                });
+        } else {
+            res.code = 400;
+            throw new Error("You don't have access to perform this task")
+        }
     } catch (error) {
         next(error);
     }
@@ -816,9 +849,9 @@ const eventInfo = async (req, res, next) => {
 
         const eventId = new ObjectId(id);
 
-        const group = await Event.findOne({_id: eventId});
+        const event = await Event.findOne({_id: eventId});
 
-        const ownerId = group.createdBy;
+        const ownerId = event.createdBy;
         const owner = new ObjectId(ownerId);
 
         const { firstName, lastName, _id } = await User.findOne({_id: owner});
