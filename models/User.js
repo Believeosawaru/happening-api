@@ -17,7 +17,14 @@ const userSchema = new Schema({
     following: [{ type: Schema.Types.ObjectId, ref: "user" }],
     verificationCode: { type: String },
     isVerified: { type: Boolean, default: false },
-    forgotPasswordCode: {type: String}
+    forgotPasswordCode: {type: String},
+    notifications: [
+        {
+          message: String,
+          timestamp: Date,
+          read: { type: Boolean, default: false },
+        },
+    ],
 }, { timestamps: true })
 
 const User = mongoose.model('users', userSchema)
