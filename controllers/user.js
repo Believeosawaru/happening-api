@@ -710,9 +710,9 @@ const eventController = async (req, res, next) => {
         const { name, description, date, time, timeZone, location, type } = req.body;
         const createdBy = String(req.user._id);
         const currentUser = new ObjectId(createdBy);
-        const category = await assignCategory(name, description);
+        // const category = await assignCategory(name, description);
 
-        const event = new Event({ name, description, date, time, timeZone, location, category, type, createdBy });
+        const event = new Event({ name, description, date, time, timeZone, location, type, createdBy });
 
         const user = await User.findById(currentUser);
         user.events.push(event._id);
@@ -723,7 +723,7 @@ const eventController = async (req, res, next) => {
         res.status(200).json({
             code: 201,
             status: true,
-            message: `Event Created Successfully: Category: ${category}`
+            message: `Event Created Successfully`
         })
     } catch (error) {
         next(error);
