@@ -15,7 +15,7 @@ userRoutes.get("/follow-user/:userId", isAuth, followUser);
 
 userRoutes.get("/my-profile", isAuth, myProfile);
 
-userRoutes.get("/my-bio", isAuth, myBio);
+userRoutes.post("/my-bio", isAuth, myBio);
 
 userRoutes.get("/home-groups", isAuth, latestGroup);
 
