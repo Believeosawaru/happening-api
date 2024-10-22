@@ -70,8 +70,8 @@ const myProfile = async (req, res, next) => {
                     lastName: user.lastName,
                     groups: user.groups,
                     events: user.events,
-                    followers: user.followers,
-                    following: user.following
+                    followers: user.followers.length,
+                    following: user.following.length
                 }
             });
         }
