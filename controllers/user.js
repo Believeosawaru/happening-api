@@ -141,8 +141,13 @@ const followUser = async (req, res, next) => {
             })
         }
 
-        user.following.push(userId)
-        followee.followers.push(myId)
+        if (!user.following.includes(userId) && !followee.followers.includes(myId)) {
+            user.following.push(userId)
+            followee.followers.push(myId)
+        } else {
+            res.code = 400;
+            throw new Error("You're Already Following This User")
+        }
 
         await user.save();
         await followee.save();
