@@ -12,7 +12,7 @@ const userSchema = new Schema({
     events: [{
         type: Schema.Types.ObjectId, ref: "event"
     }],
-    bio: { type: String, default: "My name is" },
+    bio: { type: String },
     followers: [{ type: Schema.Types.ObjectId, ref: "user" }],
     following: [{ type: Schema.Types.ObjectId, ref: "user" }],
     verificationCode: { type: String },
