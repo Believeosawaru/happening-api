@@ -82,14 +82,23 @@ const userProfile = async (req, res, next) => {
     try {
         const id = String(req.params.userId);
         const userId = new ObjectId(id);
+        const email = req.user.email;
+
+        let isFollowing = false;
 
         const user = await User.findById(userId).populate("groups events");
+
+        const owner = await User.findOne({ email });
+
+        if (owner.following.includes(userId)) {
+            isFollowing = true;
+        }
 
         if (!user) {
             res.status(404).json({
                 code: 404,
                 status: false,
-                message: "User Not Found"
+                message: "User Not Found",
             })
         }
 
@@ -103,6 +112,7 @@ const userProfile = async (req, res, next) => {
             res.status(200).json({
                 code: 200,
                 status: true,
+                isFollowing,
                 data: {
                     firstName: user.firstName,
                     lastName: user.lastName,
