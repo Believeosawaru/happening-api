@@ -122,7 +122,8 @@ const userProfile = async (req, res, next) => {
                     groups: user.groups,
                     events: user.events,
                     following: user.following.length,
-                    followers: user.followers.length
+                    followers: user.followers.length,
+                    bio: user.bio
                 }
             });
         }
