@@ -450,7 +450,7 @@ const addUser = async (req, res, next) => {
             })
         }
 
-        if (group.createdBy  === adminId) {
+        if (group.createdBy === adminId) {
            const user = await User.findByIdAndUpdate(userId, { $addToSet: { groups: group._id } });
 
            user.notifications.push({ message: `You Were Added To The Group ${group.name}`})
