@@ -214,6 +214,55 @@ const followUser = async (req, res, next) => {
     }
 }
 
+const unfollowUser = async (req, res, next) => {
+    try {
+        const id = String(req.params.userId);
+        const userId = new ObjectId(id);
+        const myId = req.user._id
+
+        const user = await User.findById(myId);
+        const followee = await User.findById(userId);
+
+        if (!user || !followee) {
+            res.status(404).json({
+                code: 404,
+                status: false,
+                message: "User Not Found"
+            })
+        }
+
+        if (user.isVerified === false) {
+            res.status(403).json({
+                code: 403,
+                status: false,
+                message: "You're Not Verified"
+            })
+        }
+
+        // You are to work on the unfollowing
+        if (!user.following.includes(userId) && !followee.followers.includes(myId)) {
+            user.following.push(userId)
+            followee.followers.push(myId)
+        } else {
+            res.code = 400;
+            throw new Error("You're Already Following This User")
+        }
+
+        followee.notifications.push({ message: `${user.firstName} ${user.lastName} Just Followed You`});
+
+        await user.save();
+        await followee.save();
+        
+        res.status(200).json({
+            code: 200,
+            status: true,
+            message: "Followed User"
+        });
+    } catch (error) {
+        next(error);
+    }
+}
+
 const groupController = async (req, res, next) => {
     const { name, description, location, groupType } = req.body;
     const createdBy = req.user._id;
