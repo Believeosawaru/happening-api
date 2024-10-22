@@ -71,7 +71,8 @@ const myProfile = async (req, res, next) => {
                     groups: user.groups,
                     events: user.events,
                     followers: user.followers.length,
-                    following: user.following.length
+                    following: user.following.length,
+                    bio: user.bio
                 }
             });
         }
