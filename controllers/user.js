@@ -134,7 +134,7 @@ const userProfile = async (req, res, next) => {
 const myBio = async (req, res, next) => {
     try {
         const { bio } = req.body;
-        const email = req.email;
+        const email = req.user.email;
 
         const user = await User.findOne({ email });
 
