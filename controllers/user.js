@@ -26,13 +26,14 @@ const homeController = async (req, res, next) => {
             res.status(403).json({
                 code: 403,
                 status: false,
-                message: `${userName}`
+                message: "User Is Not Verified"
             })
         } else {
             res.status(200).json({
                 code: 200,
                 status: true,
-                message: `${userName}`
+                message: `${userName}`,
+                data: user.notifications.length
             });
         }
     } catch (error) {
