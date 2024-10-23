@@ -19,7 +19,7 @@ userRoutes.get("/my-profile", isAuth, myProfile);
 
 userRoutes.post("/my-bio", isAuth, myBio);
 
-userRoutes.post("/my-notifications", isAuth, myNotifications);
+userRoutes.get("/my-notifications", isAuth, myNotifications);
 
 userRoutes.get("/home-groups", isAuth, latestGroup);
 
