@@ -239,16 +239,14 @@ const unfollowUser = async (req, res, next) => {
             })
         }
 
-        // You are to work on the unfollowing
-        if (!user.following.includes(userId) && !followee.followers.includes(myId)) {
-            user.following.push(userId)
-            followee.followers.push(myId)
+        if (user.following.includes(userId) && followee.followers.includes(myId)) {
+            user.following = user.following.filter(followeeId => !followeeId.equals(userId));
+
+            followee.followers = followee.followers.filter(followerId => !followerId.equals(myId));
         } else {
             res.code = 400;
-            throw new Error("You're Already Following This User")
+            throw new Error("You're Not Following This User")
         }
-
-        followee.notifications.push({ message: `${user.firstName} ${user.lastName} Just Followed You`});
 
         await user.save();
         await followee.save();
@@ -256,7 +254,7 @@ const unfollowUser = async (req, res, next) => {
         res.status(200).json({
             code: 200,
             status: true,
-            message: "Followed User"
+            message: "Unfollowed User"
         });
     } catch (error) {
         next(error);
@@ -362,23 +360,18 @@ const editGroupInfo = async (req, res, next) => {
 
         const group = await Group.findOne({_id: groupId});
 
-        if (group.createdBy === userId) {
-                group.name = name;
-                group.description = description;
-                group.location = location;
-                group.groupType = groupType;
+        group.name = name;
+        group.description = description;
+        group.location = location;
+        group.groupType = groupType;
 
-                await group.save();
+        await group.save();
 
-                res.status(200).json({
-                    code: 200,
-                    status: true,
-                    message: "Group Edited Successfully"
-                });
-        } else {
-            res.code = 400;
-            throw new Error("You don't have the right to do this");
-        }      
+        res.status(200).json({
+            code: 200,
+            status: true,
+            message: "Group Edited Successfully"
+        });     
     } catch (error) {
         next(error);
     }
@@ -411,22 +404,17 @@ const deleteGroup = async (req, res, next) => {
         const group = await Group.findByIdAndDelete(groupId);
         const user = await User.findById(userId);
         
-        if (group.createdBy === userId) {
-            await User.updateMany({ groups: groupId }, { $pull: { groups: groupId } });
+        await User.updateMany({ groups: groupId }, { $pull: { groups: groupId } });
 
-            user.notifications.push({ message: `You deleted Group: ${group.name}`});  
+        user.notifications.push({ message: `You deleted Group: ${group.name}`});  
 
-            await user.save();
-            
-            res.status(200).json({
-                code: 200,
-                status: true,
-                message: "Group Deleted Successfully"
-            })
-        } else {
-            res.code = 400;
-            throw new Error("You don't have the right to do this");
-        }
+        await user.save();
+        
+        res.status(200).json({
+            code: 200,
+            status: true,
+            message: "Group Deleted Successfully"
+        });
     } catch (error) {
         next(error);
     }
@@ -479,7 +467,6 @@ const addUser = async (req, res, next) => {
         const { userId } = req.body;
         const id = String(req.params.groupId);
         const groupId = new ObjectId(id);
-        const adminId = new ObjectId(String(req.user._id));
 
         const group = await Group.findById(groupId);
 
@@ -499,21 +486,16 @@ const addUser = async (req, res, next) => {
                 message: "Member Already Exists"
             })
         }
+        
+        const user = await User.findByIdAndUpdate(userId, { $addToSet: { groups: group._id } });
 
-        if (group.createdBy === adminId) {
-           const user = await User.findByIdAndUpdate(userId, { $addToSet: { groups: group._id } });
+        user.notifications.push({ message: `You Were Added To The Group ${group.name}`})
 
-           user.notifications.push({ message: `You Were Added To The Group ${group.name}`})
-
-            res.status(200).json({
-                code: 200,
-                status: true,
-                message: "Member Added Successfully"
-            });
-        } else {
-            res.code = 400;
-            throw new Error("You don't have access to perform this task")
-        }
+        res.status(200).json({
+            code: 200,
+            status: true,
+            message: "Member Added Successfully"
+        });
     } catch (error) {
         next(error);
     }
@@ -828,6 +810,10 @@ const sendGroupLink = async (req, res, next) => {
             inviteLink
         });
 
+        user.notifications.push({ message: `You Are Invited To ${group.name}, Check Your Mail For The Link.`});
+
+        await user.save();
+
         res.status(200).json({
             code: 200,
             status: true,
@@ -902,7 +888,7 @@ const eventInfo = async (req, res, next) => {
         const event = await Event.findOne({_id: eventId});
 
         const ownerId = event.createdBy;
-        const owner = new ObjectId(ownerId);
+        const owner = new ObjectId(String(ownerId));
 
         const { firstName, lastName, _id } = await User.findOne({_id: owner});
 
@@ -983,7 +969,7 @@ const deleteEvent = async (req, res, next) => {
             code: 200,
             status: true,
             message: "Event Deleted Successfully"
-        })
+        });
     } catch (error) {
         next(error);
     }
@@ -1158,4 +1144,4 @@ const eventJoin = async (req, res, next) => {
     }
 }
  
-export { homeController, groupController, eventController, displayGroupController, groupInfo, editGroupInfo, showGroupInfo, deleteGroup, searchUsers, addUser, generateLink, joinViaLink, latestGroup, allGroups, joinGroup, leaveGroup, searchUsersEmail, sendGroupLink, displayEventController, eventInfo, editEventInfo, showEventInfo, deleteEvent, allEvents, latestEvent, searchUserEvent, sendEventIv, eventJoin, myProfile, userProfile, followUser, myBio }
+export { homeController, groupController, eventController, displayGroupController, groupInfo, editGroupInfo, showGroupInfo, deleteGroup, searchUsers, addUser, generateLink, joinViaLink, latestGroup, allGroups, joinGroup, leaveGroup, searchUsersEmail, sendGroupLink, displayEventController, eventInfo, editEventInfo, showEventInfo, deleteEvent, allEvents, latestEvent, searchUserEvent, sendEventIv, eventJoin, myProfile, userProfile, followUser, myBio, unfollowUser }
