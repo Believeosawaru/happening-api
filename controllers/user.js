@@ -261,6 +261,38 @@ const unfollowUser = async (req, res, next) => {
     }
 }
 
+const myNotifications = async (req, res, next) => {
+    try {
+        const myId = req.user._id
+
+        const user = await User.findById(myId);
+
+        if (!user) {
+            res.status(404).json({
+                code: 404,
+                status: false,
+                message: "User Not Found"
+            });
+        }
+
+        if (user.isVerified === false) {
+            res.status(403).json({
+                code: 403,
+                status: false,
+                message: "You're Not Verified"
+            })
+        }
+
+        res.status(200).json({
+            code: 200,
+            status: true,
+            data: user.notifications
+        });
+    } catch (error) {
+        next(error);
+    }
+}
+
 const groupController = async (req, res, next) => {
     const { name, description, location, groupType } = req.body;
     const createdBy = req.user._id;
