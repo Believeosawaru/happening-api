@@ -1176,4 +1176,4 @@ const eventJoin = async (req, res, next) => {
     }
 }
  
-export { homeController, groupController, eventController, displayGroupController, groupInfo, editGroupInfo, showGroupInfo, deleteGroup, searchUsers, addUser, generateLink, joinViaLink, latestGroup, allGroups, joinGroup, leaveGroup, searchUsersEmail, sendGroupLink, displayEventController, eventInfo, editEventInfo, showEventInfo, deleteEvent, allEvents, latestEvent, searchUserEvent, sendEventIv, eventJoin, myProfile, userProfile, followUser, myBio, unfollowUser }
+export { homeController, groupController, eventController, displayGroupController, groupInfo, editGroupInfo, showGroupInfo, deleteGroup, searchUsers, addUser, generateLink, joinViaLink, latestGroup, allGroups, joinGroup, leaveGroup, searchUsersEmail, sendGroupLink, displayEventController, eventInfo, editEventInfo, showEventInfo, deleteEvent, allEvents, latestEvent, searchUserEvent, sendEventIv, eventJoin, myProfile, userProfile, followUser, myBio, unfollowUser, myNotifications }
