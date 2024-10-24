@@ -933,7 +933,7 @@ const eventInfo = async (req, res, next) => {
         res.status(200).json({
              code: 200,
              status: true,
-             data: group,
+             data: event,
              currentUserId,
              createdBy: {
                 firstName,
