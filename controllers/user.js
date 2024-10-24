@@ -199,7 +199,9 @@ const followUser = async (req, res, next) => {
             throw new Error("You're Already Following This User")
         }
 
-        followee.notifications.push({ message: `${user.firstName} ${user.lastName} Just Followed You`});
+        followee.notifications.push({ 
+            message: `<a href="user-profile.html?userId=${user._id}">${user.firstName} ${user.lastName} Just Followed You</a>`
+        });
 
         await user.save();
         await followee.save();
@@ -438,7 +440,9 @@ const deleteGroup = async (req, res, next) => {
         
         await User.updateMany({ groups: groupId }, { $pull: { groups: groupId } });
 
-        user.notifications.push({ message: `You deleted Group: ${group.name}`});  
+        user.notifications.push({ 
+            message: `You deleted Group: ${group.name}`
+        });  
 
         await user.save();
         
@@ -521,7 +525,9 @@ const addUser = async (req, res, next) => {
         
         const user = await User.findByIdAndUpdate(userId, { $addToSet: { groups: group._id } });
 
-        user.notifications.push({ message: `You Were Added To The Group ${group.name}`})
+        user.notifications.push({ 
+            message: `<a href="group-details.html?groupId=${group._id}">You Were Added To The Group ${group.name}</a>`
+        });
 
         res.status(200).json({
             code: 200,
@@ -842,7 +848,7 @@ const sendGroupLink = async (req, res, next) => {
             inviteLink
         });
 
-        user.notifications.push({ message: `You Are Invited To ${group.name}, Check Your Mail For The Link.`});
+        user.notifications.push({ message: `<a href="group-details.html?groupId=${group._id}">You Are Invited To ${group.name}, Check Your Mail For The Link.</a>`});
 
         await user.save();
 
