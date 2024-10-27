@@ -2,11 +2,10 @@ import mongoose from "mongoose";
 import multer from "multer";
 import GridFsStorage from "multer-gridfs-storage";
 import Grid from "gridfs-stream";
-
-const mongoURI = 'your_mongodb_connection_string_here';
+import { connectionUrl } from "../config/keys.js";
 
 const storage = new GridFsStorage({
-  url: mongoURI,
+  url: connectionUrl,
   file: (req, file) => {
     return {
       filename: file.originalname,
@@ -18,8 +17,27 @@ const storage = new GridFsStorage({
 const upload = multer({ storage });
 
 // Upload image
-const uploadImage = (req, res) => {
-  res.status(200).json({ file: req.file });
+const uploadImage = async (req, res) => {
+   try {
+        const userId = req.user._id; 
+        const uploadedFile = req.file;
+
+        if (!uploadedFile) {
+            res.status(400).json({ 
+                code: 400,
+                status: false,
+                message: 'File not uploaded' 
+            });
+        }
+
+        await User.findByIdAndUpdate(userId, {
+        profilePicture: uploadedFile.filename
+        });
+
+        res.status(200).json({ file: uploadedFile });
+   } catch (error) {
+        next(error)
+   }
 };
 
 // Get image by filename
