@@ -3,6 +3,7 @@ import multer from "multer";
 import GridFsStorage from "multer-gridfs-storage";
 import Grid from "gridfs-stream";
 import { connectionUrl } from "../config/keys.js";
+import User from "../models/User.js";
 
 const storage = new GridFsStorage({
   url: connectionUrl,
@@ -34,7 +35,11 @@ const uploadImage = async (req, res) => {
         profilePicture: uploadedFile.filename
         });
 
-        res.status(200).json({ file: uploadedFile });
+        res.status(200).json({ 
+            code: 200,
+            status: true,
+            file: uploadedFile
+         });
    } catch (error) {
         next(error)
    }
