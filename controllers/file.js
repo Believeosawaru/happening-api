@@ -6,7 +6,7 @@ import { connectionUrl } from "../config/keys.js";
 import User from "../models/User.js";
 
 const storage = new GridFsStorage({
-    url: connectionUrl,
+    url: connectionUrl, 
     file: (req, file) => {
       return {
         filename: file.originalname,
