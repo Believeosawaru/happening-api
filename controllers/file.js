@@ -23,7 +23,7 @@ const uploadImage = async (req, res, next) => {
         res.status(200).json({
           code: 200,
           status: true,
-          message: `Image Uploaded Successfully ${filePath}`
+          message: `Image Uploaded Successfully`
         });
    } catch (error) {
         next(error)
