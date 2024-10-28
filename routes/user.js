@@ -87,7 +87,7 @@ const storage = multer.diskStorage({
  
 const upload = multer({ storage: storage });
 
-userRoutes.post("/upload", isAuth, upload.single('file'), uploadImage);
+userRoutes.post("/upload", isAuth, uploadImage);
 
 // userRoutes.post("/upload", upload.single('profilePicture'), uploadImage);
 
