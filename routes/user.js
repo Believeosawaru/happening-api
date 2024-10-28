@@ -4,6 +4,7 @@ import isAuth from "../middlewares/isAuth.js";
 import isGroupCreator from "../middlewares/isGroupCreator.js";
 import isEventCreator from "../middlewares/isEventCreator.js";
 import { searchUsersEmail, sendGroupLink } from "../controllers/user.js";
+import multer from "multer";
 
 const userRoutes = express.Router();
 
