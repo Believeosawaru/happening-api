@@ -78,7 +78,7 @@ userRoutes.post("/join-event/:eventId", isAuth, eventJoin);
 
 const storage = multer.diskStorage({
     destination: function (req, file, cb) {
-      cb(null, 'routes/'); // Specify the directory where files should be stored
+      cb(null, './routes/'); // Specify the directory where files should be stored
     },
     filename: function (req, file, cb) {
       cb(null, Date.now() + '-' + file.originalname); // Specify the filename
