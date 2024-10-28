@@ -75,8 +75,8 @@ userRoutes.post("/event/:eventId/send-invite", isAuth, isEventCreator, sendEvent
 
 userRoutes.post("/join-event/:eventId", isAuth, eventJoin);
 
-userRoutes.post('/upload', upload.single('image'), uploadImage);
+// userRoutes.post('/upload', upload.single('image'), uploadImage);
 
-userRoutes.get('/images/:filename', getImage);
+// userRoutes.get('/images/:filename', getImage);
 
 export default userRoutes;
