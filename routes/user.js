@@ -76,7 +76,7 @@ userRoutes.post("/event/:eventId/send-invite", isAuth, isEventCreator, sendEvent
 
 userRoutes.post("/join-event/:eventId", isAuth, eventJoin);
 
-userRoutes.post("/upload", isAuth, homeController);
+userRoutes.post('/upload', isAuth, uploadImage);
 
 // userRoutes.get('/images/:filename', getImage);
 
