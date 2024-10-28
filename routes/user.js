@@ -1,5 +1,5 @@
 import express from "express"
-import { homeController, groupController, eventController, displayGroupController, groupInfo, editGroupInfo, showGroupInfo, deleteGroup, searchUsers, addUser, generateLink, joinViaLink, latestGroup, allGroups, joinGroup, leaveGroup, eventInfo, displayEventController, editEventInfo, showEventInfo, deleteEvent, allEvents, latestEvent, eventJoin, searchUserEvent, sendEventIv, myProfile, userProfile, followUser, myBio,unfollowUser, myNotifications, upload, uploadImage, getImage } from "../controllers/index.js";
+import { homeController, groupController, eventController, displayGroupController, groupInfo, editGroupInfo, showGroupInfo, deleteGroup, searchUsers, addUser, generateLink, joinViaLink, latestGroup, allGroups, joinGroup, leaveGroup, eventInfo, displayEventController, editEventInfo, showEventInfo, deleteEvent, allEvents, latestEvent, eventJoin, searchUserEvent, sendEventIv, myProfile, userProfile, followUser, myBio,unfollowUser, myNotifications } from "../controllers/index.js";
 import isAuth from "../middlewares/isAuth.js";
 import isGroupCreator from "../middlewares/isGroupCreator.js";
 import isEventCreator from "../middlewares/isEventCreator.js";
