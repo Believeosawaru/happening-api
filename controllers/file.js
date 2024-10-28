@@ -2,9 +2,9 @@ import User from "../models/User.js";
 
 const uploadImage = async (req, res, next) => {
    try {
-      // const userId = req.user._id;
+      const userId = req.user._id;
 
-      // const user = await User.findById(userId);
+      const user = await User.findById(userId);
 
       // if (!req.file) {
       //   res.status(400).json({
@@ -14,7 +14,7 @@ const uploadImage = async (req, res, next) => {
       //   });
       // }
 
-      // const filePath = `/upload/${req.file.filename}`;
+      const filePath = `/upload/${req.file.filename}`;
 
         // user.profilePicture = filePath;
 
