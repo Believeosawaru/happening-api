@@ -15,9 +15,9 @@ const uploadImage = async (req, res, next) => {
 
         const filePath = `/upload/${req.file.filename}`;
 
-        user.profilePicture = filePath;
+        // user.profilePicture = filePath;
 
-        user.save();
+        // user.save();
 
         res.status(200).json({
           code: 200,
