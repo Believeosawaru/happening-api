@@ -1,7 +1,9 @@
 import fs from "fs";
 import multer from "multer";
 import path from "path";
+import { dirname } from "path";
 
+const __dirname = dirname(__filename);
 const uploadsDir = path.join(__dirname, "uploads");
 
 if (!fs.existsSync(uploadsDir)) {
