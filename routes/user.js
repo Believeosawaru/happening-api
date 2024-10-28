@@ -1,5 +1,7 @@
 import express from "express"
 import { homeController, groupController, eventController, displayGroupController, groupInfo, editGroupInfo, showGroupInfo, deleteGroup, searchUsers, addUser, generateLink, joinViaLink, latestGroup, allGroups, joinGroup, leaveGroup, eventInfo, displayEventController, editEventInfo, showEventInfo, deleteEvent, allEvents, latestEvent, eventJoin, searchUserEvent, sendEventIv, myProfile, userProfile, followUser, myBio,unfollowUser, myNotifications } from "../controllers/index.js";
+import { uploadImage } from "../controllers/file.js";
+import upload from "../utils/fileUpload.js";
 import isAuth from "../middlewares/isAuth.js";
 import isGroupCreator from "../middlewares/isGroupCreator.js";
 import isEventCreator from "../middlewares/isEventCreator.js";
@@ -75,7 +77,7 @@ userRoutes.post("/event/:eventId/send-invite", isAuth, isEventCreator, sendEvent
 
 userRoutes.post("/join-event/:eventId", isAuth, eventJoin);
 
-// userRoutes.post('/upload', upload.single('image'), uploadImage);
+userRoutes.post('/upload', upload.single('profilePicture'), uploadImage);
 
 // userRoutes.get('/images/:filename', getImage);
 
