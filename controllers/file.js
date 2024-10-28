@@ -1,8 +1,8 @@
-import User from "../models/User.js";
+// import User from "../models/User.js";
 
 const uploadImage = async (req, res, next) => {
    try {
-      // const userId = req.user._id;
+      // const userId = req.user._id;s
 
       // const user = await User.findById(userId);
 
@@ -21,9 +21,9 @@ const uploadImage = async (req, res, next) => {
         // user.save();
 
         res.status(200).json({
-          code: 200,
-          status: true,
-          message: "Image Uploaded Successfully"
+            code: 200,
+            status: true,
+            message: "Image Uploaded Successfully"
         });
    } catch (error) {
         next(error)
