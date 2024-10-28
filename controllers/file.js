@@ -5,15 +5,15 @@ import Grid from "gridfs-stream";
 import { connectionUrl } from "../config/keys.js";
 import User from "../models/User.js";
 
-const storage = new GridFsStorage({
-    url: connectionUrl, 
-    file: (req, file) => {
-      return {
-        filename: file.originalname,
-        bucketName: 'uploads' // Optional: specify a bucket name
-      };
-    }
-});
+// const storage = new GridFsStorage({
+//     url: connectionUrl, 
+//     file: (req, file) => {
+//       return {
+//         filename: file.originalname,
+//         bucketName: 'uploads' // Optional: specify a bucket name
+//       };
+//     }
+// });
 
 const upload = multer({ storage });
 
