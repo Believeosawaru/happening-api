@@ -1,6 +1,5 @@
 import express from "express"
 import { homeController, groupController, eventController, displayGroupController, groupInfo, editGroupInfo, showGroupInfo, deleteGroup, searchUsers, addUser, generateLink, joinViaLink, latestGroup, allGroups, joinGroup, leaveGroup, eventInfo, displayEventController, editEventInfo, showEventInfo, deleteEvent, allEvents, latestEvent, eventJoin, searchUserEvent, sendEventIv, myProfile, userProfile, followUser, myBio,unfollowUser, myNotifications, uploadImage } from "../controllers/index.js";
-import upload from "../utils/fileUpload.js";
 import isAuth from "../middlewares/isAuth.js";
 import isGroupCreator from "../middlewares/isGroupCreator.js";
 import isEventCreator from "../middlewares/isEventCreator.js";
@@ -75,6 +74,17 @@ userRoutes.get("/event/search-users/:eventId", isAuth, isEventCreator, searchUse
 userRoutes.post("/event/:eventId/send-invite", isAuth, isEventCreator, sendEventIv);
 
 userRoutes.post("/join-event/:eventId", isAuth, eventJoin);
+
+const storage = multer.diskStorage({
+    destination: function (req, file, cb) {
+      cb(null, 'routes/'); // Specify the directory where files should be stored
+    },
+    filename: function (req, file, cb) {
+      cb(null, Date.now() + '-' + file.originalname); // Specify the filename
+    }
+  });
+ 
+const upload = multer({ storage: storage });
 
 userRoutes.post("/upload", isAuth, upload.single('profilePicture'), uploadImage);
 
