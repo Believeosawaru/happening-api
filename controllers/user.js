@@ -295,6 +295,18 @@ const myNotifications = async (req, res, next) => {
     }
 }
 
+const uploadPicture = async (req, res, next) => {
+    try {
+        res.status(200).json({
+            code: 200,
+            status: true,
+            data: "work"
+        });
+    } catch (error) {
+        next(error);
+    }
+}
+
 const groupController = async (req, res, next) => {
     const { name, description, location, groupType } = req.body;
     const createdBy = req.user._id;
@@ -1182,4 +1194,4 @@ const eventJoin = async (req, res, next) => {
     }
 }
  
-export { homeController, groupController, eventController, displayGroupController, groupInfo, editGroupInfo, showGroupInfo, deleteGroup, searchUsers, addUser, generateLink, joinViaLink, latestGroup, allGroups, joinGroup, leaveGroup, searchUsersEmail, sendGroupLink, displayEventController, eventInfo, editEventInfo, showEventInfo, deleteEvent, allEvents, latestEvent, searchUserEvent, sendEventIv, eventJoin, myProfile, userProfile, followUser, myBio, unfollowUser, myNotifications }
+export { homeController, groupController, eventController, displayGroupController, groupInfo, editGroupInfo, showGroupInfo, deleteGroup, searchUsers, addUser, generateLink, joinViaLink, latestGroup, allGroups, joinGroup, leaveGroup, searchUsersEmail, sendGroupLink, displayEventController, eventInfo, editEventInfo, showEventInfo, deleteEvent, allEvents, latestEvent, searchUserEvent, sendEventIv, eventJoin, myProfile, userProfile, followUser, myBio, unfollowUser, myNotifications, uploadPicture }
