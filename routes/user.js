@@ -76,7 +76,9 @@ userRoutes.post("/event/:eventId/send-invite", isAuth, isEventCreator, sendEvent
 
 userRoutes.post("/join-event/:eventId", isAuth, eventJoin);
 
-userRoutes.post("/upload", upload.single('profilePicture'), uploadImage);
+userRoutes.post("/upload", uploadImage);
+
+// userRoutes.post("/upload", upload.single('profilePicture'), uploadImage);
 
 // userRoutes.get('/images/:filename', getImage);
 
