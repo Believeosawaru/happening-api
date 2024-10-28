@@ -14,7 +14,7 @@ const uploadImage = async (req, res, next) => {
       //   });
       // }
 
-      const filePath = `/upload/${req.file.filename}`;
+      // const filePath = `/upload/${req.file.filename}`;
 
         // user.profilePicture = filePath;
 
