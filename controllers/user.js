@@ -300,7 +300,7 @@ const uploadPicture = async (req, res, next) => {
         res.status(200).json({
             code: 200,
             status: true,
-            data: "working"
+            data: req.body.name
         });
     } catch (error) {
         next(error);
