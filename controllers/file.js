@@ -4,27 +4,33 @@ const uploadImage = async (req, res, next) => {
    try {
       const userId = req.user._id;
 
-      const user = await User.findById(userId);
+      // const user = await User.findById(userId);
 
-      if (!req.file) {
-        res.status(400).json({
-          code: 400,
-          status: false,
-          message: "No file uploaded"
-        });
+      res.status(200).json({
+        code: 200,
+        status: true,
+        message: "Working"
+      })
 
-        const filePath = `/upload/${req.file.filename}`;
+      // if (!req.file) {
+      //   res.status(400).json({
+      //     code: 400,
+      //     status: false,
+      //     message: "No file uploaded"
+      //   });
 
-        // user.profilePicture = filePath;
+      //   const filePath = `/upload/${req.file.filename}`;
 
-        // user.save();
+      //   // user.profilePicture = filePath;
 
-        res.status(200).json({
-          code: 200,
-          status: true,
-          message: "Image Uploaded Successfully"
-        })
-      }
+      //   // user.save();
+
+      //   res.status(200).json({
+      //     code: 200,
+      //     status: true,
+      //     message: "Image Uploaded Successfully"
+      //   })
+      // }
    } catch (error) {
         next(error)
    }
