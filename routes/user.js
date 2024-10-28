@@ -77,7 +77,9 @@ userRoutes.post("/event/:eventId/send-invite", isAuth, isEventCreator, sendEvent
 userRoutes.post("/join-event/:eventId", isAuth, eventJoin);
 
 userRoutes.post("/upload", isAuth, (req, res, next) => {
-    res.send("WORK")
+    res.status(200).json({
+        message: "wok"
+    })
 });
 
 // userRoutes.post("/upload", upload.single('profilePicture'), uploadImage);
