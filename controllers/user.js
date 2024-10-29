@@ -305,8 +305,6 @@ const uploadPicture = async (req, res, next) => {
 
         user.profilePicture = req.file.filename;
 
-        await user.save();
-
         res.status(200).json({
             code: 200,
             status: true,
