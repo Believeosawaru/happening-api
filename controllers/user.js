@@ -73,7 +73,8 @@ const myProfile = async (req, res, next) => {
                     events: user.events,
                     followers: user.followers.length,
                     following: user.following.length,
-                    bio: user.bio
+                    bio: user.bio,
+                    profilePicture: user.profilePicture
                 }
             });
         }
@@ -297,6 +298,12 @@ const myNotifications = async (req, res, next) => {
 
 const uploadPicture = async (req, res, next) => {
     try {
+        const email = req.user.email;
+
+        const user = User.findOne({email});
+
+        user.profilePicture = req.file.filename;
+
         res.status(200).json({
             code: 200,
             status: true,
