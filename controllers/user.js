@@ -301,9 +301,11 @@ const uploadPicture = async (req, res, next) => {
     try {
         const email = req.user.email;
 
-        const user = User.findOne({email});
+        const user = await User.findOne({email});
 
         user.profilePicture = req.file.filename;
+
+        await user.save()
 
         res.status(200).json({
             code: 200,
