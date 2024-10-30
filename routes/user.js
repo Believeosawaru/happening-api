@@ -58,7 +58,7 @@ userRoutes.post("/create-event", isAuth, eventController);
 
 userRoutes.get("/events", isAuth, displayEventController);
 
-userRoutes.get("/filter-events", isAuth, filterEvents);
+userRoutes.post("/filter-events", isAuth, filterEvents);
 
 userRoutes.get("/event/:eventId", isAuth, eventInfo);
 
