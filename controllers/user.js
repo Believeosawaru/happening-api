@@ -970,14 +970,14 @@ const eventInfo = async (req, res, next) => {
 
 const filterEvents = async (req, res, next) => {
     try {
-        const { date, time, location, keywords, category } = req.query;
+        const { date, time, location, keyword, category } = req.query;
         const filters = {};
 
         if (date) filters.date = date;
         if (time) filters.time = time;
         if (location) filters.location = location;
         if (category) filters.category = category;
-        if (keywords) filters.description = keywords;
+        if (keyword) filters.description = keyword;
         
         const events = await Event.find(filters);
 
