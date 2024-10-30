@@ -977,19 +977,21 @@ const filterEvents = async (req, res, next) => {
         if (time) filters.time = time;
         if (location) filters.location = location;
         if (category) filters.category = category;
-        if (keywords) filters.description = keywords
+        if (keywords) filters.description = keywords;
         
         const events = await Event.find(filters);
-
-        if (!events) {
-           res.code = 404;
-           throw new Error("No Event Found")
-        }
 
         res.status(200).json({
             code: 200,
             status: true,
-            data: events
+            data: events,
+            parse: {
+                date,
+                time,
+                location,
+                category,
+                keywords
+            }
         })
     } catch (error) {
         next(error);
