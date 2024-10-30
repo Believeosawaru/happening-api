@@ -973,15 +973,11 @@ const filterEvents = async (req, res, next) => {
         const { date, time, location, keywords, category } = req.query;
         const filters = {};
 
-        if (date) filters.date = new Date(date);
+        if (date) filters.date = date;
         if (time) filters.time = time;
-        if (location) filters.location = new RegExp(location, "i");
+        if (location) filters.location = location;
         if (category) filters.category = category;
-        if (keywords) {
-            const keyeordReggex = new RegExp(keywords, "i");
-
-            filters.description = keyeordReggex;
-        }
+        if (keywords) filters.description = keywords
         
         const events = await Event.find(filters);
 
