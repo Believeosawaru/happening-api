@@ -968,6 +968,33 @@ const eventInfo = async (req, res, next) => {
     }
 }
 
+const filterEvents = async (req, res, next) => {
+    try {
+        const { date, time, location, keywords, category } = req.query;
+        const filters = {};
+
+        if (date) filters.date = new Date(date);
+        if (time) filters.time = time;
+        if (location) filters.location = new RegExp(location, "i");
+        if (category) filters.category = category;
+        if (keywords) {
+            const keyeordReggex = new RegExp(keywords, "i");
+
+            filters.description = description;
+        }
+        
+        const events = await Event.find(filters);
+
+        res.status(200).json({
+            code: 200,
+            status: true,
+            data: events
+        })
+    } catch (error) {
+        next(error);
+    }
+}
+
 const editEventInfo = async (req, res, next) => {
     try {
         const { name, description, date, time, timeZone, location, type } = req.body;
@@ -1204,4 +1231,4 @@ const eventJoin = async (req, res, next) => {
     }
 }
  
-export { homeController, groupController, eventController, displayGroupController, groupInfo, editGroupInfo, showGroupInfo, deleteGroup, searchUsers, addUser, generateLink, joinViaLink, latestGroup, allGroups, joinGroup, leaveGroup, searchUsersEmail, sendGroupLink, displayEventController, eventInfo, editEventInfo, showEventInfo, deleteEvent, allEvents, latestEvent, searchUserEvent, sendEventIv, eventJoin, myProfile, userProfile, followUser, myBio, unfollowUser, myNotifications, uploadPicture }
+export { homeController, groupController, eventController, displayGroupController, groupInfo, editGroupInfo, showGroupInfo, deleteGroup, searchUsers, addUser, generateLink, joinViaLink, latestGroup, allGroups, joinGroup, leaveGroup, searchUsersEmail, sendGroupLink, displayEventController, eventInfo, filterEvents, editEventInfo, showEventInfo, deleteEvent, allEvents, latestEvent, searchUserEvent, sendEventIv, eventJoin, myProfile, userProfile, followUser, myBio, unfollowUser, myNotifications, uploadPicture }

@@ -1,5 +1,5 @@
 import express from "express"
-import { homeController, groupController, eventController, displayGroupController, groupInfo, editGroupInfo, showGroupInfo, deleteGroup, searchUsers, addUser, generateLink, joinViaLink, latestGroup, allGroups, joinGroup, leaveGroup, eventInfo, displayEventController, editEventInfo, showEventInfo, deleteEvent, allEvents, latestEvent, eventJoin, searchUserEvent, sendEventIv, myProfile, userProfile, followUser, myBio,unfollowUser, myNotifications, uploadPicture } from "../controllers/index.js";
+import { homeController, groupController, eventController, displayGroupController, groupInfo, editGroupInfo, showGroupInfo, deleteGroup, searchUsers, addUser, generateLink, joinViaLink, latestGroup, allGroups, joinGroup, leaveGroup, eventInfo, displayEventController, filterEvents, editEventInfo, showEventInfo, deleteEvent, allEvents, latestEvent, eventJoin, searchUserEvent, sendEventIv, myProfile, userProfile, followUser, myBio,unfollowUser, myNotifications, uploadPicture } from "../controllers/index.js";
 import isAuth from "../middlewares/isAuth.js";
 import isGroupCreator from "../middlewares/isGroupCreator.js";
 import isEventCreator from "../middlewares/isEventCreator.js";
@@ -58,6 +58,8 @@ userRoutes.post("/create-event", isAuth, eventController);
 
 userRoutes.get("/events", isAuth, displayEventController);
 
+userRoutes.get("/filter-events", isAuth, filterEvents);
+
 userRoutes.get("/event/:eventId", isAuth, eventInfo);
 
 userRoutes.put("/edit-event-info/:eventId", isAuth, isEventCreator, editEventInfo);
@@ -85,12 +87,13 @@ const storage = multer.diskStorage({
     }
 });
  
-const upload = multer({ storage: storage });
+const upload = multer({ 
+      storage: storage,
+      limits: {
+      fileSize: 20 * 1024 * 1024 // 20 MB
+      },
+ });
 
 userRoutes.post("/upload", upload.single("profilePicture"), isAuth, uploadPicture);
-
-// userRoutes.post("/upload", upload.single('profilePicture'), uploadImage);
-
-// userRoutes.get('/images/:filename', getImage);
 
 export default userRoutes;
