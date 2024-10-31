@@ -970,6 +970,7 @@ const eventInfo = async (req, res, next) => {
 
 const filterEvents = async (req, res, next) => {
     try {
+        const userId = req.user._id;
         const { date, time, location, keyword, category } = req.query;
         const filters = {};
 
