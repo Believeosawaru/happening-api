@@ -983,7 +983,10 @@ const filterEvents = async (req, res, next) => {
             filters.description = keywordRegex;
         }
         
-        const events = await Event.find(filters);
+        const events = await Event.find({
+            filters,
+            type: "public",
+            createdBy: { $ne: userId }});
 
         res.status(200).json({
             code: 200,
