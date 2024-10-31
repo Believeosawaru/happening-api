@@ -979,6 +979,8 @@ const filterEvents = async (req, res, next) => {
         if (category) filters.category = category;
         if (keyword) {
             const keywordRegex = new RegExp(keyword.split("").join("*"), "i");
+
+            filters.description = keywordRegex;
         }
         
         const events = await Event.find(filters);
