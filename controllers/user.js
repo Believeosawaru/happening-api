@@ -990,7 +990,7 @@ const filterEvents = async (req, res, next) => {
                 time,
                 location,
                 category,
-                keywords
+                keyword
             }
         })
     } catch (error) {
