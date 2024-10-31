@@ -952,6 +952,12 @@ const eventInfo = async (req, res, next) => {
 
         const { firstName, lastName, _id } = await User.findOne({_id: owner});
 
+        const relatedEvents = await Event.find({
+            category: event.category,
+            type: "public",
+            createdBy: { $ne: currentUserId }
+        })
+
         res.status(200).json({
              code: 200,
              status: true,
@@ -961,7 +967,8 @@ const eventInfo = async (req, res, next) => {
                 firstName,
                 lastName,
                 _id
-             }
+             },
+             relatedEvents
         });
     } catch (error) {
         next(error);
