@@ -3,7 +3,7 @@ import fetch from "node-fetch";
 import { openAIKey } from "../config/keys.js";
 
 async function assignCategory(name, description) {
-    const prompt = `Based on the following title and description, assign one of the following categories:\n\n` +
+    const prompt = `Based on the following title and description, assign one of the following categories, (NOTE: if nonne of the categories match, assign the category: None) :\n\n` +
                    `Categories: Music, Buisness, Sports, Arts, Food, Education, Kids, ` +
                    `Technology, Health, Fashion, Film, Nightlife, Literature, Travel, Nature, Charity, ` +
                    `Wellness, Culture\n\n` +
