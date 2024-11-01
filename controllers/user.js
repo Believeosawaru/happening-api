@@ -954,9 +954,9 @@ const eventInfo = async (req, res, next) => {
 
         const relatedEvents = await Event.find({
             category: event.category,
-            _id: { $ne: event._id}
-            // type: "public",
-            // createdBy: { $ne: currentUserId }
+            _id: { $ne: event._id},
+            type: "public",
+            createdBy: { $ne: currentUserId }
         })
 
         res.status(200).json({
