@@ -32,7 +32,7 @@ userRoutes.get("/groups", isAuth, displayGroupController);
 
 userRoutes.get("/group/:groupId", isAuth, groupInfo);
 
-userRoutes.post("/group/:groupId/generate-link", isAuth, isGroupCreator, generateLink);
+userRoutes.get("/group/:groupId/generate-link", isAuth, isGroupCreator, generateLink);
 
 userRoutes.post("/join-group/:groupId", isAuth, joinGroup);
 
