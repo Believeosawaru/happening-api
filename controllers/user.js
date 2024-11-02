@@ -579,7 +579,7 @@ const generateLink = async (req, res, next) => {
             
                 const inviteToken = new InviteToken({ token: groupToken, groupId });
 
-                const inviteLink = `https://http://5.161.186.15/./html/groups/join-link.html?groupToken=${groupToken}/`
+                const inviteLink = `https://http://5.161.186.15/html/groups/join-link.html?groupToken=${groupToken}/`
 
                 group.inviteLink = inviteLink;
 
