@@ -389,7 +389,7 @@ const groupInfo = async (req, res, next) => {
         const ownerId = group.createdBy;
         const owner = new ObjectId(ownerId);
 
-        const relatedGroups = await Event.find({
+        const relatedGroups = await Group.find({
             category: group.category,
             _id: { $ne: group._id},
             type: "public",
