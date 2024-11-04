@@ -11,6 +11,7 @@ const groupSchema = new Schema({
         type: String,
         enum: ["private", "public"], required: true
     },
+    category: { type: String },
     createdBy: {
         type: mongoose.Schema.Types.ObjectId,
         ref: "User",

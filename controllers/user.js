@@ -320,6 +320,7 @@ const uploadPicture = async (req, res, next) => {
 const groupController = async (req, res, next) => {
     const { name, description, location, groupType } = req.body;
     const createdBy = req.user._id;
+    const category = await assignCategory(name, description);
 
     try {
         const group = new Group({
@@ -327,6 +328,7 @@ const groupController = async (req, res, next) => {
             description,
             location,
             groupType,
+            category,
             createdBy
         });
 
@@ -387,6 +389,13 @@ const groupInfo = async (req, res, next) => {
         const ownerId = group.createdBy;
         const owner = new ObjectId(ownerId);
 
+        const relatedGroups = await Event.find({
+            category: group.category,
+            _id: { $ne: group._id},
+            type: "public",
+            createdBy: { $ne: currentUserId }
+        });
+
         const { firstName, lastName, _id } = await User.findOne({_id: owner});
 
         res.status(200).json({
@@ -398,7 +407,8 @@ const groupInfo = async (req, res, next) => {
                 firstName,
                 lastName,
                 _id
-             }
+             },
+             relatedGroups
         });
     } catch (error) {
         next(error);
@@ -957,7 +967,7 @@ const eventInfo = async (req, res, next) => {
             _id: { $ne: event._id},
             type: "public",
             createdBy: { $ne: currentUserId }
-        })
+        });
 
         res.status(200).json({
              code: 200,
