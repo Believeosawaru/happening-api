@@ -23,6 +23,33 @@ const groupSchema = new Schema({
     }
 });
 
+const slugify = (text) => {
+    text.toString().toLowerCase()
+    .replace(/\s+/g,"-")
+    .replace(/[^\w\-]+/g,"-")
+    .replace(/\-\-+/g,"-")
+    .replace(/^-+/,"-")
+    .replace(/-+$/g,"-");
+}
+
+groupSchema.pre("save", async function (next) {
+    if (this.isNew || this.isModified("name")) {
+        if (this.name) {
+            let newSlug = slugify(this.name);
+            let count = 1;
+
+            while (await mongoose.model("group").findOne({slug: newSlug})) {
+                newSlug = `${slugify(this.name)}-${count++}`;
+            }
+
+            this.slug = newSlug;
+        } else {
+            this.slug = `event-${Date.now()}`
+        }
+    } 
+    next();
+});
+
 const Group = mongoose.model("group", groupSchema);
 
 export default Group;
