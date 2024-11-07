@@ -16,7 +16,7 @@ const eventSchema = new Schema({
 }, {timestamps: true});
 
 const slugify = (text) => {
-    text.toString().toLowerCase()
+    return text.toString().toLowerCase()
     .replace(/\s+/g,"-")
     .replace(/[^\w\-]+/g,"-")
     .replace(/\-\-+/g,"-")
@@ -27,16 +27,14 @@ const slugify = (text) => {
 eventSchema.pre("save", async function (next) {
     if (this.isNew || this.isModified("name")) {
         if (this.name) {
-            // let newSlug = slugify(this.name);
-            let newSlug = ``;
-            // let count = 1;
+            let newSlug = slugify(this.name);
+            let count = 1;
 
-            // while (await mongoose.model("event").findOne({slug: newSlug})) {
-            //     newSlug = `${this.name}`;
-            //     // newSlug = `${slugify(this.name)}-${count++}`;
-            // }
+            while (await mongoose.model("event").findOne({slug: newSlug})) {
+                newSlug = `${slugify(this.name)}-${count++}`;
+            }
 
-            this.slug = this.name;
+            this.slug = newSlug;
         } else {
             this.slug = `event-${Date.now()}`
         }
