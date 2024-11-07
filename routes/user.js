@@ -34,7 +34,7 @@ userRoutes.get("/group/:groupId", isAuth, groupInfo);
 
 userRoutes.get("/group/:groupId/generate-link", isAuth, isGroupCreator, generateLink);
 
-userRoutes.post("/join-group/:groupId", isAuth, joinGroup);
+userRoutes.post("/join-group/:name", isAuth, joinGroup);
 
 userRoutes.post("/leave-group/:groupId", isAuth, leaveGroup);
 
@@ -76,7 +76,7 @@ userRoutes.get("/event/search-users/:eventId", isAuth, isEventCreator, searchUse
 
 userRoutes.post("/event/:eventId/send-invite", isAuth, isEventCreator, sendEventIv);
 
-userRoutes.post("/join-event/:eventId", isAuth, eventJoin);
+userRoutes.post("/join-event/:name", isAuth, eventJoin);
 
 const storage = multer.diskStorage({
     destination: function (req, file, cb) {
