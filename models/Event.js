@@ -25,15 +25,19 @@ const slugify = (text) => {
 }
 
 eventSchema.pre("save", async (next) => {
-    if (this && (this.isNew || this.isModified("name"))) {
-        let newSlug = slugify(this.name);
-        let count = 1;
+    if (this.isNew || this.isModified("name")) {
+        if (this.name) {
+            let newSlug = slugify(this.name);
+            let count = 1;
 
-        while (await mongoose.model("event").findOne({slug: newSlug})) {
-            newSlug = `${slugify(this.name)}-${count++}`;
+            while (await mongoose.model("event").findOne({slug: newSlug})) {
+                newSlug = `${slugify(this.name)}-${count++}`;
+            }
+
+            this.slug = newSlug;
+        } else {
+            this.slug = `event-${Date.now()}`
         }
-
-        this.slug = newSlug;
     } 
     next();
 });
