@@ -690,7 +690,7 @@ const joinGroup = async (req, res, next) => {
             });
         }
 
-        user.groups.push(groupId);
+        user.groups.push(group._id);
         group.members.push(uId);
         await group.save();
         await user.save();
@@ -1232,7 +1232,7 @@ const eventJoin = async (req, res, next) => {
         }
 
         event.invitedUsers.push(req.user._id);
-        user.events.push(eventId);
+        user.events.push(event._id);
 
         await event.save();
         await user.save();
