@@ -24,7 +24,7 @@ const slugify = (text) => {
     .replace(/-+$/g,"-");
 }
 
-eventSchema.pre("save", async (next) => {
+eventSchema.pre("save", async function (next) {
     if (this.isNew || this.isModified("name")) {
         if (this.name) {
             let newSlug = slugify(this.name);
