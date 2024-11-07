@@ -659,12 +659,11 @@ const joinViaLink = async (req, res, next) => {
 
 const joinGroup = async (req, res, next) => {
     try {
-        const id = String(req.params.groupId);
-        const groupId = new ObjectId(id);
+        const slug = req.params.slug;
         const uId = String(req.user._id);
         const userId = new ObjectId(uId);
 
-        const group = await Group.findById(groupId);
+        const group = await Group.findOne({ slug });
         const user = await User.findById(userId);
 
         if (!group) {
@@ -859,7 +858,7 @@ const sendGroupLink = async (req, res, next) => {
 
         const recepients = emails.join(", ");
 
-        const inviteLink = `http://5.161.186.15/html/events/join-event.html?eventId=${group.slug}`
+        const inviteLink = `http://5.161.186.15/html/events/join-event.html?name=${group.slug}`
 
         await sendEventLink({
             emailTo: recepients,
@@ -1184,7 +1183,7 @@ const sendEventIv = async (req, res, next) => {
 
         const recepients = emails.join(", ");
 
-        const inviteLink = `http://5.161.186.15/html/events/join-event.html/${event.slug}`
+        const inviteLink = `http://5.161.186.15/html/events/join-event.html?name=${event.slug}`
 
         await sendEventLink({
             emailTo: recepients,
@@ -1209,9 +1208,9 @@ const sendEventIv = async (req, res, next) => {
 
 const eventJoin = async (req, res, next) => {
     try {
-        const eventId = new ObjectId(String(req.params.eventId));
+        const slug = req.params.slug;
 
-        const event = await Event.findOne({ _id: eventId });
+        const event = await Event.findOne({ slug });
 
         const userId = new ObjectId(String(req.user._id));
 
