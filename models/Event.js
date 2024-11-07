@@ -31,12 +31,12 @@ eventSchema.pre("save", async function (next) {
             let newSlug = ``;
             // let count = 1;
 
-            while (await mongoose.model("event").findOne({slug: newSlug})) {
-                newSlug = `${this.name}`;
-                // newSlug = `${slugify(this.name)}-${count++}`;
-            }
+            // while (await mongoose.model("event").findOne({slug: newSlug})) {
+            //     newSlug = `${this.name}`;
+            //     // newSlug = `${slugify(this.name)}-${count++}`;
+            // }
 
-            this.slug = newSlug;
+            this.slug = this.name;
         } else {
             this.slug = `event-${Date.now()}`
         }
