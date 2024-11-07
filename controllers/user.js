@@ -1196,7 +1196,7 @@ const sendEventIv = async (req, res, next) => {
 
         const recepients = emails.join(", ");
 
-        const inviteLink = `https://http://5.161.186.15/html/events/join-event.html?eventName=${event.name}`
+        const inviteLink = `http://5.161.186.15/html/events/join-event.html?eventName=${event.name}`
 
         await sendEventLink({
             emailTo: recepients,
