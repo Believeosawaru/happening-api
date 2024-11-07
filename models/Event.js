@@ -25,7 +25,7 @@ const slugify = (text) => {
 }
 
 eventSchema.pre("save", async (next) => {
-    if (this.isNew || this.isModified) {
+    if (this && (this.isNew || this.isModified("name"))) {
         let newSlug = slugify(this.name);
         let count = 1;
 
