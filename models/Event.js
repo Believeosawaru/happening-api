@@ -9,10 +9,34 @@ const eventSchema = new Schema({
     timeZone: { type: String, required: true},
     location: { type: String },
     category: { type: String },
+    slug: { type: String, unique: true},
     type: { type: String, enum: ["public", "private"]},
     createdBy: { type: Schema.Types.ObjectId, ref: "User", required: true },
     invitedUsers : [{ type: mongoose.Schema.Types.ObjectId, ref: "user"}]
 }, {timestamps: true});
+
+const slugify = (text) => {
+    text.toString().toLowerCase()
+    .replace(/\s+/g,"-")
+    .replace(/[^\w\-]+/g,"-")
+    .replace(/\-\-+/g,"-")
+    .replace(/^-+/,"-")
+    .replace(/-+$/g,"-");
+}
+
+eventSchema.pre("save", async (next) => {
+    if (this.isNew || this.isModified) {
+        let newSlug = slugify(this.name);
+        let count = 1;
+
+        while (await mongoose.model("event").findOne({slug: newSlug})) {
+            newSlug = `${slugify(this.name)}-${count++}`;
+        }
+
+        this.slug = newSlug;
+    } 
+    next();
+});
 
 const Event = mongoose.model("event", eventSchema);
 
