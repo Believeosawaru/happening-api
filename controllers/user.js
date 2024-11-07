@@ -859,7 +859,7 @@ const sendGroupLink = async (req, res, next) => {
 
         const recepients = emails.join(", ");
 
-        const inviteLink = `http://5.161.186.15/html/events/join-event.html?eventId=${group._id}`
+        const inviteLink = `http://5.161.186.15/html/events/join-event.html?eventId=${group.slug}`
 
         await sendEventLink({
             emailTo: recepients,

@@ -7,6 +7,7 @@ const groupSchema = new Schema({
     location: {type: String},
     members: [{ type: Schema.Types.ObjectId, ref: "users" }],
     inviteLink: { type: String, default: null },
+    slug: { type: String, unique: true },
     groupType: {
         type: String,
         enum: ["private", "public"], required: true
