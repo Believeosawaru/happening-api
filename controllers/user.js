@@ -1188,17 +1188,18 @@ const searchUserEvent = async (req, res, next) => {
 
 const sendEventIv = async (req, res, next) => {
     try {
-        const { userId } = req.body;
-        const id = new ObjectId(String(userId));
+        const { emails } = req.body;
+
         const eventId = new ObjectId(String(req.params.eventId));
 
-        const user = await User.findOne({ _id: id });
-        const event = await Event.findOne({ _id: eventId });
+        const event = await Event.findById(eventId)
 
-        const inviteLink = `https://happening-khaki.vercel.app/html/events/join-event.html?eventId=${eventId}`
+        const recepients = emails.join(", ");
+
+        const inviteLink = `https://http://5.161.186.15/html/events/join-event.html?eventName=${event.name}`
 
         await sendEventLink({
-            emailTo: user.email,
+            emailTo: recepients,
             subject: "You're Invited To An Event"
         }, {
             eventName: event.name,
@@ -1211,7 +1212,7 @@ const sendEventIv = async (req, res, next) => {
         res.status(200).json({
             code: 200,
             status: true,
-            message: `Invitation Sent To ${user.firstName} ${user.lastName}`
+            message: `Invitation Sent Successfully`
         })
     } catch (error) {
         next(error);
