@@ -851,43 +851,31 @@ const searchUsersEmail = async (req, res, next) => {
 
 const sendGroupLink = async (req, res, next) => {
     try {
-        const { userId } = req.body;
-        const id = new ObjectId(String(userId));
+        const { emails } = req.body;
+
         const groupId = new ObjectId(String(req.params.groupId));
 
-        const user = await User.findOne({ _id: id });
-        const group = await Group.findOne({ _id: groupId });
-        const createdBy = await User.findOne({ id: group.createdBy })
+        const group = await Group.findById(groupId)
 
-        const groupToken = generateInviteToken();
-        
-        const inviteToken = new InviteToken({ token: groupToken, groupId });
+        const recepients = emails.join(", ");
 
-        const inviteLink = `https://happening-khaki.vercel.app/html/groups/join-link.html?groupToken=${groupToken}/`
+        const inviteLink = `http://5.161.186.15/html/events/join-event.html?eventId=${group._id}`
 
-        group.inviteLink = inviteLink;
-
-        await inviteToken.save();
-        group.save();
-
-        await sendGroupMail({
-            emailTo: user.email,
-            subject: "You're Invited To A Group"
+        await sendEventLink({
+            emailTo: recepients,
+            subject: "You're Invited To An Event"
         }, {
-            groupName: group.name,
-            groupLocation: group.location,
-            createdBy,
+            eventName: group.name,
+            eventDate: group.date,
+            eventTime: group.time,
+            eventLocation: group.location,
             inviteLink
         });
-
-        user.notifications.push({ message: `<a href="group-details.html?groupId=${group._id}">You Are Invited To ${group.name}, Check Your Mail For The Link.</a>`});
-
-        await user.save();
 
         res.status(200).json({
             code: 200,
             status: true,
-            message: `Invitation Sent To ${user.firstName} ${user.lastName}`
+            message: `Invitation Sent Successfully`
         })
     } catch (error) {
         next(error);
@@ -896,7 +884,7 @@ const sendGroupLink = async (req, res, next) => {
 
 // End Of Groups Routes
 
-// Start Of Events Routes
+// Start Of Ev$$$ents Routes
 
 const eventController = async (req, res, next) => {
     try {
