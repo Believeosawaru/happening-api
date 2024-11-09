@@ -4,7 +4,7 @@ import { User } from "../models/index.js";
 import InviteToken from "../models/inviteToken.js";
 import generateInviteToken from "../utils/generateInviteLink.js";
 import sendEventLink from "../utils/sendEventLink.js";
-import sendGroupMail from "../utils/sendGroupLink.js";
+import comparePassword from "../utils/comparePassword.js";
 import assignCategory from "../utils/assignCategory.js";
 
 const homeController = async (req, res, next) => {
@@ -312,6 +312,65 @@ const uploadPicture = async (req, res, next) => {
             status: true,
             data: req.file.filename
         });
+    } catch (error) {
+        next(error);
+    }
+}
+
+const accessPasswordChange = async (req, res, next) => {
+    try {
+        const { password } = req.body;
+        const userId = new ObjectId(String(req.user._id));
+
+        const user = await User.findById(userId);
+
+        const match = await comparePassword(password, user.password);
+        
+        if (!match) {
+            res.code = 401;
+            throw new Error("Password Dosen't Match!")
+        }
+
+        res.status(200).json({
+            code: 200,
+            status: true,
+            message: "Correct Password"
+        })
+    } catch (error) {
+        next(error);
+    }
+}
+
+const changePassword = async (req, res, next) => {
+    try {
+        const { oldPassword, newPassword } = req.body;
+        const userId = new ObjectId(String(req.user._id));
+
+        const user = await User.findById(userId);
+
+        if (oldPassword !== newPassword) {
+            res.code = 500;
+            throw new Error("Old And New Password Don't Match!");
+        }
+
+        const match = await comparePassword(oldPassword, user.password);
+        
+        if (!match) {
+            res.code = 401;
+            throw new Error("Old Password Is Incorrect");
+        }
+
+        const hashedPassword = await hashPassword(newPassword);
+
+        user.password = hashedPassword;
+
+        await user.save();
+
+        res.status(200).json({
+            code: 200,
+            status: true,
+            message: "Password Changed Successfully!"
+        })
     } catch (error) {
         next(error);
     }
@@ -1247,4 +1306,4 @@ const eventJoin = async (req, res, next) => {
     }
 }
  
-export { homeController, groupController, eventController, displayGroupController, groupInfo, editGroupInfo, showGroupInfo, deleteGroup, searchUsers, addUser, generateLink, joinViaLink, latestGroup, allGroups, joinGroup, leaveGroup, searchUsersEmail, sendGroupLink, displayEventController, eventInfo, filterEvents, editEventInfo, showEventInfo, deleteEvent, allEvents, latestEvent, searchUserEvent, sendEventIv, eventJoin, myProfile, userProfile, followUser, myBio, unfollowUser, myNotifications, uploadPicture }
+export { homeController, groupController, eventController, displayGroupController, groupInfo, editGroupInfo, showGroupInfo, deleteGroup, searchUsers, addUser, generateLink, joinViaLink, latestGroup, allGroups, joinGroup, leaveGroup, searchUsersEmail, sendGroupLink, displayEventController, eventInfo, filterEvents, editEventInfo, showEventInfo, deleteEvent, allEvents, latestEvent, searchUserEvent, sendEventIv, eventJoin, myProfile, userProfile, followUser, myBio, unfollowUser, myNotifications, uploadPicture, accessPasswordChange, changePassword }

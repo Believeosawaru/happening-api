@@ -1,5 +1,5 @@
 import express from "express"
-import { homeController, groupController, eventController, displayGroupController, groupInfo, editGroupInfo, showGroupInfo, deleteGroup, searchUsers, addUser, generateLink, joinViaLink, latestGroup, allGroups, joinGroup, leaveGroup, eventInfo, displayEventController, filterEvents, editEventInfo, showEventInfo, deleteEvent, allEvents, latestEvent, eventJoin, searchUserEvent, sendEventIv, myProfile, userProfile, followUser, myBio,unfollowUser, myNotifications, uploadPicture } from "../controllers/index.js";
+import { homeController, groupController, eventController, displayGroupController, groupInfo, editGroupInfo, showGroupInfo, deleteGroup, searchUsers, addUser, generateLink, joinViaLink, latestGroup, allGroups, joinGroup, leaveGroup, eventInfo, displayEventController, filterEvents, editEventInfo, showEventInfo, deleteEvent, allEvents, latestEvent, eventJoin, searchUserEvent, sendEventIv, myProfile, userProfile, followUser, myBio,unfollowUser, myNotifications, uploadPicture, accessPasswordChange, changePassword } from "../controllers/index.js";
 import isAuth from "../middlewares/isAuth.js";
 import isGroupCreator from "../middlewares/isGroupCreator.js";
 import isEventCreator from "../middlewares/isEventCreator.js";
@@ -21,6 +21,10 @@ userRoutes.get("/my-profile", isAuth, myProfile);
 userRoutes.post("/my-bio", isAuth, myBio);
 
 userRoutes.get("/my-notifications", isAuth, myNotifications);
+
+userRoutes.post("/access-password-change", isAuth, accessPasswordChange);
+
+userRoutes.post("/change-password", isAuth, changePassword);
 
 userRoutes.get("/home-groups", isAuth, latestGroup);
 
