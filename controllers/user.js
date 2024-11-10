@@ -362,7 +362,7 @@ const changePassword = async (req, res, next) => {
             throw new Error("Old Password Is Incorrect");
         }
 
-        if (newPassword < 6) {
+        if (newPassword.length < 6) {
             res.code = 400;
             throw new Error("Password Should Be 6 Or More Characters Long")
         }
