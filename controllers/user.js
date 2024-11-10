@@ -6,6 +6,7 @@ import generateInviteToken from "../utils/generateInviteLink.js";
 import sendEventLink from "../utils/sendEventLink.js";
 import comparePassword from "../utils/comparePassword.js";
 import assignCategory from "../utils/assignCategory.js";
+import hashPassword from "../utils/hashPassword.js";
 
 const homeController = async (req, res, next) => {
     try {
@@ -353,8 +354,8 @@ const changePassword = async (req, res, next) => {
         if (!match) {
             res.code = 401;
             throw new Error("Old Password Is Incorrect");
-        }
-
+        }€
+            
         const hashedPassword = await hashPassword(newPassword);
 
         user.password = hashedPassword;
