@@ -5,8 +5,6 @@ import isGroupCreator from "../middlewares/isGroupCreator.js";
 import isEventCreator from "../middlewares/isEventCreator.js";
 import { searchUsersEmail, sendGroupLink } from "../controllers/user.js";
 import multer from "multer";
-import { changePasswordValidator } from "../validators/auth.js";
-import validate from "../validators/validate.js";
 
 const userRoutes = express.Router();
 
@@ -24,7 +22,7 @@ userRoutes.post("/my-bio", isAuth, myBio);
 
 userRoutes.get("/my-notifications", isAuth, myNotifications);
 
-userRoutes.post("/access-password-change", changePasswordValidator, validate, isAuth, accessPasswordChange);
+userRoutes.post("/access-password-change", isAuth, accessPasswordChange);
 
 userRoutes.post("/change-password", isAuth, changePassword);
 

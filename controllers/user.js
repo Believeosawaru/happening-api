@@ -7,6 +7,7 @@ import sendEventLink from "../utils/sendEventLink.js";
 import comparePassword from "../utils/comparePassword.js";
 import assignCategory from "../utils/assignCategory.js";
 import hashPassword from "../utils/hashPassword.js";
+import { escapeRegExpChars } from "ejs/lib/utils.js";
 
 const homeController = async (req, res, next) => {
     try {
@@ -359,6 +360,11 @@ const changePassword = async (req, res, next) => {
         if (!match) {
             res.code = 401;
             throw new Error("Old Password Is Incorrect");
+        }
+
+        if (newPassword < 6) {
+            res.code = 400;
+            throw new Error("Password Should Be 6 Or More Characters Long")
         }
             
         const hashedPassword = await hashPassword(newPassword);
