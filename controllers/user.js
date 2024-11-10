@@ -354,7 +354,7 @@ const changePassword = async (req, res, next) => {
         if (!match) {
             res.code = 401;
             throw new Error("Old Password Is Incorrect");
-        }€
+        }
             
         const hashedPassword = await hashPassword(newPassword);
 
