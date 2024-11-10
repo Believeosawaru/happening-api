@@ -348,11 +348,6 @@ const changePassword = async (req, res, next) => {
 
         const user = await User.findById(userId);
 
-        if (oldPassword !== newPassword) {
-            res.code = 500;
-            throw new Error("Old And New Password Don't Match!");
-        }
-
         const match = await comparePassword(oldPassword, user.password);
         
         if (!match) {
