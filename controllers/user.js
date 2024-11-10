@@ -322,19 +322,19 @@ const accessPasswordChange = async (req, res, next) => {
         const { password } = req.body;
         const userId = new ObjectId(String(req.user._id));
 
-        const user = await User.findById(userId);
+        // const user = await User.findById(userId);
 
-        const match = await comparePassword(password, user.password);
+        // const match = await comparePassword(password, user.password);
         
-        if (!match) {
-            res.code = 401;
-            throw new Error("Password Dosen't Match!")
-        }
+        // if (!match) {
+        //     res.code = 401;
+        //     throw new Error("Password Dosen't Match!")
+        // }
 
         res.status(200).json({
             code: 200,
             status: true,
-            message: "Correct Password"
+            message: `${password}#${userId}`
         })
     } catch (error) {
         next(error);
