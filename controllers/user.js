@@ -319,7 +319,7 @@ const uploadPicture = async (req, res, next) => {
 
 const accessPasswordChange = async (req, res, next) => {
     try {
-        const { password } = req.body;
+        const password = req.body.password;
         const userId = new ObjectId(String(req.user._id));
 
         // const user = await User.findById(userId);
