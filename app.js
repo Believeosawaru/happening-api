@@ -22,7 +22,7 @@ app.use("/uploads", express.static(path.join(__dirname, "uploads")));
 // }));
 
 app.use(cors({
-    origin: 'http://5.161.186.15'
+    origin: 'https://happening.net'
 }));
 
 app.use(express.json());
