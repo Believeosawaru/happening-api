@@ -5,9 +5,9 @@ import { createPost, deletePost, editPost, loadCurrentPost, loadUsersPosts } fro
 const blogRoutes = express.Router();
 
 blogRoutes.post("/create-post", isAuth, createPost);
-blogRoutes.post("/load-current-post", isAuth, loadCurrentPost);
+blogRoutes.post("/load-current-post/:id", isAuth, loadCurrentPost);
 blogRoutes.post("/load-users-post", isAuth, loadUsersPosts);
-blogRoutes.post("/edit-post", isAuth, editPost);
-blogRoutes.post("/delete-post", isAuth, deletePost);
+blogRoutes.post("/edit-post/:id", isAuth, editPost);
+blogRoutes.post("/delete-post/:id", isAuth, deletePost);
 
 export default blogRoutes;
