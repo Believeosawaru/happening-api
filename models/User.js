@@ -20,6 +20,7 @@ const userSchema = new Schema({
         type: Schema.Types.ObjectId, ref: "event"
     }],
     bio: { type: String, default: "" },
+    posts: { type: Schema.Types.ObjectId, ref: "blog" },
     followers: [{ type: Schema.Types.ObjectId, ref: "user" }],
     following: [{ type: Schema.Types.ObjectId, ref: "user" }],
     verificationCode: { type: String },

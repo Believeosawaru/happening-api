@@ -406,7 +406,6 @@ const groupController = async (req, res, next) => {
         await creator.save();
         await group.save();
 
-
         res.status(201).json({
             code: 201,
             status: true,
