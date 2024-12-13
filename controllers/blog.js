@@ -9,7 +9,7 @@ const createPost = async (req, res, next) => {
         const blogPost = new Blog({ content, author: userId });
         const user = await User.findById(userId);
 
-        user.posts.push(blogPost._id);
+        // user.posts.push(blogPost._id);
 
         await blogPost.save();
         await user.save();
@@ -17,7 +17,7 @@ const createPost = async (req, res, next) => {
         res.status(201).json({
             code: 201,
             status: true,
-            message: "Post Created Successfully"
+            message: `Post Created Successfully ${user}`
         });
     } catch (error) {
         next(error);
@@ -89,7 +89,7 @@ const editPost = async (req, res, next) => {
            res.code = 400;
            throw new Error("You Are Not Authorized To Perform This Task!")
         }
-        
+
         blogPost.content = content;
 
         await blogPost.save();
