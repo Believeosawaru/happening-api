@@ -9,7 +9,7 @@ const createPost = async (req, res, next) => {
         const blogPost = new Blog({ content, author: userId });
         const user = await User.findById(userId);
 
-        // user.posts.push(blogPost._id);
+        user.posts.push(blogPost._id);
 
         await blogPost.save();
         await user.save();
