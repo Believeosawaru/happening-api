@@ -88,7 +88,7 @@ const editPost = async (req, res, next) => {
         if (user._id !==  blogPost.author) {
            res.code = 400;
         //    throw new Error("You Are Not Authorized To Perform This Task!")
-           throw new Error(`${user._id} ${blogPost.author}`)
+           throw new Error(`${typeof(user._id)} ${typeof(blogPost.author)}`)
         }
 
         blogPost.content = content;
