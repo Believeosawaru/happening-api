@@ -14,8 +14,8 @@ const createPost = async (req, res, next) => {
         await blogPost.save();
         await user.save();
 
-        res.status(500).json({
-            code: 500,
+        res.status(201).json({
+            code: 201,
             status: true,
             message: `Post Created Successfully ${user}`
         });
