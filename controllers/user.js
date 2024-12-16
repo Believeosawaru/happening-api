@@ -1286,7 +1286,9 @@ const eventJoin = async (req, res, next) => {
     try {
         const slug = req.params.slug;
 
-        const event = await Event.findnk({ slug });
+        const event = await Event.find({ slug });
+
+        throw new Error(`${event} ${typeof(slug)}`)
 
         const userId = new ObjectId(String(req.user._id));
 
