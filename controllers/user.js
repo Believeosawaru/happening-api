@@ -1286,7 +1286,7 @@ const eventJoin = async (req, res, next) => {
     try {
         const slug = req.params.slug;
 
-        const event = await Event.findOne({ slug });
+        const event = await Event.findnk({ slug });
 
         const userId = new ObjectId(String(req.user._id));
 
