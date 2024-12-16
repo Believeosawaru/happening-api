@@ -11,6 +11,7 @@ const eventSchema = new Schema({
     category: { type: String },
     slug: { type: String, unique: true},
     type: { type: String, enum: ["public", "private"]},
+    registrationDeadline: { type: Date, required: true },
     createdBy: { type: Schema.Types.ObjectId, ref: "User", required: true },
     invitedUsers : [{ type: mongoose.Schema.Types.ObjectId, ref: "user"}]
 }, {timestamps: true});

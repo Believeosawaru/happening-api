@@ -13,6 +13,7 @@ const groupSchema = new Schema({
         enum: ["private", "public"], required: true
     },
     category: { type: String },
+    registrationDeadline: { type: Date, required: true },
     createdBy: {
         type: mongoose.Schema.Types.ObjectId,
         ref: "User",

@@ -384,7 +384,7 @@ const changePassword = async (req, res, next) => {
 }
 
 const groupController = async (req, res, next) => {
-    const { name, description, location, groupType } = req.body;
+    const { name, description, location, groupType, registrationDeadline } = req.body;
     const createdBy = req.user._id;
     const category = await assignCategory(name, description);
 
@@ -395,6 +395,7 @@ const groupController = async (req, res, next) => {
             location,
             groupType,
             category,
+            registrationDeadline: registrationDeadline ? new Date(registrationDeadline) : null,
             createdBy
         });
 
@@ -701,6 +702,11 @@ const joinViaLink = async (req, res, next) => {
             throw new Error("You Are Already A Group Member");
         }
 
+        if (group.registrationDeadline && new Date() > group.registrationDeadline) {
+            res.code = 400;
+            throw new Error("Registration For This Group Has Been Closed")
+        }
+
         if (user.isVerified === false) {
             res.code = 400;
             throw new Error("You Are Not Verified");
@@ -753,6 +759,11 @@ const joinGroup = async (req, res, next) => {
                 status: false,
                 message: "You Are Already A Member Of This Group"
             });
+        }
+
+        if (group.registrationDeadline && new Date() > group.registrationDeadline) {
+            res.code = 400;
+            throw new Error("Registration For This Group Has Been Closed")
         }
 
         user.groups.push(group._id);
@@ -952,12 +963,12 @@ const sendGroupLink = async (req, res, next) => {
 
 const eventController = async (req, res, next) => {
     try {
-        const { name, description, date, time, timeZone, location, type } = req.body;
+        const { name, description, date, time, timeZone, location, type, registrationDeadline } = req.body;
         const createdBy = String(req.user._id);
         const currentUser = new ObjectId(createdBy);
         const category = await assignCategory(name, description);
 
-        const event = new Event({ name, description, date, time, timeZone, location, category, type, createdBy });
+        const event = new Event({ name, description, date, time, timeZone, location, category, type, registrationDeadline: registrationDeadline ? new Date(registrationDeadline) : null, createdBy });
 
         const user = await User.findById(currentUser);
         user.events.push(event._id);
@@ -1294,6 +1305,11 @@ const eventJoin = async (req, res, next) => {
         if (user.isVerified === false) {
             res.code = 400;
             throw new Error("You Are Not Verified");
+        }
+
+        if (event.registrationDeadline && new Date() > event.registrationDeadline) {
+            res.code = 400;
+            throw new Error("Registration For This Event Has Been Closed")
         }
 
         event.invitedUsers.push(req.user._id);
