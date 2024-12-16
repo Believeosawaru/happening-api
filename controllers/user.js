@@ -1288,6 +1288,8 @@ const eventJoin = async (req, res, next) => {
 
         const event = await Event.find({ slug });
 
+        res.code = 400;
+
         throw new Error(`${event} ${typeof(slug)}`)
 
         const userId = new ObjectId(String(req.user._id));
