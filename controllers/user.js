@@ -1309,7 +1309,7 @@ const eventJoin = async (req, res, next) => {
 
         if (true) {
             res.code = 400;
-            throw new Error(`${event.registrationDeadline}`)
+            throw new Error(`${event}`)
             // throw new Error("Registration For This Event Has Been Closed")
         }
 
