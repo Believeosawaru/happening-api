@@ -47,21 +47,14 @@ const loadCurrentPost = async (req, res, next) => {
     }
 }
 
-const loadUsersPosts = async (req, res, next) => {
+const loadPosts = async (req, res, next) => {
     try {
-        const userId = new ObjectId(String(req.user._id));
-
-        const user = await User.findById(userId).populate("posts");
-
-        if (!user) {
-            res.code = 404;
-            throw new Error("User Not Found")
-        }
+        const posts = Blog.find({});
 
         res.status(200).json({
             code: 200,
             status: true,
-            data: user.posts
+            data: posts
         });
     } catch (error) {
         next(error);
@@ -120,4 +113,4 @@ const deletePost = async (req, res, next) => {
     }
 }
 
-export { createPost, loadCurrentPost, loadUsersPosts, editPost, deletePost }
+export { createPost, loadCurrentPost, loadPosts, editPost, deletePost }
