@@ -1294,7 +1294,7 @@ const eventJoin = async (req, res, next) => {
 
         if (!event) {
             res.code = 404;
-            throw new Error(req.params);
+            throw new Error("Event Not Found");
         }
 
         if (event.invitedUsers.includes(req.user._id)) {
@@ -1305,12 +1305,6 @@ const eventJoin = async (req, res, next) => {
         if (user.isVerified === false) {
             res.code = 400;
             throw new Error("You Are Not Verified");
-        }
-
-        if (true) {
-            res.code = 400;
-            throw new Error(`${event}`)
-            // throw new Error("Registration For This Event Has Been Closed")
         }
 
         event.invitedUsers.push(req.user._id);
