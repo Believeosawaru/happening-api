@@ -1284,9 +1284,9 @@ const sendEventIv = async (req, res, next) => {
 
 const eventJoin = async (req, res, next) => {
     try {
-        const slug = req.params.name;
+        const slug = String(req.params.name);
 
-        const event = await Event.findOne({ slug: "recent-event" });
+        const event = await Event.findOne({ slug });
 
         res.code = 400;
 
