@@ -1294,7 +1294,7 @@ const eventJoin = async (req, res, next) => {
 
         if (!event) {
             res.code = 404;
-            throw new Error("Event Not Found");
+            throw new Error(req.params);
         }
 
         if (event.invitedUsers.includes(req.user._id)) {
