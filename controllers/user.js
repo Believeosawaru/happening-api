@@ -744,11 +744,11 @@ const joinViaLink = async (req, res, next) => {
 
 const joinGroup = async (req, res, next) => {
     try {
-        const slug = req.params.slug;
+        const id = new ObjectId(String(req.params.groupId));
         const uId = String(req.user._id);
         const userId = new ObjectId(uId);
 
-        const group = await Group.findOne({ slug });
+        const group = await Group.findById(id);
         const user = await User.findById(userId);
 
         if (!group) {

@@ -38,7 +38,7 @@ userRoutes.get("/group/:groupId", isAuth, groupInfo);
 
 userRoutes.get("/group/:groupId/generate-link", isAuth, isGroupCreator, generateLink);
 
-userRoutes.post("/join-group/:name", isAuth, joinGroup);
+userRoutes.post("/join-group/:groupId", isAuth, joinGroup);
 
 userRoutes.post("/leave-group/:groupId", isAuth, leaveGroup);
 
