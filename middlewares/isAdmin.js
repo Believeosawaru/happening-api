@@ -1,4 +1,4 @@
-import { User } from "../models/User.js"; 
+import User from "../models/User.js"; 
 import { ObjectId } from "mongodb";
 
 const isAdmin = async (req, res, next) => {
