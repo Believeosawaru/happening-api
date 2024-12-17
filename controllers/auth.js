@@ -9,6 +9,8 @@ const signUpController = async (req, res, next) => {
     try {
         const { firstName, lastName, email, password } = req.body;
 
+        const hashedPassword = await hashPassword(password);
+
         const isEmailExist = await User.findOne({email});
 
         if (isEmailExist) {
@@ -30,8 +32,6 @@ const signUpController = async (req, res, next) => {
                 message: "User Signed Up Successfully"
             })
         }
-
-        const hashedPassword = await hashPassword(password);
 
         const user = new User({firstName, lastName, email, password: hashedPassword});
 
