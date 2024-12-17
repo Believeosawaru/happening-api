@@ -1,5 +1,10 @@
-const isAdmin = (req, res, next) => {
-    const user = req.user;
+import { User } from "../models"; 
+import { ObjectId } from "mongodb";
+
+const isAdmin = async (req, res, next) => {
+    const uId = new ObjectId(String(req.user._id));
+
+    const user = await User.findById(uId)
 
     if (user && user.role === "admin") {
         next();
