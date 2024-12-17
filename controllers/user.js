@@ -1290,11 +1290,16 @@ const eventJoin = async (req, res, next) => {
 
         const userId = new ObjectId(String(req.user._id));
 
-        const user = await User.findById(userId)
+        const user = await User.findById(userId);
 
         if (!event) {
             res.code = 404;
             throw new Error("Event Not Found");
+        }
+
+        if (!user) {
+            res.code = 404;
+            throw new Error("Log In Or Create An Account");
         }
 
         if (event.invitedUsers.includes(req.user._id)) {
