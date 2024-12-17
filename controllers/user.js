@@ -525,7 +525,7 @@ const showGroupInfo = async (req, res, next) => {
         const group = await Group.findOne({_id: groupId});
 
         let groupRegStatus;
-        
+
         if (group.registrationDeadline && new Date() > group.registrationDeadline) {
             groupRegStatus = true;
         }
@@ -534,6 +534,7 @@ const showGroupInfo = async (req, res, next) => {
              code: 200,
              status: true,
              data: group,
+             groupRegStatus
         });
     } catch (error) {
         next(error);
