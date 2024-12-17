@@ -9,7 +9,7 @@ const isAdmin = async (req, res, next) => {
     if (user && user.role === "admin") {
         next();
     } else {
-        res.code = 403;
+        res.code = 400;
         throw new Error("Access Denied, Admins Only.")
     }
 }
