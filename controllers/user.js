@@ -1288,7 +1288,7 @@ const eventJoin = async (req, res, next) => {
 
         const event = await Event.findOne({ slug });
 
-        // res.code = 400;
+        res.code = 400;
 
         throw new Error(`${event} ${typeof(slug)}`)
 
