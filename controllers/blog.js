@@ -49,7 +49,7 @@ const loadCurrentPost = async (req, res, next) => {
 
 const loadPosts = async (req, res, next) => {
     try {
-        const posts = await Blog.find({}).populate("user");
+        const posts = await Blog.find({}).populate("author");
 
         res.status(200).json({
             code: 200,
