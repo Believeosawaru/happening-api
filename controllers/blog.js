@@ -49,7 +49,7 @@ const loadCurrentPost = async (req, res, next) => {
 
 const loadPosts = async (req, res, next) => {
     try {
-        const posts = Blog.find({});
+        const posts = await Blog.find({});
 
         res.status(200).json({
             code: 200,
