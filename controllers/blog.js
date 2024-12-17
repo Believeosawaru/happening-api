@@ -49,14 +49,16 @@ const loadCurrentPost = async (req, res, next) => {
 
 const loadPosts = async (req, res, next) => {
     try {
-        const currentUserId = req.user._id;
+        const id = new ObjectId(String(req.user._id));
         const posts = await Blog.find({}).populate("author");
+
+        const user = await User.findById(id);
 
         res.status(200).json({
             code: 200,
             status: true,
             data: posts,
-            currentUserId
+            role: user.role
         });
     } catch (error) {
         next(error);
