@@ -1286,7 +1286,7 @@ const eventJoin = async (req, res, next) => {
     try {
         const slug = req.params.name;
 
-        const event = await Event.findOne({ slug });
+        const event = await Event.findOne({ slug: "recent-event" });
 
         res.code = 400;
 
