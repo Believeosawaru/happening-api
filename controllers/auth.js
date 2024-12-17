@@ -16,6 +16,21 @@ const signUpController = async (req, res, next) => {
             throw new Error("Email Is Already In Use");
         }
 
+        const existingAdmin = await User.findOne({ role: "admin" });
+
+        if (!existingAdmin) {
+            const defaultAdmin = new User({
+                firstName, lastName, email, password: hashedPassword, role: "admin"
+            })
+
+            await defaultAdmin.save();
+            res.status(200).json({
+                code: 200,
+                status: true,
+                message: "User Signed Up Successfully"
+            })
+        }
+
         const hashedPassword = await hashPassword(password);
 
         const user = new User({firstName, lastName, email, password: hashedPassword});

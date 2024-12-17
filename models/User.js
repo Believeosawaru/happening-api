@@ -23,6 +23,7 @@ const userSchema = new Schema({
     posts: [{ type: Schema.Types.ObjectId, ref: "blog" }],
     followers: [{ type: Schema.Types.ObjectId, ref: "user" }],
     following: [{ type: Schema.Types.ObjectId, ref: "user" }],
+    role: { type: String, enum: ["user", "admin"], default: "user" },
     verificationCode: { type: String },
     isVerified: { type: Boolean, default: false },
     forgotPasswordCode: { type: String },
