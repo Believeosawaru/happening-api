@@ -17,7 +17,7 @@ const createPost = async (req, res, next) => {
         res.status(201).json({
             code: 201,
             status: true,
-            message: `Post Created Successfully ${user}`
+            message: `Post Created Successfully`
         });
     } catch (error) {
         next(error);
@@ -49,12 +49,14 @@ const loadCurrentPost = async (req, res, next) => {
 
 const loadPosts = async (req, res, next) => {
     try {
+        const currentUserId = req.user._id;
         const posts = await Blog.find({}).populate("author");
 
         res.status(200).json({
             code: 200,
             status: true,
-            data: posts
+            data: posts,
+            currentUserId
         });
     } catch (error) {
         next(error);
