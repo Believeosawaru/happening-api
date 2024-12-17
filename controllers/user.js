@@ -452,6 +452,8 @@ const groupInfo = async (req, res, next) => {
 
         const group = await Group.findOne({_id: groupId});
 
+        let groupRegStatus;
+
         const ownerId = group.createdBy;
         const owner = new ObjectId(ownerId);
 
@@ -464,6 +466,10 @@ const groupInfo = async (req, res, next) => {
 
         const { firstName, lastName, _id } = await User.findOne({_id: owner});
 
+        if (group.registrationDeadline && new Date() > group.registrationDeadline) {
+            groupRegStatus = true // Cannot Register
+        }
+
         res.status(200).json({
              code: 200,
              status: true,
@@ -474,6 +480,7 @@ const groupInfo = async (req, res, next) => {
                 lastName,
                 _id
              },
+             groupRegStatus,
              relatedGroups
         });
     } catch (error) {
@@ -516,6 +523,12 @@ const showGroupInfo = async (req, res, next) => {
         const groupId = new ObjectId(id);
 
         const group = await Group.findOne({_id: groupId});
+
+        let groupRegStatus;
+        
+        if (group.registrationDeadline && new Date() > group.registrationDeadline) {
+            groupRegStatus = true;
+        }
 
         res.status(200).json({
              code: 200,
@@ -655,7 +668,7 @@ const generateLink = async (req, res, next) => {
             
                 const inviteToken = new InviteToken({ token: groupToken, groupId });
 
-                const inviteLink = `https://http://5.161.186.15/html/groups/join-link.html?groupToken=${groupToken}/`
+                const inviteLink = `https:happening.net/groups/join-link?groupToken=${groupToken}`
 
                 group.inviteLink = inviteLink;
 
@@ -1020,6 +1033,8 @@ const eventInfo = async (req, res, next) => {
 
         const event = await Event.findOne({_id: eventId});
 
+        let eventRegStatus;
+
         const ownerId = event.createdBy;
         const owner = new ObjectId(String(ownerId));
 
@@ -1032,6 +1047,10 @@ const eventInfo = async (req, res, next) => {
             createdBy: { $ne: currentUserId }
         });
 
+        if (event.registrationDeadline && new Date() > event.registrationDeadline) {
+            eventRegStatus = true // Cannot Register
+        }
+
         res.status(200).json({
              code: 200,
              status: true,
@@ -1042,6 +1061,7 @@ const eventInfo = async (req, res, next) => {
                 lastName,
                 _id
              },
+             eventRegStatus,
              relatedEvents
         });
     } catch (error) {
@@ -1124,10 +1144,17 @@ const showEventInfo = async (req, res, next) => {
 
         const event = await Event.findOne({_id: eventId});
 
+        let eventRegStatus;
+
+        if (event.registrationDeadline && new Date() > event.registrationDeadline) {
+            eventRegStatus = true;
+        }
+
         res.status(200).json({
              code: 200,
              status: true,
              data: event,
+             eventRegStatus
         });
     } catch (error) {
         next(error);
