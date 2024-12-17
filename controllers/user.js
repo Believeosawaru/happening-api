@@ -1307,6 +1307,11 @@ const eventJoin = async (req, res, next) => {
             throw new Error("You Are Already Attending This Event");
         }
 
+        if (event.registrationDeadline && new Date() > event.registrationDeadline) {
+            res.code = 400;
+            throw new Error("Registration For This Event Has Been Closed")
+        }
+
         if (user.isVerified === false) {
             res.code = 400;
             throw new Error("You Are Not Verified");
