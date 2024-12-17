@@ -1290,7 +1290,7 @@ const eventJoin = async (req, res, next) => {
 
         res.code = 400;
 
-        throw new Error(`${event} ${typeof(slug)}`)
+        throw new Error(`${event} ${slug}`)
 
         const userId = new ObjectId(String(req.user._id));
 
