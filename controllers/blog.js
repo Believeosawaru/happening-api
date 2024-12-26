@@ -7,7 +7,7 @@ const createPost = async (req, res, next) => {
         const userId = new ObjectId(String(req.user._id));
         const filePath = req.file.filename;
 
-        const blogPost = new Blog({ content, author: userId, media: file ? {
+        const blogPost = new Blog({ content, author: userId, media: filePath ? {
             path: filePath,
             type: file.mimetype.startsWith("image/") ? "image" : "video"
         } : null });
