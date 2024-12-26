@@ -2,6 +2,7 @@ import express from "express";
 import isAuth from "../middlewares/isAuth.js";
 import { createPost, deletePost, editPost, loadCurrentPost, loadPosts } from "../controllers/index.js";
 import isAdmin from "../middlewares/isAdmin.js";
+import multer from "multer";
 
 const storage = multer.diskStorage({
     destination: function (req, file, cb) {
