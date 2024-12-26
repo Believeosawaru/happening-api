@@ -7,9 +7,9 @@ import multer from "multer";
 const storage = multer.diskStorage({
     destination: function (req, file, cb) {
       if (file.mimetype.startsWith("video/")) {
-        cb(null, './uploads/videos');
+        cb(null, './uploads/videos/');
       } else if (file.mimetype.startsWith("image/")) {
-        cb(null, './uploads/images');
+        cb(null, './uploads/images/');
       } else {
         cb(new Error("Unsupported File Type"))
       }
