@@ -25,17 +25,17 @@ const upload = multer({
       fileSize: 100 * 1024 * 1024, // 20 MB
       files: 1
       },
-      fileFilter: (req, file, cb) => {
-        const filetypes = /jpeg|jpg|png|gif|mp4|mov|avi/;
-        const extname = filetypes.test(path.extname(file.originalname).toLowerCase());
-        const mimetype = filetypes.test(file.mimetype);
+    //   fileFilter: (req, file, cb) => {
+    //     const filetypes = /jpeg|jpg|png|gif|mp4|mov|avi/;
+    //     const extname = filetypes.test(path.extname(file.originalname).toLowerCase());
+    //     const mimetype = filetypes.test(file.mimetype);
 
-         if (extname && mimetype) {
-            cb(null, true);
-         } else {
-            cb(new Error("Invalid File Type"))
-         }
-      }
+    //      if (extname && mimetype) {
+    //         cb(null, true);
+    //      } else {
+    //         cb(new Error("Invalid File Type"))
+    //      }
+    //   }
  });
 
 const blogRoutes = express.Router();
