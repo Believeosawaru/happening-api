@@ -8,7 +8,7 @@ const storage = multer.diskStorage({
     destination: function (req, file, cb) {
       if (file.mimetype.startsWith("video/")) {
         cb(null, './uploads/videos');
-      } else if (file.mimetype.startsWith("video/")) {
+      } else if (file.mimetype.startsWith("image/")) {
         cb(null, './uploads/images');
       } else {
         cb(new Error("Unsupported File Type"))
@@ -25,6 +25,17 @@ const upload = multer({
       fileSize: 100 * 1024 * 1024, // 20 MB
       files: 1
       },
+      fileFilter: (req, file, cb) => {
+        const filetypes = /jpeg|jpg|png|gif|mp4|mov|avi/;
+        const extname = filetypes.test(path.extname(file.originalname).toLowerCase());
+        const mimetype = filetypes.test(file.mimetype);
+
+         if (extname && mimetype) {
+            cb(null, true);
+         } else {
+            cb(new Error("Invalid File Type"))
+         }
+      }
  });
 
 const blogRoutes = express.Router();
