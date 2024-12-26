@@ -20,6 +20,9 @@ const createPost = async (req, res, next) => {
         // await blogPost.save();
         // await user.save();
 
+        res.code = 400;
+        throw new Error(`${typeof(file), typeof(fileName)}`)
+
         res.status(201).json({
             code: 201,
             status: true,
