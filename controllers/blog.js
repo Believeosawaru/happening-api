@@ -15,10 +15,7 @@ const createPost = async (req, res, next) => {
           type = file.mimetype.startsWith("image/") ? "image" : "video"
         }
 
-        const blogPost = new Blog({ content, author: userId, media: {
-                path: "dh",
-                type: "dh"
-            }
+        const blogPost = new Blog({ content, author: userId, mediaPath: path, mediaType: type
         });
         
         const user = await User.findById(userId);
