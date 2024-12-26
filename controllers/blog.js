@@ -6,12 +6,20 @@ const createPost = async (req, res, next) => {
         const { content } = req.body;
         const userId = new ObjectId(String(req.user._id));
         const file = req.file;
-        const fileName = req.file.filename
+        const fileName = req.file.filename;
+        let path;
+        let type;
 
-        // const blogPost = new Blog({ content, author: userId, media: file ? {
-        //     path: fileName,
-        //     type: file.mimetype.startsWith("image/") ? "image" : "video"
-        // } : null });
+        if (file) {
+          path = fileName,
+          type = file.mimetype.startsWith("image/") ? "image" : "video"
+        }
+
+        const blogPost = new Blog({ content, author: userId, media: {
+                path,
+                type
+            }
+        });
         
         // const user = await User.findById(userId);
 
@@ -21,7 +29,7 @@ const createPost = async (req, res, next) => {
         // await user.save();
 
         res.code = 400;
-        throw new Error(`${typeof(file)}`)
+        throw new Error(`${path, type}`)
 
         res.status(201).json({
             code: 201,
