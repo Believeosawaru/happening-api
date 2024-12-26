@@ -3,9 +3,32 @@ import isAuth from "../middlewares/isAuth.js";
 import { createPost, deletePost, editPost, loadCurrentPost, loadPosts } from "../controllers/index.js";
 import isAdmin from "../middlewares/isAdmin.js";
 
+const storage = multer.diskStorage({
+    destination: function (req, file, cb) {
+      if (file.mimetype.startsWith("video/")) {
+        cb(null, './uploads/videos');
+      } else if (file.mimetype.startsWith("video/")) {
+        cb(null, './uploads/images');
+      } else {
+        cb(new Error("Unsupported File Type"))
+      }
+    },
+    filename: function (req, file, cb) {
+      cb(null, Date.now() + '-' + file.originalname); // Specify the filename
+    }
+});
+ 
+const upload = multer({ 
+      storage: storage,
+      limits: {
+      fileSize: 100 * 1024 * 1024, // 20 MB
+      files: 1
+      },
+ });
+
 const blogRoutes = express.Router();
 
-blogRoutes.post("/create-post", isAuth, isAdmin, createPost);
+blogRoutes.post("/create-post", isAuth, isAdmin, upload.single("media"), createPost);
 blogRoutes.get("/load-current-post/:id", isAuth, isAdmin, loadCurrentPost);
 blogRoutes.get("/load-posts", isAuth, loadPosts);
 blogRoutes.post("/edit-post/:id", isAuth, isAdmin, editPost);

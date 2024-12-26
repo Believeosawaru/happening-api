@@ -5,8 +5,13 @@ const createPost = async (req, res, next) => {
     try {
         const { content } = req.body;
         const userId = new ObjectId(String(req.user._id));
+        const file = req.file;
 
-        const blogPost = new Blog({ content, author: userId });
+        const blogPost = new Blog({ content, author: userId, media: file ? {
+            path: file.path,
+            type: file.mimetype.startsWith("image/") ? "image" : "video"
+        } : null });
+        
         const user = await User.findById(userId);
 
         user.posts.push(blogPost._id);
