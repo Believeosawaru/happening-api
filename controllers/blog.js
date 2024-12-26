@@ -8,22 +8,23 @@ const createPost = async (req, res, next) => {
         const file = req.file;
         const fileName = req.file.filename
 
-        const blogPost = new Blog({ content, author: userId, media: file ? {
-            path: fileName,
-            type: file.mimetype.startsWith("image/") ? "image" : "video"
-        } : null });
+        // const blogPost = new Blog({ content, author: userId, media: file ? {
+        //     path: fileName,
+        //     type: file.mimetype.startsWith("image/") ? "image" : "video"
+        // } : null });
         
-        const user = await User.findById(userId);
+        // const user = await User.findById(userId);
 
-        user.posts.push(blogPost._id);
+        // user.posts.push(blogPost._id);
 
-        await blogPost.save();
-        await user.save();
+        // await blogPost.save();
+        // await user.save();
 
         res.status(201).json({
             code: 201,
             status: true,
-            message: `Post Created Successfully`
+            // message: `Post Created Successfully`
+            message: `${typeof(file), typeof(fileName)}`
         });
     } catch (error) {
         next(error);
