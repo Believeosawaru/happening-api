@@ -29,7 +29,7 @@ const upload = multer({
 
 const blogRoutes = express.Router();
 
-blogRoutes.post("/create-post", isAuth, isAdmin, createPost);
+blogRoutes.post("/create-post", isAuth, isAdmin, upload.single("media"), createPost);
 blogRoutes.get("/load-current-post/:id", isAuth, isAdmin, loadCurrentPost);
 blogRoutes.get("/load-posts", isAuth, loadPosts);
 blogRoutes.post("/edit-post/:id", isAuth, isAdmin, editPost);
