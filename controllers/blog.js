@@ -21,21 +21,21 @@ const createPost = async (req, res, next) => {
             }
         });
         
-        // const user = await User.findById(userId);
+        const user = await User.findById(userId);
 
-        // user.posts.push(blogPost._id);
+        user.posts.push(blogPost._id);
 
-        // await blogPost.save();
-        // await user.save();
+        await blogPost.save();
+        await user.save();
 
-        res.code = 400;
-        throw new Error(`${path}`)
+        // res.code = 400;
+        // throw new Error(`${path}`)
 
         res.status(201).json({
             code: 201,
             status: true,
-            // message: `Post Created Successfully`
-            message: `${typeof(file), typeof(fileName)}`
+            message: `Post Created Successfully`
+            // message: `${typeof(file), typeof(fileName)}`
         });
     } catch (error) {
         next(error);
