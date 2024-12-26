@@ -16,8 +16,8 @@ const createPost = async (req, res, next) => {
         }
 
         const blogPost = new Blog({ content, author: userId, media: {
-                path,
-                type
+                path: "dh",
+                type: "dh"
             }
         });
         
