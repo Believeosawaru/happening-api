@@ -29,7 +29,7 @@ const createPost = async (req, res, next) => {
         // await user.save();
 
         res.code = 400;
-        throw new Error(`${path, type}`)
+        throw new Error(`${path}`)
 
         res.status(201).json({
             code: 201,
