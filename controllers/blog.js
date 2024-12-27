@@ -75,6 +75,20 @@ const loadPosts = async (req, res, next) => {
     }
 }
 
+const loadPublicPosts = async (req, res, next) => {
+    try {
+        const posts = await Blog.find({}).populate("author");
+
+        res.status(200).json({
+            code: 200,
+            status: true,
+            data: posts,
+        });
+    } catch (error) {
+        next(error);
+    }
+}
+
 const editPost = async (req, res, next) => {
     try {
         const { content } = req.body;
@@ -127,4 +141,4 @@ const deletePost = async (req, res, next) => {
     }
 }
 
-export { createPost, loadCurrentPost, loadPosts, editPost, deletePost }
+export { createPost, loadCurrentPost, loadPosts, editPost, deletePost, loadPublicPosts }
