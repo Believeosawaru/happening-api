@@ -42,7 +42,7 @@ const blogRoutes = express.Router();
 
 blogRoutes.post("/create-post", isAuth, isAdmin, upload.single("media"), createPost);
 blogRoutes.get("/load-current-post/:id", isAuth, isAdmin, loadCurrentPost);
-blogRoutes.get("/load-posts", isAuth, loadPosts);
+blogRoutes.get("/load-posts", loadPosts);
 blogRoutes.post("/edit-post/:id", isAuth, isAdmin, editPost);
 blogRoutes.delete("/delete-post/:id", isAuth, isAdmin, deletePost);
 
