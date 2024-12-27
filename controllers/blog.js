@@ -61,7 +61,7 @@ const loadBlogPost = async (req, res, next) => {
     try {
         const postId = new ObjectId(String(req.params.postId));
 
-        const blogPost = await Blog.findById(postId);
+        const blogPost = await Blog.findById(postId).populate("author");
 
         if (!blogPost) {
             res.code = 404;
@@ -82,7 +82,7 @@ const publicBlogPost = async (req, res, next) => {
     try {
         const postId = new ObjectId(String(req.params.postId));
 
-        const blogPost = await Blog.findById(postId);
+        const blogPost = await Blog.findById(postId).populate("author");
 
         if (!blogPost) {
             res.code = 404;
