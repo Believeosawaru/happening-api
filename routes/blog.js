@@ -1,6 +1,6 @@
 import express from "express";
 import isAuth from "../middlewares/isAuth.js";
-import { createPost, deletePost, editPost, loadCurrentPost, loadPosts, loadPublicPosts, loadBlogPost } from "../controllers/index.js";
+import { createPost, deletePost, editPost, loadCurrentPost, loadPosts, loadPublicPosts, loadBlogPost, publicBlogPost } from "../controllers/index.js";
 import isAdmin from "../middlewares/isAdmin.js";
 import multer from "multer";
 
@@ -42,7 +42,8 @@ const blogRoutes = express.Router();
 
 blogRoutes.post("/create-post", isAuth, isAdmin, upload.single("media"), createPost);
 blogRoutes.get("/load-current-post/:id", isAuth, isAdmin, loadCurrentPost);
-blogRoutes.get("/blog-post/:postId", isAuth, loadBlogPost);
+blogRoutes.get("/blog-post/:postId", isAuth, loadBlogPost); // Single Post Route (For Users)
+blogRoutes.get("/public-blog-post/:postId", publicBlogPost); // Single Post Route (For Public)
 blogRoutes.get("/load-posts", isAuth, loadPosts);
 blogRoutes.get("/public-feed", loadPublicPosts);
 blogRoutes.post("/edit-post/:id", isAuth, isAdmin, editPost);

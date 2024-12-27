@@ -78,6 +78,27 @@ const loadBlogPost = async (req, res, next) => {
     }
 }
 
+const publicBlogPost = async (req, res, next) => {
+    try {
+        const postId = new ObjectId(String(req.params.postId));
+
+        const blogPost = await Blog.findById(postId);
+
+        if (!blogPost) {
+            res.code = 404;
+            throw new Error("Post Not Found")
+        }
+
+        res.status(200).json({
+            code: 200,
+            status: true,
+            data: blogPost
+        });
+    } catch (error) {
+        next(error);
+    }
+}
+
 const loadPosts = async (req, res, next) => {
     try {
         const id = new ObjectId(String(req.user._id));
@@ -162,4 +183,4 @@ const deletePost = async (req, res, next) => {
     }
 }
 
-export { createPost, loadCurrentPost, loadPosts, editPost, deletePost, loadPublicPosts, loadBlogPost }
+export { createPost, loadCurrentPost, loadPosts, editPost, deletePost, loadPublicPosts, loadBlogPost, publicBlogPost }
