@@ -59,9 +59,11 @@ const loadCurrentPost = async (req, res, next) => {
 
 const loadBlogPost = async (req, res, next) => {
     try {
+        const userId = new ObjectId(String(req.user._id));
         const postId = new ObjectId(String(req.params.postId));
 
         const blogPost = await Blog.findById(postId).populate("author");
+        const user = await User.findById(userId);
 
         if (!blogPost) {
             res.code = 404;
@@ -71,7 +73,8 @@ const loadBlogPost = async (req, res, next) => {
         res.status(200).json({
             code: 200,
             status: true,
-            data: blogPost
+            data: blogPost,
+            user
         });
     } catch (error) {
         next(error);
