@@ -1,5 +1,5 @@
 import express from "express"
-import { homeController, groupController, eventController, displayGroupController, groupInfo, editGroupInfo, showGroupInfo, deleteGroup, searchUsers, addUser, generateLink, joinViaLink, latestGroup, allGroups, joinGroup, leaveGroup, eventInfo, displayEventController, filterEvents, editEventInfo, showEventInfo, deleteEvent, allEvents, latestEvent, eventJoin, searchUserEvent, sendEventIv, myProfile, userProfile, followUser, myBio,unfollowUser, myNotifications, uploadPicture, accessPasswordChange, changePassword } from "../controllers/index.js";
+import { homeController, groupController, eventController, displayGroupController, groupInfo, editGroupInfo, showGroupInfo, deleteGroup, searchUsers, addUser, generateLink, joinViaLink, latestGroup, allGroups, joinGroup, leaveGroup, publicGroupController, eventInfo, displayEventController, filterEvents, editEventInfo, showEventInfo, deleteEvent, allEvents, latestEvent, eventJoin, searchUserEvent, sendEventIv, publicEventController, myProfile, userProfile, followUser, myBio,unfollowUser, myNotifications, uploadPicture, accessPasswordChange, changePassword } from "../controllers/index.js";
 import isAuth from "../middlewares/isAuth.js";
 import isGroupCreator from "../middlewares/isGroupCreator.js";
 import isEventCreator from "../middlewares/isEventCreator.js";
@@ -58,6 +58,10 @@ userRoutes.get("/group/search/email-users/:groupId", isAuth, isGroupCreator, sea
 
 userRoutes.post("/group/:groupId/send-invite", isAuth, isGroupCreator, sendGroupLink);
 
+userRoutes.get("/public-groups", publicEventController);
+
+// End of Group Routes
+
 userRoutes.post("/create-event", isAuth, eventController);
 
 userRoutes.get("/events", isAuth, displayEventController);
@@ -82,6 +86,8 @@ userRoutes.post("/event/:eventId/send-invite", isAuth, isEventCreator, sendEvent
 
 userRoutes.post("/join-event/:name", isAuth, eventJoin);
 
+userRoutes.get("/public-events", publicGroupController);
+
 const storage = multer.diskStorage({
     destination: function (req, file, cb) {
       cb(null, './uploads/'); // Specify the directory where files should be stored
@@ -96,7 +102,7 @@ const upload = multer({
       limits: {
       fileSize: 20 * 1024 * 1024 // 20 MB
       },
- });
+});
 
 userRoutes.post("/upload", upload.single("profilePicture"), isAuth, uploadPicture);
 

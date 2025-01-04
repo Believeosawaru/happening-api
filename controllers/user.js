@@ -7,7 +7,6 @@ import sendEventLink from "../utils/sendEventLink.js";
 import comparePassword from "../utils/comparePassword.js";
 import assignCategory from "../utils/assignCategory.js";
 import hashPassword from "../utils/hashPassword.js";
-import { escapeRegExpChars } from "ejs/lib/utils.js";
 
 const homeController = async (req, res, next) => {
     try {
@@ -292,7 +291,7 @@ const myNotifications = async (req, res, next) => {
         res.status(200).json({
             code: 200,
             status: true,
-            data: user.notifications
+            data: user
         });
     } catch (error) {
         next(error);
@@ -382,6 +381,8 @@ const changePassword = async (req, res, next) => {
         next(error);
     }
 }
+
+// Groups
 
 const groupController = async (req, res, next) => {
     const { name, description, location, groupType, registrationDeadline } = req.body;
@@ -948,7 +949,7 @@ const sendGroupLink = async (req, res, next) => {
 
         const recepients = emails.join(", ");
 
-        const inviteLink = `http://5.161.186.15/html/groups/join-group.html?name=${group.slug}`
+        const inviteLink = `http://happening.net/groups/join-group?name=${group.slug}`
 
         await sendEventLink({
             emailTo: recepients,
@@ -968,6 +969,20 @@ const sendGroupLink = async (req, res, next) => {
         })
     } catch (error) {
         next(error);
+    }
+}
+
+const publicGroupController = async (req, res, next) => {
+    try {
+        const groups = await Group.find({ type: "public" });
+
+        res.status({
+            code: 200,
+            status: true,
+            message: groups
+        });
+    } catch (error) {
+        next(error)
     }
 }
 
@@ -1360,5 +1375,19 @@ const eventJoin = async (req, res, next) => {
         next(error);
     }
 }
+
+const publicEventController = async (req, res, next) => {
+    try {
+        const events = await Event.find({ type: "public" });
+
+        res.status({
+            code: 200,
+            status: true,
+            message: events
+        });
+    } catch (error) {
+        next(error)
+    }
+}
  
-export { homeController, groupController, eventController, displayGroupController, groupInfo, editGroupInfo, showGroupInfo, deleteGroup, searchUsers, addUser, generateLink, joinViaLink, latestGroup, allGroups, joinGroup, leaveGroup, searchUsersEmail, sendGroupLink, displayEventController, eventInfo, filterEvents, editEventInfo, showEventInfo, deleteEvent, allEvents, latestEvent, searchUserEvent, sendEventIv, eventJoin, myProfile, userProfile, followUser, myBio, unfollowUser, myNotifications, uploadPicture, accessPasswordChange, changePassword }
+export { homeController, groupController, eventController, displayGroupController, groupInfo, editGroupInfo, showGroupInfo, deleteGroup, searchUsers, addUser, generateLink, joinViaLink, latestGroup, allGroups, joinGroup, leaveGroup, searchUsersEmail, sendGroupLink, publicGroupController, displayEventController, eventInfo, filterEvents, editEventInfo, showEventInfo, deleteEvent, allEvents, latestEvent, searchUserEvent, sendEventIv, eventJoin, publicEventController, myProfile, userProfile, followUser, myBio, unfollowUser, myNotifications, uploadPicture, accessPasswordChange, changePassword }

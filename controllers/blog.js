@@ -3,14 +3,14 @@ import { ObjectId } from "mongodb";
 
 const createPost = async (req, res, next) => {
     try {
-        const { content } = req.body;
+        const { title, content } = req.body;
         const userId = new ObjectId(String(req.user._id));
         const file = req.file;
         const fileName = file ? file.filename : null;
         let path = fileName ? fileName : null;
         const type = file ? file.mimetype.startsWith("image/") ? "image" : "video" : null;
 
-        const blogPost = new Blog({ content, author: userId, mediaPath: path, mediaType: type
+        const blogPost = new Blog({ title, content, author: userId, mediaPath: path, mediaType: type
         });
         
         const user = await User.findById(userId);
@@ -20,14 +20,10 @@ const createPost = async (req, res, next) => {
         await blogPost.save();
         await user.save();
 
-        // res.code = 400;
-        // throw new Error(`${path}`)
-
         res.status(201).json({
             code: 201,
             status: true,
             message: `Post Created Successfully`
-            // message: `${typeof(file), typeof(fileName)}`
         });
     } catch (error) {
         next(error);
@@ -36,9 +32,9 @@ const createPost = async (req, res, next) => {
 
 const loadCurrentPost = async (req, res, next) => {
     try {
-        const postId = new ObjectId(String(req.params.id));
+        const slug = req.params.slug;
 
-        const blogPost = await Blog.findById(postId);
+        const blogPost = await Blog.findOne({ slug });
 
         if (!blogPost) {
             res.code = 404;
@@ -60,9 +56,9 @@ const loadCurrentPost = async (req, res, next) => {
 const loadBlogPost = async (req, res, next) => {
     try {
         const userId = new ObjectId(String(req.user._id));
-        const postId = new ObjectId(String(req.params.postId));
+        const slug = req.params.slug;
 
-        const blogPost = await Blog.findById(postId).populate("author");
+        const blogPost = await Blog.findOne({ slug }).populate("author");
         const user = await User.findById(userId);
 
         if (!blogPost) {
@@ -83,9 +79,9 @@ const loadBlogPost = async (req, res, next) => {
 
 const publicBlogPost = async (req, res, next) => {
     try {
-        const postId = new ObjectId(String(req.params.postId));
+        const slug = req.params.slug;
 
-        const blogPost = await Blog.findById(postId).populate("author");
+        const blogPost = await Blog.findOne({ slug }).populate("author");
 
         if (!blogPost) {
             res.code = 404;
@@ -136,11 +132,10 @@ const loadPublicPosts = async (req, res, next) => {
 
 const editPost = async (req, res, next) => {
     try {
-        const { content } = req.body;
+        const { title, content } = req.body;
+        const slug = req.params.slug;
 
-        const postId = new ObjectId(String(req.params.id));
-
-        const blogPost = await Blog.findById(postId);
+        const blogPost = await Blog.findOne({ slug });
 
         if (!blogPost) {
             res.code = 404;
@@ -156,6 +151,7 @@ const editPost = async (req, res, next) => {
            throw new Error("You Are Not Authorized To Perform This Task!")
         }
 
+        blogPost.title = title;
         blogPost.content = content;
 
         await blogPost.save();
@@ -172,9 +168,9 @@ const editPost = async (req, res, next) => {
 
 const deletePost = async (req, res, next) => {
     try {
-        const postId = new ObjectId(String(req.params.id));
+        const slug = req.params.slug;
 
-        await Blog.findByIdAndDelete(postId);
+        await Blog.findOneAndDelete({ slug });
 
         res.status(200).json({
             code: 200,
