@@ -12,32 +12,32 @@ const blogSchema = new Schema({
     updatedAt: { type: Date }
 }, {timestamps: true});
 
-// const slugify = (text) => {
-//     text.toString().toLowerCase()
-//     .replace(/\s+/g,"-")
-//     .replace(/[^\w\-]+/g,"-")
-//     .replace(/\-\-+/g,"-")
-//     .replace(/^-+/,"-")
-//     .replace(/-+$/g,"-");
-// }
+const slugify = (text) => {
+    text.toString().toLowerCase()
+    .replace(/\s+/g,"-")
+    .replace(/[^\w\-]+/g,"-")
+    .replace(/\-\-+/g,"-")
+    .replace(/^-+/,"-")
+    .replace(/-+$/g,"-");
+}
 
-// blogSchema.pre("save", async function (next) {
-//     if (this.isNew || this.isModified("title")) {
-//         if (this.title) {
-//             let newSlug = slugify(this.title);
-//             let count = 1;
+blogSchema.pre("save", async function (next) {
+    if (this.isNew || this.isModified("title")) {
+        if (this.title) {
+            let newSlug = slugify(this.title);
+            let count = 1;
 
-//             while (await mongoose.model("group").findOne({slug: newSlug})) {
-//                 newSlug = `${slugify(this.name)}-${count++}`;
-//             }
+            while (await mongoose.model("blog").findOne({slug: newSlug})) {
+                newSlug = `${slugify(this.name)}-${count++}`;
+            }
 
-//             this.slug = newSlug;
-//         } else {
-//             this.slug = `post-${Date.now()}`
-//         }
-//     } 
-//     next();
-// });
+            this.slug = newSlug;
+        } else {
+            this.slug = `post-${Date.now()}`
+        }
+    } 
+    next();
+});
 
 const Blog = mongoose.model("blog", blogSchema);
 
