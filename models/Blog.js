@@ -1,5 +1,6 @@
 import mongoose from "mongoose";
 const Schema = mongoose.Schema;
+import slugify from "slugify"
 
 const blogSchema = new Schema({
     title: { type: String, required: true },
@@ -11,15 +12,6 @@ const blogSchema = new Schema({
     createdAt: { type: Date, default: Date.now }, 
     updatedAt: { type: Date }
 }, {timestamps: true});
-
-const slugify = (text) => {
-    text.toString().toLowerCase()
-    .replace(/\s+/g,"-")
-    .replace(/[^\w\-]+/g,"-")
-    .replace(/\-\-+/g,"-")
-    .replace(/^-+/,"-")
-    .replace(/-+$/g,"-");
-}
 
 blogSchema.pre("save", async function (next) {
     if (this.isNew || this.isModified("title")) {
