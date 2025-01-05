@@ -1,3 +1,4 @@
+import { body } from "express-validator";
 import { Blog, User } from "../models/index.js";
 import { ObjectId } from "mongodb";
 
@@ -46,7 +47,8 @@ const loadCurrentPost = async (req, res, next) => {
             status: true,
             data: {
                 title: blogPost.title,
-                content: blogPost.content
+                content: blogPost.content,
+                slug: blogPost.slug
             }
         });
     } catch (error) {
