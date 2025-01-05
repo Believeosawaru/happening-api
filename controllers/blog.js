@@ -45,6 +45,7 @@ const loadCurrentPost = async (req, res, next) => {
             code: 200,
             status: true,
             data: {
+                title: blogPost.title,
                 content: blogPost.content
             }
         });
