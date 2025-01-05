@@ -152,8 +152,8 @@ const editPost = async (req, res, next) => {
            throw new Error("You Are Not Authorized To Perform This Task!")
         }
 
-        blogPost.title = String(title);
-        blogPost.content = String(content);
+        blogPost.title = title;
+        blogPost.content = content;
 
         await blogPost.save();
 
