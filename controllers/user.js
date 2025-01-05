@@ -976,7 +976,7 @@ const publicGroupController = async (req, res, next) => {
     try {
         const groups = await Group.find({ type: "public" });
 
-        res.status({
+        res.status(200).json({
             code: 200,
             status: true,
             message: groups
@@ -1380,7 +1380,9 @@ const publicEventController = async (req, res, next) => {
     try {
         const events = await Event.find({ type: "public" });
 
-        res.status({
+
+
+        res.status(200).json({
             code: 200,
             status: true,
             message: events
