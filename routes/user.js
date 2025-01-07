@@ -58,7 +58,7 @@ userRoutes.get("/group/search/email-users/:groupId", isAuth, isGroupCreator, sea
 
 userRoutes.post("/group/:groupId/send-invite", isAuth, isGroupCreator, sendGroupLink);
 
-userRoutes.get("/public-groups", publicEventController);
+userRoutes.get("/public-groups", publicGroupController);
 
 // End of Group Routes
 
@@ -86,7 +86,7 @@ userRoutes.post("/event/:eventId/send-invite", isAuth, isEventCreator, sendEvent
 
 userRoutes.post("/join-event/:name", isAuth, eventJoin);
 
-userRoutes.get("/public-events", publicGroupController);
+userRoutes.get("/public-events", publicEventController);
 
 const storage = multer.diskStorage({
     destination: function (req, file, cb) {
