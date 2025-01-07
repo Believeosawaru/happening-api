@@ -1378,9 +1378,7 @@ const eventJoin = async (req, res, next) => {
 
 const publicEventController = async (req, res, next) => {
     try {
-        const events = await Event.find({ type: "public" });
-
-
+        const events = await Event.find({ });
 
         res.status(200).json({
             code: 200,
