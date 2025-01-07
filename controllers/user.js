@@ -1378,12 +1378,10 @@ const eventJoin = async (req, res, next) => {
 
 const publicEventController = async (req, res, next) => {
     try {
-        const events = await Event.find({ });
-
         res.status(200).json({
             code: 200,
             status: true,
-            message: events
+            message: "Una Nr Serious"
         });
     } catch (error) {
         next(error)
