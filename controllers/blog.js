@@ -1,4 +1,3 @@
-import { body } from "express-validator";
 import { Blog, User } from "../models/index.js";
 import { ObjectId } from "mongodb";
 

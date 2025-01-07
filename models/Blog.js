@@ -13,10 +13,16 @@ const blogSchema = new Schema({
     updatedAt: { type: Date }
 }, {timestamps: true});
 
+const convertToSlug = (title) => {
+    const sanitizedTitle = title.replace(/:/g, "");
+
+    return slugify(sanitizedTitle, { lower: true, strict: true });
+}
+
 blogSchema.pre("save", async function (next) {
     if (this.isNew || this.isModified("title")) {
         if (this.title) {
-            let newSlug = slugify(this.title);
+            let newSlug = convertToSlug(this.title);
             let count = 1;
 
             while (await mongoose.model("blog").findOne({slug: newSlug})) {
