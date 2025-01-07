@@ -974,7 +974,7 @@ const sendGroupLink = async (req, res, next) => {
 
 const publicGroupController = async (req, res, next) => {
     try {
-        const groups = await Group.find({ type: "public" });
+        const groups = await Group.find({ groupType: "public" });
 
         res.status(200).json({
             code: 200,
@@ -1378,10 +1378,12 @@ const eventJoin = async (req, res, next) => {
 
 const publicEventController = async (req, res, next) => {
     try {
+        const events = await Event.find({ type: "public" });
+        
         res.status(200).json({
             code: 200,
             status: true,
-            message: "Una Nr Serious"
+            message: events
         });
     } catch (error) {
         next(error)
