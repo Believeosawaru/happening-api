@@ -187,9 +187,9 @@ const deletePost = async (req, res, next) => {
 
 const createCategory = async (req, res, next) => {
     try {
-        const { title } = req.body;
+        const { category } = req.body;
 
-        const newCategory = new Category({ title });
+        const newCategory = new Category({ title: category });
 
         await newCategory.save();
         
