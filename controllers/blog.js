@@ -1,3 +1,4 @@
+import Category from "../models/Category.js";
 import { Blog, User } from "../models/index.js";
 import { ObjectId } from "mongodb";
 
@@ -182,6 +183,55 @@ const deletePost = async (req, res, next) => {
     } catch (error) {
         next(error);
     }
-}
+} 
 
-export { createPost, loadCurrentPost, loadPosts, editPost, deletePost, loadPublicPosts, loadBlogPost, publicBlogPost }
+const createCategory = async (req, res, next) => {
+    try {
+        const { category } = req.body;
+
+        const newCategory = new Category({ category });
+
+        await newCategory.save();
+        
+        res.status(200).json({
+            code: 200,
+            status: true,
+            message: "Category Added Successfully"
+        });
+    } catch (error) {
+        next(error);
+    }
+}  
+
+const deleteCategory = async (req, res, next) => {
+    try {
+        const { categoryId } = new ObjectId(String(req.params));
+
+        Category.findOneAndDelete({_id: categoryId});
+        
+        res.status(200).json({
+            code: 200,
+            status: true,
+            message: "Category Removed Successfully"
+        });
+    } catch (error) {
+        next(error);
+    }
+} 
+
+const showCategories = async (req, res, next) => {
+    try {
+       const category = await Category.find({});
+        
+        res.status(200).json({
+            code: 200,
+            status: true,
+            message: "Request Successful!",
+            data: category
+        });
+    } catch (error) {
+        next(error);
+    }
+} 
+
+export { createPost, loadCurrentPost, loadPosts, editPost, deletePost, loadPublicPosts, loadBlogPost, publicBlogPost, createCategory, deleteCategory, showCategories }

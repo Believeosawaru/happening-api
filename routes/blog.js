@@ -1,6 +1,6 @@
 import express from "express";
 import isAuth from "../middlewares/isAuth.js";
-import { createPost, deletePost, editPost, loadCurrentPost, loadPosts, loadPublicPosts, loadBlogPost, publicBlogPost } from "../controllers/index.js";
+import { createPost, deletePost, editPost, loadCurrentPost, loadPosts, loadPublicPosts, loadBlogPost, publicBlogPost, createCategory, deleteCategory, showCategories } from "../controllers/index.js";
 import isAdmin from "../middlewares/isAdmin.js";
 import multer from "multer";
 
@@ -48,5 +48,8 @@ blogRoutes.get("/load-posts", isAuth, loadPosts);
 blogRoutes.get("/public-feed", loadPublicPosts);
 blogRoutes.post("/edit-post/:slug", isAuth, isAdmin, editPost);
 blogRoutes.delete("/delete-post/:slug", isAuth, isAdmin, deletePost);
+blogRoutes.post("/create-category", isAuth, isAdmin, createCategory);
+blogRoutes.delete("/delete-category/:categoryId", isAuth, isAdmin, deleteCategory);
+blogRoutes.get("/load-categories", isAuth, isAdmin, showCategories);
 
 export default blogRoutes;
