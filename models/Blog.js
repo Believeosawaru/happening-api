@@ -8,6 +8,7 @@ const blogSchema = new Schema({
     author: { type: mongoose.Schema.Types.ObjectId, ref: "users", required: true },
     mediaPath: { type: String },
     mediaType: { type: String },
+    category: { type: String },
     slug: { type: String, unique: true },
     createdAt: { type: Date, default: Date.now }, 
     updatedAt: { type: Date }

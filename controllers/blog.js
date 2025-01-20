@@ -86,6 +86,8 @@ const publicBlogPost = async (req, res, next) => {
 
         const blogPost = await Blog.findOne({ slug }).populate("author");
 
+        const relatedPosts = await Blog.find({ category: blogPost.category });
+
         if (!blogPost) {
             res.code = 404;
             throw new Error("Post Not Found")
@@ -94,7 +96,8 @@ const publicBlogPost = async (req, res, next) => {
         res.status(200).json({
             code: 200,
             status: true,
-            data: blogPost
+            data: blogPost,
+            relatedPosts
         });
     } catch (error) {
         next(error);
