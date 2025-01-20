@@ -4,14 +4,14 @@ import { ObjectId } from "mongodb";
 
 const createPost = async (req, res, next) => {
     try {
-        const { title, content } = req.body;
+        const { title, category, content } = req.body;
         const userId = new ObjectId(String(req.user._id));
         const file = req.file;
         const fileName = file ? file.filename : null;
         let path = fileName ? fileName : null;
         const type = file ? file.mimetype.startsWith("image/") ? "image" : "video" : null;
 
-        const blogPost = new Blog({ title, content, author: userId, mediaPath: path, mediaType: type
+        const blogPost = new Blog({ title, content, author: userId, mediaPath: path, mediaType: type, category
         });
         
         const user = await User.findById(userId);
@@ -63,6 +63,7 @@ const loadBlogPost = async (req, res, next) => {
 
         const blogPost = await Blog.findOne({ slug }).populate("author");
         const user = await User.findById(userId);
+        const relatedPosts = await Blog.find({ category: blogPost.category });
 
         if (!blogPost) {
             res.code = 404;
@@ -73,7 +74,8 @@ const loadBlogPost = async (req, res, next) => {
             code: 200,
             status: true,
             data: blogPost,
-            user
+            user, 
+            relatedPosts
         });
     } catch (error) {
         next(error);
