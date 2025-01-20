@@ -205,7 +205,7 @@ const createCategory = async (req, res, next) => {
 
 const deleteCategory = async (req, res, next) => {
     try {
-        const { categoryId } = new ObjectId(String(req.params));
+        const categoryId = new ObjectId(String(req.params.categoryId));
 
         await Category.findOneAndDelete({_id: categoryId});
         
