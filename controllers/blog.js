@@ -207,7 +207,7 @@ const deleteCategory = async (req, res, next) => {
     try {
         const { categoryId } = new ObjectId(String(req.params));
 
-        Category.findOneAndDelete({_id: categoryId});
+        await Category.findOneAndDelete({_id: categoryId});
         
         res.status(200).json({
             code: 200,
