@@ -63,7 +63,10 @@ const loadBlogPost = async (req, res, next) => {
 
         const blogPost = await Blog.findOne({ slug }).populate("author");
         const user = await User.findById(userId);
-        const relatedPosts = await Blog.find({ category: blogPost.category });
+        const relatedPosts = await Blog.find({ 
+            category: blogPost.category,
+            slug: { $ne: blogPost.slug }
+        });
 
         if (!blogPost) {
             res.code = 404;
@@ -88,7 +91,10 @@ const publicBlogPost = async (req, res, next) => {
 
         const blogPost = await Blog.findOne({ slug }).populate("author");
 
-        const relatedPosts = await Blog.find({ category: blogPost.category });
+        const relatedPosts = await Blog.find({ 
+            category: blogPost.category,
+            slug: { $ne: blogPost.slug }
+        });
 
         if (!blogPost) {
             res.code = 404;
